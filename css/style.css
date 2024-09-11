@@ -101,12 +101,14 @@ main {
 }
 
 .skills {
+    position: absolute;
+    bottom: 10px;
+    left: 13px;
+
     display: flex;
     grid-area: 5 / 2 / 6 / 3;
     width: 12rem;
     height: 12rem;
-    margin-top: 40vh;
-    margin-bottom: -7vh;
     align-items: flex-end;
     justify-content: flex-start;
     flex-direction: column;
@@ -123,7 +125,6 @@ main {
     background-color: var(--background-color-dark);
     display: flex;
     position: relative;
-
 }
 
 .skills img {
@@ -192,7 +193,6 @@ main {
 
     top: 1vh;
     right: 2vw;
-    display: flex;
     align-items: center;
     justify-content: center;
     color: white;
