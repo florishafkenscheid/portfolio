@@ -1,0 +1,218 @@
+@font-face {
+    font-family: 'Linik Sans ExtraLight';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linik Sans ExtraLight'), url('/assets/LinikSans-ExtraLight.woff') format('woff');
+}
+
+:root {
+    --background-color-dark: rgb(5, 10, 5);
+    --background-color-light: rgb(250, 245, 250);
+
+    --main-color-dark: rgb(76, 0, 168);
+    --main-color-light: rgb(38, 206, 252);
+
+    --border-color: rgba(255,255,255,0.4);
+}
+
+html, body {
+    overflow: hidden;
+    margin: 0;
+}
+
+html {
+    line-height: 1;
+}
+
+h1 {
+    color: white;
+}
+
+a {
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    text-decoration: none;
+}
+
+ul li::marker {
+    content: "";
+}
+
+ul li span {
+    margin-right: 15px;
+    font-size: 10px;
+}
+
+main {
+    display: grid;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 0.1fr 1fr 1fr 1fr 0.1fr;
+    grid-template-rows: 0.07fr 0.1fr 0.1fr 1fr 0.3fr 0.07fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: var(--background-color-dark);
+    height: 100vh;
+    width: 100vw;
+}
+    
+.background { 
+    grid-area: 1 / 1 / 7 / 6; 
+}
+
+.content { 
+    position: relative;
+    grid-area: 2 / 2 / 6 / 5; 
+    padding: 1rem;
+    margin-left: -1.0rem;
+    margin-right: -1.0rem;
+    margin-top: -0.5rem;
+    margin-bottom: -0.5rem;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nameHeader {
+    grid-area: 2 / 2 / 3 / 3;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: lighter;
+    font-size: 1.6vw;
+    margin-bottom: -10px;
+    margin-top: 0;
+}
+
+.nameHeader > h1 {
+    margin: 0;
+}
+
+.navbar {
+    grid-area: 3 / 2 / 4 / 3;
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    width: 25%;
+    padding-left: 2px;
+    margin-top: 2vh;
+    margin-bottom: auto;
+}
+
+.skills {
+    display: flex;
+    grid-area: 5 / 2 / 6 / 3;
+    width: 12rem;
+    height: 12rem;
+    margin-top: 40vh;
+    margin-bottom: -7vh;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.skill-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--border-color);
+    background-color: var(--background-color-dark);
+    display: flex;
+    position: relative;
+
+}
+
+.skills img {
+    height: 47px;
+    width: 40px;
+    position: absolute;
+}
+
+
+.python-logo {
+    top: 10px;  /* Top middle */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cpp-logo {
+    top: 50%;  /* Middle right */
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.html-logo {
+    bottom: 10px;  /* Bottom middle */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.css-logo {
+    top: 50%;  /* Middle left */
+    left: 10px;
+    transform: translateY(-50%);
+}
+
+.socialnav {
+    grid-area: 5 / 4 / 6 / 5;
+    display: flex;
+    position: relative;
+    width: 30%;
+    justify-content: flex-end;
+    left: 70%;
+}
+
+.socialnav ul {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.sociallink {
+    display: flex;
+    flex-direction: row;
+}
+
+.sociallink strong {
+    margin-bottom: 10px;
+}
+
+.sociallink span {
+    width: 15px;
+    margin-right: 7px;
+}
+
+.themes {
+    position: absolute;
+    display: flex;
+    column-gap: 15px;
+
+    top: 1vh;
+    right: 2vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+}
+
+.theme_button {
+    display: flex;
+    flex-direction: row;
+    column-gap: 3px;
+}
+
+.theme_button .box::before {
+    content: "□";
+}
+
+.theme_button.is-selected .box::before {
+    content: "■";
+}
+
+.theme_button > .text {
+    font-family: 'Linik Sans ExtraLight', monospace;
+}
