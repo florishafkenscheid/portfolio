@@ -1,8 +1,15 @@
-@font-face {
-    font-family: 'Linik Sans ExtraLight';
+.inter-normal {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-optical-sizing: auto;
     font-style: normal;
-    font-weight: normal;
-    src: local('Linik Sans ExtraLight'), url('/assets/LinikSans-ExtraLight.woff') format('woff');
+}
+
+.inter-light {
+    font-family: "Inter", sans-serif;
+    font-weight: 200;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
 :root {
@@ -30,7 +37,6 @@ h1 {
 
 a {
     color: white;
-    font-family: 'Quicksand', sans-serif;
     text-decoration: none;
 }
 
@@ -78,9 +84,7 @@ main {
 
 .nameHeader {
     grid-area: 2 / 2 / 3 / 3;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: lighter;
-    font-size: 1.6vw;
+    font-size: 30px;
     margin-bottom: -10px;
     margin-top: 0;
 }
@@ -91,16 +95,24 @@ main {
 
 .navbar {
     grid-area: 3 / 2 / 4 / 3;
-    font-family: 'Quicksand', sans-serif;
-    display: flex;
-    justify-content: space-between;
-    width: 25%;
-    padding-left: 2px;
+    width: 17%;
     margin-top: 2vh;
     margin-bottom: auto;
 }
 
-.skills {
+.navbar ul {
+    margin-top: 0;
+    padding-left: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar li:hover {
+    opacity: .25;
+    transition: .25s
+}
+
+/* .skills {
     position: absolute;
     bottom: 10px;
     left: 13px;
@@ -127,7 +139,6 @@ main {
     display: flex;
     position: relative;
     box-shadow: 5px 5px 15px rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease-in-out;
 }
 
 .skills img {
@@ -138,28 +149,28 @@ main {
 
 
 .python-logo {
-    top: 10px;  /* Top middle */
+    top: 10px;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .cpp-logo {
-    top: 50%;  /* Middle right */
+    top: 50%;
     right: 10px;
     transform: translateY(-50%);
 }
 
 .html-logo {
-    bottom: 10px;  /* Bottom middle */
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .css-logo {
-    top: 50%;  /* Middle left */
+    top: 50%;
     left: 10px;
     transform: translateY(-50%);
-}
+} */
 
 .socialnav {
     grid-area: 5 / 4 / 6 / 5;
@@ -175,13 +186,21 @@ main {
     margin-bottom: 0px;
 }
 
+.socialnav li:hover a {
+    transform: rotateY(15deg) translateZ(0);
+    transform-origin: left center;
+    transition: all .25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 .sociallink {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .sociallink strong {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .sociallink span {
