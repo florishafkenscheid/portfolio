@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
 <html>
     <head>
         <meta charset="utf-8">
@@ -22,7 +22,6 @@
         <![endif]-->
         <main>
             <div class="container">
-                <div class="background"></div>
                 <div class="themes" onclick="toggleTheme()">
                     <div class="theme_button">
                         <div class="box"></div>
@@ -34,26 +33,34 @@
                     </div>
                 </div>
                 <div class="content"> 
+                    <div class="background" id="background">
+                        <div class="sun-container">
+                            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                <path id="curve" d="M 0 100 C 25 75, 50 50, 100 20" stroke="transparent" fill="transparent"/>
+                            </svg>
+                            <img src="/assets/sun.png">
+                        </div>
+                    </div>
                     <header class="nameHeader">
                         <h1 class="siteHeader inter-light">Floris Hafkenscheid</h1>
+                        <nav class="navbar inter-light">
+                            <ul>
+                                <li>
+                                    <a class="nav-link" href="index.html">Home</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" href="projects.html">Projects</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" href="info.html">Info</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" href="contact.html">Contact</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </header>
-        
-                    <nav class="navbar inter-normal">
-                        <ul>
-                            <li>
-                                <a class="nav-link" href="index.html">Home</a>
-                            </li>
-                            <li>
-                                <a class="nav-link" href="projects.html">Projects</a>
-                            </li>
-                            <li>
-                                <a class="nav-link" href="info.html">Info</a>
-                            </li>
-                            <li>
-                                <a class="nav-link" href="contact.html">Contact</a>
-                            </li>
-                        </ul>
-                    </nav>
+                    
         
                     <!-- <div class="skills">
                         <div class="skill-circle">
@@ -83,6 +90,6 @@
                 </div>
             </div>
         </main>        
-        <script src="js/index.js" async defer></script>
+        <script type="module" src="js/main.js" async defer></script>
     </body>
 </html>
