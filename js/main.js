@@ -27,3 +27,7 @@ function updateBackgroundPosition() {
 
 animation.play();
 setInterval(updateBackgroundPosition, 20);
+
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+}

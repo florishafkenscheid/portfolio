@@ -13,13 +13,36 @@
 }
 
 :root {
+    --sun-filter-light: invert(78%) sepia(31%) saturate(6486%) hue-rotate(160deg) brightness(105%) contrast(98%);
+    --sun-filter-dark: invert(12%) sepia(100%) saturate(7451%) hue-rotate(270deg) brightness(86%) contrast(119%);
+
+    --sun-background-dark: #2d0067;
+    --sun-background-light: #006872;
+
     --background-color-dark: rgb(5, 10, 5);
     --background-color-light: rgb(250, 245, 250);
 
     --main-color-dark: rgb(76, 0, 168);
     --main-color-light: rgb(38, 206, 252);
 
-    --border-color: rgba(255,255,255,0.4);
+    --border-color-dark: rgba(255,255,255,0.4);
+    --border-color-light: rgba(0, 0, 0, 100);
+
+    --sun-filter: var(--sun-filter-light);
+    --sun-background-color: var(--sun-background-light);
+    --background-color: var(--background-color-light);
+    --main-color: var(--main-color-light);
+    --text-color: var(--background-color-dark);
+    --border-color: var(--border-color-light);
+}
+
+.dark-theme {
+    --background-color: var(--background-color-dark);
+    --main-color: var(--main-color-dark);
+    --text-color: var(--background-color-light);
+    --sun-background-color: var(--background-color-dark);
+    --sun-filter: var(--sun-filter-dark);
+    --border-color: var(--border-color-dark);
 }
 
 html, body {
@@ -27,16 +50,17 @@ html, body {
     margin: 0;
 }
 
+body {
+    background-color: var(--background-color);
+    color: var(--main-color);
+}
+
 html {
     line-height: 1;
 }
 
-h1 {
-    color: white;
-}
-
-a {
-    color: white;
+h1, a {
+    color: var(--text-color);
     text-decoration: none;
 }
 
@@ -59,7 +83,7 @@ main {
     grid-template-rows: 0.07fr 0.1fr 0.1fr 1fr 0.3fr 0.07fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-    background-color: var(--background-color-dark);
+    background-color: var(--background-color);
     height: 100vh;
     width: 100vw;
 }
@@ -72,7 +96,7 @@ main {
 
     z-index: -1;
     filter: blur(10px);
-    background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 50%), #2d0067, var(--background-color-dark) 80%);
+    background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 50%), var(--sun-background-color), var(--background-color) 50%);
 }
 
 .sun-container {
@@ -86,11 +110,11 @@ main {
     top: 0;
     right: 0;
     z-index: -2;
-    background-color: var(--background-color-dark);
+    background-color: var(--background-color);
     height: 100%;
-    scale: 6%;
+    scale: 10%;
     border-radius: 50%;
-    filter: invert(12%) sepia(100%) saturate(7451%) hue-rotate(270deg) brightness(86%) contrast(119%);
+    filter: var(--sun-background-color);
 }
 
 .sun-container path#curve {
