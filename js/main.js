@@ -25,9 +25,15 @@ function updateBackgroundPosition() {
     backgroundElement.style.setProperty('--sun-y', `${sunY}%`);
 }
 
+function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+
+    const buttons = document.querySelectorAll('.theme_button');
+    buttons.forEach(button => {
+        button.classList.toggle('is-selected');
+    });
+}
+
+window.toggleTheme = toggleTheme;
 animation.play();
 setInterval(updateBackgroundPosition, 20);
-
-function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
-}
