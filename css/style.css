@@ -116,6 +116,7 @@ main {
     filter: blur(10px);
 
     transition: opacity 0.5s ease-in-out;
+    overflow: hidden;
 }
 
 .background.background-dark {
@@ -127,21 +128,71 @@ main {
 }
 
 .sun-container {
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 100%;
 
     transition: opacity 0.5s ease-in-out;
 }
 
+/* 
+Keyframes to move sun img from bottom left to top right. 
+Based on cubic-bezier(0,.79,.83,.915)
+https://cubic-bezier.com/#0,.79,.83,.92
+
+Excuse this ugly mess. 
+*/
+
+@keyframes move-diagonally {
+    0% { bottom: 0%; left: 20% }
+    5% { bottom: 3.95%; left: 21.975% }
+    10% { bottom: 8.51%; left: 24.255% }
+    15% { bottom: 13.73%; left: 27.01% }
+    20% { bottom: 19.65%; left: 30.345% }
+    25% { bottom: 26.33%; left: 34.245% }
+    30% { bottom: 33.79%; left: 38.69% }
+    35% { bottom: 41.99%; left: 43.69% }
+    40% { bottom: 50.93%; left: 49.29% }
+    45% { bottom: 59.53%; left: 55.45% }
+    50% { bottom: 67.73%; left: 61.99% }
+    55% { bottom: 75.23%; left: 69.01% }
+    60% { bottom: 82.13%; left: 76.39% }
+    65% { bottom: 88.23%; left: 83.93% }
+    70% { bottom: 95.33%; left: 91.51% }
+    75% { bottom: 100%; left: 98.01% }
+    80% { bottom: 110%; left: 105.51% }
+    81% { bottom: 120%; left: 140% }
+    82% { bottom: 130%; left: 160% }
+    83% { bottom: -150%; left: 170% }
+    84% { bottom: -250%; left: 180% }
+    85% { bottom: -220%; left: 300% }
+    86% { bottom: -230%; left: 160% }
+    87% { bottom: -240%; left: 12% }
+    88% { bottom: -50%; left: 13% }
+    89% { bottom: -32%; left: 14% }
+    90% { bottom: -23%; left: 15% }
+    91% { bottom: -15%; left: 16% }
+    92% { bottom: -12%; left: 17% }
+    93% { bottom: -10%; left: 17.5% }
+    94% { bottom: -6%; left: 18% }
+    95% { bottom: -3%; left: 18.3% }
+    96% { bottom: -2%; left: 18.6% }
+    97% { bottom: -1%; left: 19% }
+    98% { bottom: -0.5%; left: 19.3% }
+    99% { bottom: -0.2%; left: 19.6% }
+    100% { bottom: 0%; left: 20% }
+}
+
 .sun-container img {
     position: absolute;
-    top: 0;
-    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: -2;
     height: 100%;
-    scale: 10%;
+    height: 49.5px;
+    width: 49.5px;
     border-radius: 50%;
+    animation: move-diagonally 60s linear infinite;
 }
   
 .sun-container.sun-filter-dark {
@@ -152,12 +203,6 @@ main {
 .sun-container.sun-filter-light {
     filter: var(--sun-filter-light);
     -webkit-filter: var(--sun-filter-light);
-}
-
-.sun-container path#curve {
-    position: absolute;
-    height: 100%;
-    width: 100%;
 }
 
 .nameHeader {

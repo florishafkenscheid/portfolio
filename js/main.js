@@ -1,20 +1,5 @@
 const sunElement = document.querySelector('.sun-container img');
 const backgroundElement = document.querySelector('.background');
-const path = document.querySelector('#curve');
-const pathLength = path.getTotalLength();
-
-const keyframes = [
-    { transform: 'translate(0, 100%)'},
-    { transform: 'translate(100%, 80%)'}
-];
-
-const animationOptions = {
-    duration: 3000,
-    fill: 'forwards',
-    easing: 'cubic-bezier(0, 0, 1, 1)'
-};
-
-const animation = sunElement.animate(keyframes, animationOptions);
 
 function updateBackgroundPosition() {
     const sunRect = sunElement.getBoundingClientRect();
@@ -50,5 +35,4 @@ function toggleTheme() {
 }
 
 window.toggleTheme = toggleTheme;
-animation.play();
-setInterval(updateBackgroundPosition, 20);
+setInterval(updateBackgroundPosition, 20); // Every 20 ms
