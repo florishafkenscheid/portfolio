@@ -1,0 +1,54 @@
+const sunElement = document.querySelector('.sun-container img');
+const backgroundElement = document.querySelector('.background');
+const path = document.querySelector('#curve');
+const pathLength = path.getTotalLength();
+
+const keyframes = [
+    { transform: 'translate(0, 100%)'},
+    { transform: 'translate(100%, 80%)'}
+];
+
+const animationOptions = {
+    duration: 3000,
+    fill: 'forwards',
+    easing: 'cubic-bezier(0, 0, 1, 1)'
+};
+
+const animation = sunElement.animate(keyframes, animationOptions);
+
+function updateBackgroundPosition() {
+    const sunRect = sunElement.getBoundingClientRect();
+    const sunX = (sunRect.left + sunRect.width / 2) / window.innerWidth * 100;
+    const sunY = (sunRect.top + sunRect.height / 2) / window.innerHeight * 100;
+
+    backgroundElement.style.setProperty('--sun-x', `${sunX}%`);
+    backgroundElement.style.setProperty('--sun-y', `${sunY}%`);
+}
+
+function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+  
+    const buttons = document.querySelectorAll('.theme_button');
+    buttons.forEach(button => {
+        button.classList.toggle('is-selected');
+    });
+  
+    const sunContainer = document.querySelector('.sun-container');
+    sunContainer.style.opacity = '0';
+    backgroundElement.style.opacity = '0';
+
+    setTimeout(() => {
+        sunContainer.classList.toggle('sun-filter-light');
+        sunContainer.classList.toggle('sun-filter-dark');
+
+        backgroundElement.classList.toggle('background-dark');
+        backgroundElement.classList.toggle('background-light');
+
+        sunContainer.style.opacity = '1';
+        backgroundElement.style.opacity = '1';
+    }, 700);
+}
+
+window.toggleTheme = toggleTheme;
+animation.play();
+setInterval(updateBackgroundPosition, 20);
