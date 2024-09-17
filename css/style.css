@@ -84,7 +84,7 @@ main {
     height: 100vh;
     width: 100vw;
 
-    transition: background-color 1s ease;
+    transition: background-color 1s ease-in-out;
 }
     
 .content { 
@@ -103,7 +103,7 @@ main {
     justify-content: space-between;
     z-index: 1;
 
-    transition: background-color 1s ease;
+    transition: background-color 1s ease-in-out;
 }
 
 .background {
