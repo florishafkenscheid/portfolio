@@ -192,6 +192,13 @@ Excuse this ugly mess.
     width: 75px;
     border-radius: 50%;
     animation: move-diagonally 60s linear infinite;
+
+    /* Make it not draggable */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
   
 .sun-container.sun-filter-dark {
