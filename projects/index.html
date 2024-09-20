@@ -1,22 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        
-    </header>
-    <main>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis necessitatibus quaerat tempora dolorem dignissimos dolore sunt, optio praesentium nisi animi quis porro nulla, laboriosam molestiae dolores perspiciatis, iure minima id.
-        </p>
-    </main>
-    <footer>
-        
-    </footer>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Projects</title>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+        <header>
+            
+        </header>
+        <main>
+            <div class="container">
+                <div class="themes" onclick="toggleTheme('projects')">
+                    <div class="theme_button">
+                        <div class="box"></div>
+                        <div class="text">LIGHT</div>
+                    </div>
+                    <div class="theme_button is-selected">
+                        <div class="box"></div>
+                        <div class="text">DARK</div>
+                    </div>
+                </div>
+                <div class="content">
+                    <header class="nameHeader">
+                        <h1 class="siteHeader">Floris Hafkenscheid</h1>
+                        <nav class="navbar">
+                            <ul>
+                                <li>
+                                    <a class="nav-link" href="/">Home</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" href="/projects/">Projects</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" href="/info/">Info</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" href="/contact/">Contact</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </header>
+                </div>
+            </div>
+        </main>
+        <script type="module" src="../js/main.js" async defer></script>
+    </body>
 </html>
