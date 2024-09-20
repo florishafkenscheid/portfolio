@@ -90,11 +90,7 @@ main {
 .content { 
     position: relative;
     grid-area: 2 / 2 / 6 / 5; 
-    padding: 1rem;
-    margin-left: -1.0rem;
-    margin-right: -1.0rem;
-    margin-top: -0.5rem;
-    margin-bottom: -0.5rem;
+    padding: 1em;
     border: 1px solid var(--border-color);
     background-color: var(--background-color);
 
@@ -125,6 +121,56 @@ main {
 
 .background.background-light {
     background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 50%), var(--sun-background-light), var(--background-color) 50%);
+}
+
+.themes {
+    position: absolute;
+    display: flex;
+    column-gap: 15px;
+
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+}
+
+@media only screen and (max-height: 800px) {
+    .themes {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media only screen and (min-height: 800px) {
+    .themes {
+        top: 1rem;
+        right: 3rem;
+    }
+}
+
+@media only screen and (min-height: 1200px) {
+    .themes {
+        top: 2rem;
+        right: 5rem;
+    }
+}
+
+.theme_button {
+    display: flex;
+    flex-direction: row;
+    column-gap: 3px;
+}
+
+.theme_button .box::before {
+    content: "□";
+}
+
+.theme_button.is-selected .box::before {
+    content: "■";
+}
+
+.theme_button > .text {
+    font-family: 'Linik Sans ExtraLight', monospace;
 }
 
 .sun-container {
@@ -206,30 +252,49 @@ Excuse this ugly mess.
 }
 
 .nameHeader {
-    grid-area: 2 / 2 / 3 / 3;
+    width: 21%;
     margin-bottom: -10px;
     margin-top: 0;
 }
 
-.nameHeader > h1 {
+@media only screen and (max-height: 800px) {
+    .nameHeader h1 {
+        font-size: 30px;
+    }
+}
+
+@media only screen and (min-height: 800px) {
+    .nameHeader h1 {
+        font-size: 45px;
+    }
+}
+
+@media only screen and (min-height: 1200px) {
+    .nameHeader {
+        width: 23%;
+    }
+    .nameHeader h1 {
+        font-size: 65px;
+    }
+}
+
+.nameHeader h1 {
     margin: 0;
-    font-size: 40px;
 }
 
 .navbar {
     padding: 0;
-    grid-area: 3 / 2 / 4 / 3;
-    width: 17%;
-    margin-top: 2vh;
-    margin-bottom: auto;
+    width: 85%;
+    margin-top: 1em;
 }
 
 .navbar ul {
-    padding: 0;
     padding-left: 2px;
     margin-top: 0;
     display: flex;
     justify-content: space-between;
+
+    gap: 10px;
 }
 
 .navbar li:hover {
@@ -333,33 +398,3 @@ Excuse this ugly mess.
     margin-right: 7px;
 }
 
-.themes {
-    position: absolute;
-    display: flex;
-    column-gap: 15px;
-
-    top: 0.5rem;
-    right: 2rem;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    cursor: pointer;
-}
-
-.theme_button {
-    display: flex;
-    flex-direction: row;
-    column-gap: 3px;
-}
-
-.theme_button .box::before {
-    content: "□";
-}
-
-.theme_button.is-selected .box::before {
-    content: "■";
-}
-
-.theme_button > .text {
-    font-family: 'Linik Sans ExtraLight', monospace;
-}
