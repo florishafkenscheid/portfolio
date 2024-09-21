@@ -1,14 +1,7 @@
-.inter-normal {
-    font-family: "Inter", sans-serif;
-    font-weight: 500;
-    font-optical-sizing: auto;
-    font-style: normal;
-}
-
-.inter-light {
-    font-family: "Inter", sans-serif;
-    font-weight: 200;
-    font-optical-sizing: auto;
+@font-face {
+    font-family: 'Inter';
+    src: url("/assets/Inter-VariableFont_opsz\,wght.ttf");
+    font-weight: 100 900;
     font-style: normal;
 }
 
@@ -50,6 +43,10 @@ html, body {
 body {
     background-color: var(--background-color);
     color: var(--main-color);
+
+    
+    /* For page transition effect */
+    transition: opacity .5s;
 }
 
 html {
@@ -61,11 +58,17 @@ h1, a, strong, span, .text, .box {
     text-decoration: none;
 }
 
-ul li::marker {
+header, header > nav {
+    font-family: "Inter", sans-serif;
+    font-weight: 200;
+    font-optical-sizing: auto;
+}
+
+ul > li::marker {
     content: "";
 }
 
-ul li span {
+.socialnav span {
     margin-right: 15px;
     font-size: 10px;
 }
@@ -84,7 +87,9 @@ main {
     height: 100vh;
     width: 100vw;
 
-    transition: background-color 1s ease-in-out;
+    opacity: 0;
+
+    transition: background-color 1s ease-in-out, opacity 0.5s ease-in-out;
 }
     
 .content { 
@@ -111,7 +116,6 @@ main {
     z-index: -1;
     filter: blur(10px);
 
-    transition: opacity 0.5s ease-in-out;
     overflow: hidden;
 }
 
@@ -178,7 +182,7 @@ main {
     width: 100%;
     height: 100%;
 
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.7s ease-in-out;
 }
 
 /* 
@@ -214,7 +218,8 @@ Excuse this ugly mess.
     85% { bottom: -220%; left: 300% }
     86% { bottom: -230%; left: 160% }
     87% { bottom: -240%; left: 12% }
-    88% { bottom: -50%; left: 13% }
+    88% { bottom: -80%; left: 13% }
+    88.5% { bottom: -50%; left: 13% }
     89% { bottom: -32%; left: 14% }
     90% { bottom: -23%; left: 15% }
     91% { bottom: -15%; left: 16% }
@@ -229,7 +234,7 @@ Excuse this ugly mess.
     100% { bottom: 0%; left: 20% }
 }
 
-.sun-container img {
+.sun-container > img {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -239,6 +244,13 @@ Excuse this ugly mess.
     width: 75px;
     border-radius: 50%;
     animation: move-diagonally 60s linear infinite;
+
+    /* Make it not draggable */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
   
 .sun-container.sun-filter-dark {
@@ -288,16 +300,17 @@ Excuse this ugly mess.
     margin-top: 1em;
 }
 
-.navbar ul {
+.navbar > ul {
     padding-left: 2px;
     margin-top: 0;
     display: flex;
     justify-content: space-between;
 
+    cursor: pointer;
     gap: 10px;
 }
 
-.navbar li:hover {
+.navbar > ul > li:hover {
     opacity: .25;
     transition: .25s
 }
@@ -386,6 +399,9 @@ Excuse this ugly mess.
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    font-family: 'Inter';
+    font-weight: 500;
 }
 
 .sociallink strong {
