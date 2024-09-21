@@ -13,6 +13,11 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/style.css">
+
+        <script>
+            /*to prevent Firefox FOUC, this must be here*/
+            let FF_FOUC_FIX;
+          </script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -41,16 +46,16 @@
                         <nav class="navbar">
                             <ul>
                                 <li>
-                                    <a class="nav-link" href="">Home</a>
+                                    <span class="nav-link" onclick="transitionToPage('/')">Home</span>
                                 </li>
                                 <li>
-                                    <a class="nav-link" href="projects/">Projects</a>
+                                    <span class="nav-link" onclick="transitionToPage('/projects/')">Projects</span>
                                 </li>
                                 <li>
-                                    <a class="nav-link" href="info/">Info</a>
+                                    <span class="nav-link" onclick="transitionToPage('/info/')">Info</span>
                                 </li>
                                 <li>
-                                    <a class="nav-link" href="contact/">Contact</a>
+                                    <span class="nav-link" onclick="transitionToPage('/contact/')">Contact</span>
                                 </li>
                             </ul>
                         </nav>

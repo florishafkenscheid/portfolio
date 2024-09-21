@@ -10,8 +10,8 @@ function toggleTheme(page) {
     switch (page) {
         case 'home':
             const sunContainer = document.querySelector('.sun-container');
-            sunContainer.style.opacity = '0';
-            backgroundElement.style.opacity = '0';
+            sunContainer.style.opacity = 0;
+            backgroundElement.style.opacity = 0;
 
             setTimeout(() => {
                 sunContainer.classList.toggle('sun-filter-light');
@@ -20,12 +20,27 @@ function toggleTheme(page) {
                 backgroundElement.classList.toggle('background-dark');
                 backgroundElement.classList.toggle('background-light');
 
-                sunContainer.style.opacity = '1';
-                backgroundElement.style.opacity = '1';
+                sunContainer.style.opacity = 1;
+                backgroundElement.style.opacity = 1;
             }, 700);
         default:
             break;
     }
 }
 
+function transitionToPage(destination) {
+    document.querySelector('.container').style.opacity = 0;
+
+    setTimeout(() => {
+        window.location.href = destination;
+    }, 500);
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    setTimeout(() => {
+        document.querySelector('.container').style.opacity = 1;
+    }, 500);
+});
+
 window.toggleTheme = toggleTheme;
+window.transitionToPage = transitionToPage;

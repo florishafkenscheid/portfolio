@@ -43,6 +43,10 @@ html, body {
 body {
     background-color: var(--background-color);
     color: var(--main-color);
+
+    
+    /* For page transition effect */
+    transition: opacity .5s;
 }
 
 html {
@@ -60,11 +64,11 @@ header, header > nav {
     font-optical-sizing: auto;
 }
 
-ul li::marker {
+ul > li::marker {
     content: "";
 }
 
-ul li span {
+.socialnav span {
     margin-right: 15px;
     font-size: 10px;
 }
@@ -83,7 +87,9 @@ main {
     height: 100vh;
     width: 100vw;
 
-    transition: background-color 1s ease-in-out;
+    opacity: 0;
+
+    transition: background-color 1s ease-in-out, opacity 0.5s ease-in-out;
 }
     
 .content { 
@@ -182,7 +188,7 @@ Excuse this ugly mess.
     100% { bottom: 0%; left: 20% }
 }
 
-.sun-container img {
+.sun-container > img {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -230,15 +236,17 @@ Excuse this ugly mess.
     margin-bottom: auto;
 }
 
-.navbar ul {
+.navbar > ul {
     padding: 0;
     padding-left: 2px;
     margin-top: 0;
     display: flex;
     justify-content: space-between;
+
+    cursor: pointer;
 }
 
-.navbar li:hover {
+.navbar > ul > li:hover {
     opacity: .25;
     transition: .25s
 }
@@ -327,6 +335,9 @@ Excuse this ugly mess.
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    font-family: 'Inter';
+    font-weight: 500;
 }
 
 .sociallink strong {
