@@ -19,7 +19,7 @@
     --main-color-light: rgb(38, 206, 252);
 
     --border-color-dark: rgba(255,255,255,0.4);
-    --border-color-light: rgba(0, 0, 0, 100);
+    --border-color-light: rgba(0, 0, 0, 1);
 
     --sun-background-color: var(--sun-background-dark);
     --background-color: var(--background-color-dark);
