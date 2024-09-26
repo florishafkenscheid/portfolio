@@ -1,7 +1,14 @@
-@font-face {
-    font-family: 'Inter';
-    src: url("/assets/Inter-VariableFont_opsz\,wght.ttf");
-    font-weight: 100 900;
+.inter-light {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.inter-normal {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
     font-style: normal;
 }
 
@@ -56,12 +63,6 @@ html {
 h1, a, strong, span, .text, .box {
     color: var(--text-color);
     text-decoration: none;
-}
-
-header, header > nav {
-    font-family: "Inter", sans-serif;
-    font-weight: 200;
-    font-optical-sizing: auto;
 }
 
 ul > li::marker {
