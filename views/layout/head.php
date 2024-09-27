@@ -19,7 +19,7 @@
     <body>
         <main>
             <div class="container">
-                <div class="themes" onclick="toggleTheme('projects')">
+                <div class="themes" onclick="toggleTheme()">
                     <div class="theme_button">
                         <div class="box"></div>
                         <div class="text">LIGHT</div>

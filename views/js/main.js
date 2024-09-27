@@ -1,4 +1,6 @@
-function toggleTheme(page) {
+const page = window.location.pathname;
+
+function toggleTheme() {
     const backgroundElement = document.querySelector('.background');
     document.body.classList.toggle('light-theme');
   
@@ -8,7 +10,7 @@ function toggleTheme(page) {
     });
     
     switch (page) {
-        case 'home':
+        case '' || '/':
             const sunContainer = document.querySelector('.sun-container');
             sunContainer.style.opacity = 0;
             backgroundElement.style.opacity = 0;
@@ -59,6 +61,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 window.toggleTheme = toggleTheme;
 window.transitionToPage = transitionToPage;
 
-if (window.location.pathname == '') {
+if (page == '') {
     setInterval(updateBackgroundPosition, 20); // Every 20 ms
 }
