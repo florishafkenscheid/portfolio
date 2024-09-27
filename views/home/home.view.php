@@ -4,10 +4,6 @@ require './views/layout/head.php'
 
 ?>
 <!-- Makes the sun move. -->
-<head> 
-    <script type="module" src="/views/js/home.js" defer></script>
-</head>
-
 <div class="background background-dark" id="background">
     <div class="sun-container sun-filter-dark">
         <img draggable="false" src="/views/assets/sun.webp">

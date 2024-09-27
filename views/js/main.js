@@ -28,6 +28,20 @@ function toggleTheme(page) {
     }
 }
 
+const sunElement = document.querySelector('.sun-container img');
+const backgroundElement = document.querySelector('.background');
+
+function updateBackgroundPosition() {
+    const sunRect = sunElement.getBoundingClientRect();
+    const sunX = (sunRect.left + sunRect.width / 2) / window.innerWidth * 100;
+    const sunY = (sunRect.top + sunRect.height / 2) / window.innerHeight * 100;
+
+    backgroundElement.style.setProperty('--sun-x', `${sunX}%`);
+    backgroundElement.style.setProperty('--sun-y', `${sunY}%`);
+}
+
+setInterval(updateBackgroundPosition, 20); // Every 20 ms
+
 function transitionToPage(destination) {
     document.querySelector('.container').style.opacity = 0;
 
@@ -44,3 +58,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 window.toggleTheme = toggleTheme;
 window.transitionToPage = transitionToPage;
+
+if (window.location.pathname == '') {
+    setInterval(updateBackgroundPosition, 20); // Every 20 ms
+}
