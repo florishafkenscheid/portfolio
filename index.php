@@ -1,7 +1,5 @@
 <?php
 
-// require './views/layout/head.php';
-
 switch ($_SERVER['REQUEST_URI']) {
     case '/projects':
         require './views/projects/projects.view.php';
@@ -16,4 +14,3 @@ switch ($_SERVER['REQUEST_URI']) {
         require './views/home/home.view.php';
 }
 
-?>

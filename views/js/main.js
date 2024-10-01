@@ -61,6 +61,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 window.toggleTheme = toggleTheme;
 window.transitionToPage = transitionToPage;
 
-if (page == '') {
+if (page == '' || page == '/') {
     setInterval(updateBackgroundPosition, 20); // Every 20 ms
 }
