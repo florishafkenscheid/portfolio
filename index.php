@@ -1,16 +1,25 @@
 <?php
 
+include './controller/Controller.php';
+include './controller/HomeController.php';
+include './controller/ProjectsController.php';
+include './controller/InfoController.php';
+include './controller/ContactController.php';
+
 switch ($_SERVER['REQUEST_URI']) {
     case '/projects':
-        require './views/projects/projects.view.php';
+        $projectsController = new ProjectsController();
+        $projectsController->redirect('projects');
     
     case '/info':
-        require './views/info/info.view.php';
+        $infoController = new InfoController();
+        $infoController->redirect('info');
 
     case '/contact':
-        require './views/contact/contact.view.php';
+        $contactController = new ContactController();
+        $contactController->redirect('contact');
 
     default:
-        require './views/home/home.view.php';
+        $homeController = new HomeController();
+        $homeController->redirect('home');
 }
-
