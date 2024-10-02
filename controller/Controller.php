@@ -1,7 +1,8 @@
 <?php
 
 class Controller {
-    function redirect($path) {
+    // Methods
+    public static function redirect($path = 'home') {
         require "./views/$path.view.php";
     }
 }
