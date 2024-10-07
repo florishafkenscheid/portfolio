@@ -1,4 +1,5 @@
 const page = window.location.pathname;
+const opacityTimeoutTime = 200;
 
 function toggleTheme() {
     const backgroundElement = document.querySelector('.background');
@@ -55,7 +56,7 @@ function transitionToPage(destination) {
 
     setTimeout(() => {
         window.location.href = destination;
-    }, 500);
+    }, opacityTimeoutTime);
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -86,7 +87,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     setTimeout(() => {
         document.querySelector('.container').style.opacity = 1;
-    }, 500);
+    }, opacityTimeoutTime);
 });
 
 window.toggleTheme = toggleTheme;
