@@ -8,14 +8,13 @@ include './controller/ContactController.php';
 
 // Credits to https://dev.to/mvinhas/simple-routing-system-for-a-php-mvc-application-16f7
 
-
 class Route {
     public static function contentToRender() : void
     {
-        $uri = self::processURI();
-        $class = explode('/', $uri['controller']);
+        $uri = self::processURI(); // localhost:8888/projects
+        $class = explode('/', $uri['controller']); // '.', '/', 'projects'
         if (class_exists($class[2])) {
-            $controller = new $class[2];
+            $controller = $class[2];
             $method = $uri['method'];
             $args = $uri['args'];
 
