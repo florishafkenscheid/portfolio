@@ -6,7 +6,6 @@ function toggleTheme() {
     const currentTheme = localStorage.getItem('themePreference');
 
     const newTheme = currentTheme === "light" ? "dark" : "light"; // if dark -> light, if light -> dark
-    console.log(newTheme);
     localStorage.setItem('themePreference', newTheme);
   
     const buttons = document.querySelectorAll('.theme_button');
