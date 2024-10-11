@@ -19,17 +19,17 @@
     <body>
         <main>
             <div class="container">
-                <div class="themes" onclick="toggleTheme()">
-                    <div class="theme_button">
-                        <div class="box"></div>
-                        <div class="text">LIGHT</div>
-                    </div>
-                    <div class="theme_button is-selected">
-                        <div class="box"></div>
-                        <div class="text">DARK</div>
-                    </div>
-                </div>
                 <div class="content">
+                    <div class="themes" onclick="toggleTheme()">
+                        <div class="theme_button">
+                            <div class="box"></div>
+                            <div class="text">LIGHT</div>
+                        </div>
+                        <div class="theme_button is-selected">
+                            <div class="box"></div>
+                            <div class="text">DARK</div>
+                        </div>
+                    </div>
                     <header class="nameHeader">
                         <h1 class="siteHeader inter-light">Floris Hafkenscheid</h1>
                         <nav class="navbar inter-light">
