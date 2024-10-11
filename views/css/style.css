@@ -42,22 +42,20 @@
     --border-color: var(--border-color-light);
 }
 
-html, body {
-    overflow: hidden;
-    margin: 0;
-}
-
 body {
     background-color: var(--background-color);
     color: var(--main-color);
 
-    
+    overflow: hidden;
+
     /* For page transition effect */
     transition: opacity .5s;
 }
 
 html {
     line-height: 1;
+    overflow: hidden;
+    margin: 0;
 }
 
 h1, a, strong, span, .text, .box {
@@ -80,7 +78,7 @@ main {
 
 .container {
     display: grid;
-    grid-template-columns: 0.1fr 1fr 1fr 1fr 0.1fr;
+    grid-template-columns: 0.1fr 0.5fr 0.5fr 0.5fr 0.1fr;
     grid-template-rows: 0.07fr 0.1fr 0.1fr 1fr 0.3fr 0.07fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
@@ -265,27 +263,59 @@ Excuse this ugly mess.
 }
 
 .nameHeader {
-    width: 21%;
     margin-bottom: -10px;
     margin-top: 0;
 }
 
-@media only screen and (max-height: 800px) {
+@media only screen and (max-width: 450px) {
+    .nameHeader {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 450px) and (max-width: 800px) {
+    .nameHeader {
+        width: 40%;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    .nameHeader {
+        width: 60%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .nameHeader {
+        width: 35%;
+    }
+}
+
+@media only screen and (max-width: 800px) and (max-height: 800px) {
     .nameHeader h1 {
-        font-size: 30px;
+        font-size: 25px;
+    }
+}
+
+@media only screen and (min-width: 800px) and (max-height: 800px) {
+    .nameHeader h1 {
+        font-size: 35px;
+    }
+}
+
+@media only screen and (min-width: 1400px) and (max-height: 800px) {
+    .nameHeader h1 {
+        font-size: 50px;
     }
 }
 
 @media only screen and (min-height: 800px) {
     .nameHeader h1 {
-        font-size: 45px;
+        font-size: 35px;
     }
 }
 
-@media only screen and (min-height: 1200px) {
-    .nameHeader {
-        width: 23%;
-    }
+@media only screen and (min-height: 1600px) {
     .nameHeader h1 {
         font-size: 65px;
     }
@@ -412,3 +442,39 @@ Excuse this ugly mess.
     margin-right: 7px;
 }
 
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+form > label {
+    color: white;
+    font-family: 'Inter';
+    font-weight: 300;
+    margin: -0.3rem;
+}
+
+form > input {
+    margin: 0.7rem;
+}
+
+.info-div {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 40%;
+    margin: auto auto;
+}
+
+.info-p {
+    color: var(--text-color);
+    font-family: 'Inter';
+    font-weight: 500;
+}

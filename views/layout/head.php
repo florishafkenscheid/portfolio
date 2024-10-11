@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Portfolio</title>
+        <title><?php echo ucfirst($title);?></title> <!-- Set the title to what was passed in the Controller, with the first letter being uppercase. -->
         <link href="./views/assets/light-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: light)">
         <link href="./views/assets/dark-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: dark)">
         <link rel="stylesheet" href="./views/css/style.css">
@@ -45,6 +45,9 @@
                                 </li>
                                 <li>
                                     <span class="nav-link" onclick="transitionToPage('/contact')">Contact</span>
+                                </li>
+                                <li>
+                                    <span class="nav-link" onclick="transitionToPage('/blog')">Blog</span>
                                 </li>
                             </ul>
                         </nav>

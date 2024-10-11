@@ -5,14 +5,14 @@ include './controller/HomeController.php';
 include './controller/ProjectsController.php';
 include './controller/InfoController.php';
 include './controller/ContactController.php';
+include './controller/BlogController.php';
 
 // Credits to https://dev.to/mvinhas/simple-routing-system-for-a-php-mvc-application-16f7
 
 class Route {
-    public static function contentToRender() : void
-    {
+    public static function contentToRender() : void {
         $uri = self::processURI(); // localhost:8888/projects
-        $class = explode('/', $uri['controller']); // '.', '/', 'projects'
+        $class = explode('/', $uri['controller']); // '.', '/', 'ProjectsController'
         if (class_exists($class[2])) {
             $controller = $class[2];
             $method = $uri['method'];
@@ -43,7 +43,7 @@ class Route {
             './controller/'.ucfirst($controllerPart).'Controller' :
             './controller/HomeController';
 
-        $method = 'redirect';
+        $method = 'index';
 
         $args = !empty($controllerPart) ?
             $controllerPart :

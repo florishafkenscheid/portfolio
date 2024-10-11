@@ -2,7 +2,8 @@
 
 class Controller {
     // Methods
-    public static function redirect($path = 'home') {
+    public static function index($path = 'home') {
+        $title = $path;
         require "./views/$path.view.php";
     }
 }
