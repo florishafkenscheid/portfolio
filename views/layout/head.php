@@ -30,8 +30,8 @@
                             <div class="text">DARK</div>
                         </div>
                     </div>
-                    <header class="nameHeader">
-                        <h1 class="siteHeader inter-light">Floris Hafkenscheid</h1>
+                    <header class="siteHeader">
+                        <h1 class="nameHeader inter-light">Floris Hafkenscheid</h1>
                         <nav class="navbar inter-light">
                             <ul>
                                 <li>

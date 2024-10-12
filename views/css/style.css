@@ -137,30 +137,9 @@ main {
     color: white;
     cursor: pointer;
 
-    top: -1rem;
+    top: -1.5rem;
     right: 0;
 }
-
-/* @media only screen and (max-height: 800px) {
-    .themes {
-        top: 10px;
-        right: 10px;
-    }
-}
-
-@media only screen and (min-height: 800px) {
-    .themes {
-        top: 1rem;
-        right: 3rem;
-    }
-}
-
-@media only screen and (min-height: 1200px) {
-    .themes {
-        top: 2rem;
-        right: 5rem;
-    }
-} */
 
 .theme_button {
     display: flex;
@@ -266,12 +245,17 @@ Excuse this ugly mess.
     -webkit-filter: var(--sun-filter-light);
 }
 
-.nameHeader {
+.siteHeader {
+    display: flex;
+    flex-direction: column;
+
     margin-bottom: -10px;
     margin-top: 0;
+
+    width: max-content;
 }
 
-@media only screen and (max-width: 450px) {
+/* @media only screen and (max-width: 450px) {
     .nameHeader {
         width: 100%;
     }
@@ -279,60 +263,56 @@ Excuse this ugly mess.
 
 @media only screen and (min-width: 450px) and (max-width: 800px) {
     .nameHeader {
-        width: 40%;
+        width: 60%;
     }
 }
 
 @media only screen and (min-width: 800px) {
     .nameHeader {
-        width: 60%;
+        width: 45%;
     }
-}
-
-@media only screen and (min-width: 1200px) {
-    .nameHeader {
-        width: 35%;
-    }
-}
+} */
 
 @media only screen and (max-width: 800px) and (max-height: 800px) {
-    .nameHeader h1 {
+    .siteHeader h1 {
         font-size: 25px;
     }
 }
 
 @media only screen and (min-width: 800px) and (max-height: 800px) {
-    .nameHeader h1 {
+    .siteHeader h1 {
         font-size: 35px;
     }
 }
 
 @media only screen and (min-width: 1400px) and (max-height: 800px) {
-    .nameHeader h1 {
+    .siteHeader h1 {
         font-size: 50px;
     }
 }
 
 @media only screen and (min-height: 800px) {
-    .nameHeader h1 {
+    .siteHeader h1 {
         font-size: 35px;
     }
 }
 
 @media only screen and (min-height: 1600px) {
-    .nameHeader h1 {
+    .siteHeader h1 {
         font-size: 65px;
     }
 }
 
-.nameHeader h1 {
+.nameHeader {
+    display: inline;
     margin: 0;
 }
 
 .navbar {
     padding: 0;
-    width: 85%;
     margin-top: 1em;
+
+    width: auto;
 }
 
 .navbar > ul {
@@ -448,7 +428,10 @@ Excuse this ugly mess.
 
 .form-div {
     margin-bottom: auto;
-    padding-top: 5%;
+    padding-top: auto;
+
+    height: 100%;
+    width: 100%;
 }
 
 .form {
@@ -463,6 +446,9 @@ Excuse this ugly mess.
     color: var(--text-color);
     font-family: 'Inter';
     font-weight: 300;
+
+    height: 100%;
+    width: 100%;
 }
 
 .form label {
@@ -484,13 +470,19 @@ Excuse this ugly mess.
     transition: background-color 1s ease-in-out, text-shadow 1s ease-in-out; /* Text-shadow transition werkt niet goed mee :( */
 }
 
+@media only screen and (max-width: 400px) {
+    .form textarea {
+        width: 12rem;
+    }
+}
+
 .form input { /* Submit button */
     background-color: var(--background-color);
     border: 1px solid var(--border-color);
     border-radius: 4px;
 
     color: inherit;
-    transition: background-color 1s ease-in-out
+    transition: background-color 1s ease-in-out;
 }
 
 .form textarea#messageContent {
