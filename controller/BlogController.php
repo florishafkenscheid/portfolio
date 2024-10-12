@@ -9,13 +9,19 @@ class BlogController extends Controller {
     }
 
     public static function index($path = 'blog') : void {
-        $controller = new self();
-        $controller->getPosts();
         parent::index($path);
+        
+        $controller = new self();
+        $controller->showPosts();
     }
 
-    public function getPosts() : array {
-        return $this->postModel->getPosts();
+    public function showPosts() {
+        $posts = $this->postModel->getPosts();
+        foreach ($posts as &$post) {
+            ?>
+            
+            <?php
+        }
     }
 
     public function createPost() : void {

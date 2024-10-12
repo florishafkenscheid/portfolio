@@ -16,6 +16,9 @@ require './views/layout/head.php';
         <input type="submit" value="Post">
     </form>
 </div>
+<div class="blog-posts-div">
+    
+</div>
 
 <?php
 
