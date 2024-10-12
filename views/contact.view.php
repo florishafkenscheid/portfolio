@@ -3,15 +3,16 @@
 require './views/layout/head.php';
 
 ?>
+
 <div class="form-div" id="contact-form-div">
     <form method="post" action="" class="form" id="contact-form">
         <h3>Contact me!</h3>
         <label>Your Name</label>
-        <textarea type="text" name="name"></textarea>
+        <textarea id="name" required></textarea>
         <label>Your E-Mail</label>
-        <textarea type="text" name="email"></textarea>
+        <textarea id="email" required></textarea>
         <label>Message</label>
-        <textarea type="text" name="messageContent"></textarea>
+        <textarea id="messageContent" required></textarea>
         <input type="submit" value="Submit">
     </form>
 </div>

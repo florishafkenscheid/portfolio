@@ -330,7 +330,7 @@ Excuse this ugly mess.
     transition: .25s
 }
 
-/* .skills {
+/* .skills { Dit vond ik er niet goed uit zien, dus heb ik het geschrapt.
     position: absolute;
     bottom: 10px;
     left: 13px;
@@ -483,6 +483,10 @@ Excuse this ugly mess.
 
     color: inherit;
     transition: background-color 1s ease-in-out;
+}
+
+.form textarea#title {
+    height: 2rem;
 }
 
 .form textarea#messageContent {
