@@ -9,22 +9,13 @@ class PostModel {
         $dbController = new DatabaseController();
         $this->dbConn = $dbController->dbConnect();
 
-        $createTable = $this->dbConn->prepare("CREATE TABLE IF NOT EXISTS posts (
-        postId INT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(64) NOT NULL,
-        messageContent TEXT NOT NULL,
-        author VARCHAR(32) NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        )");
-
-        $createTable->execute();
+        // Ik heb overwogen om hier een "create table posts if not exists" in de error handling te maken maar heb besloten dit niet te doen omdat bij het instellen van de webpagina ook database prep hoort.
     }
 
     public function getPosts() : array {
-        $sqlQuery = $this->dbConn->prepare("SELECT * from posts");
+        $sqlQuery = $this->dbConn->prepare("SELECT title, author, messageContent FROM posts WHERE isDeleted = 0 ORDER BY postId");
         $sqlQuery->execute();
-        return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);
+        return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);  
     }
 
     public function createPost($title, $author, $messageContent) : void {
@@ -37,7 +28,19 @@ class PostModel {
 
             $sqlQuery->execute();
         } catch (PDOException $err) {
-            throw new Exception("Failed to create post: " . $err->getMessage());
+            throw new Exception("Failed to create post: " . $err);
+        }
+    }
+
+    public function deletePost($postId) : void {
+        try {
+            $sqlQuery = $this->dbConn->prepare("DELETE * FROM posts WHERE postId = :postId");
+
+            $sqlQuery->bindParam(":postId", $postId);
+
+            $sqlQuery->execute();
+        } catch (PDOException $err) {
+            throw new Exception("Failed to delete post: ". $err);
         }
     }
 }

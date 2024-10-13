@@ -17,8 +17,16 @@ require './views/layout/head.php';
             <input type="submit" value="Post">
         </form>
     </div>
-    <div class="aside-div" id="posts-aside-div">
+    <div class="posts-div" id="blog-posts-div">
+        <?php /* Display posts */
+        $blogController = new BlogController();
+        $posts = array_reverse($blogController->getPosts());
+
+        foreach ($posts as $post) {
+            $blogController->renderPost($post);
+        }
         
+        ?>
     </div>
 </div>
 
