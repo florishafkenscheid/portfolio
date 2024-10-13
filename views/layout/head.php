@@ -1,9 +1,17 @@
+<?php
+// Check if its the error page and edit the header accordingly.
+if ($path == 'error') {
+    $headerTitle = '404 Page not found';
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php echo ucfirst($title);?></title> <!-- Set the title to what was passed in the Controller, with the first letter being uppercase. -->
+        <title><?php echo $title;?></title> <!-- Set the title to what was passed in the Controller -->
         <link href="./views/assets/light-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: light)">
         <link href="./views/assets/dark-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: dark)">
         <link rel="stylesheet" href="./views/css/style.css">
@@ -31,7 +39,12 @@
                         </div>
                     </div>
                     <header class="siteHeader">
-                        <h1 class="nameHeader inter-light">Floris Hafkenscheid</h1>
+                        <h1 class="nameHeader inter-light">
+                            <?php 
+                            $headerTitle = !empty($headerTitle) ? $headerTitle : 'Floris Hafkenscheid';
+                            echo $headerTitle;
+                            ?> <!-- So the error page has a different header. -->
+                        </h1>
                         <nav class="navbar inter-light">
                             <ul>
                                 <li>

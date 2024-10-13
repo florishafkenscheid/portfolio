@@ -29,7 +29,7 @@ class Route {
                 $controller::{$method}();
         } else {
             // TODO: Add 404 page here.
-            ErrorController::index('404');
+            ErrorController::index('error');
         }
     }
 
