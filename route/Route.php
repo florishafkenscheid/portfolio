@@ -6,6 +6,7 @@ include './controller/ProjectsController.php';
 include './controller/InfoController.php';
 include './controller/ContactController.php';
 include './controller/BlogController.php';
+include './controller/ErrorController.php';
 
 // Credits to https://dev.to/mvinhas/simple-routing-system-for-a-php-mvc-application-16f7
 
@@ -26,6 +27,9 @@ class Route {
 
             $args ? $controller::{$method}($args) :
                 $controller::{$method}();
+        } else {
+            // TODO: Add 404 page here.
+            ErrorController::index('error');
         }
     }
 

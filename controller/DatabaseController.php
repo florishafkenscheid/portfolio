@@ -13,7 +13,7 @@ class DatabaseController {
             return $conn;
         } catch (PDOException $err) {
             $conn->rollBack();
-            throw new Exception("Connection failed: " . $err->getMessage());
+            throw new Exception($err);
         }        
     }
 
@@ -22,7 +22,7 @@ class DatabaseController {
             $conn = null;
             return true;
         } catch (PDOException $err) {
-            throw new Exception("Failed to disconnect: " . $err->getMessage());
+            throw new Exception($err);
         }
     }
     
