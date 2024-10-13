@@ -426,12 +426,46 @@ Excuse this ugly mess.
     margin-right: 7px;
 }
 
-.form-div {
-    margin-bottom: auto;
-    padding-top: auto;
+.info-div {
+    display: flex;
 
+    justify-content: center;
+    align-items: center;
+
+    width: 40%;
+    margin: auto auto;
+}
+
+.info-p {
+    color: var(--text-color);
+    font-family: 'Inter';
+    font-weight: 500;
+}
+
+.blog {
+    overflow: hidden;
     height: 100%;
     width: 100%;
+
+    display: flex;
+}
+
+.form-div {
+    overflow: scroll;
+    margin: auto 0;
+
+    height: 100%;
+}
+
+/* Hide scrollbar for chromium based browsers and the rest respectively*/
+
+.form-div::-webkit-scrollbar {
+    display: none;
+}
+
+.form-div {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .form {
@@ -440,15 +474,11 @@ Excuse this ugly mess.
     align-items: flex-start;
     flex-direction: column;
 
-    margin-bottom: auto;
-    margin-top: auto;
+    margin: auto 0;
 
     color: var(--text-color);
     font-family: 'Inter';
     font-weight: 300;
-
-    height: 100%;
-    width: 100%;
 }
 
 .form label {
@@ -493,18 +523,34 @@ Excuse this ugly mess.
     height: 8rem;
 }
 
-.info-div {
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    width: 40%;
-    margin: auto auto;
+#posts-aside-div {
+    height: 100%;
 }
 
-.info-p {
-    color: var(--text-color);
-    font-family: 'Inter';
-    font-weight: 500;
+@media (orientation: landscape) {
+    .blog {
+        flex-direction: row;
+    }
+    
+    #posts-aside-div {
+        width: 50%;
+    }
+
+    .form-div {
+        width: 50%;
+    }
+}
+
+@media (orientation: portrait) {
+    .blog {
+        flex-direction: column;
+    }
+
+    #posts-aside-div {
+        width: 100%;
+    }
+
+    .form-div {
+        width: 100%;
+    }
 }
