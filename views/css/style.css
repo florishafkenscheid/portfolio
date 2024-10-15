@@ -1,15 +1,6 @@
-.inter-light {
-    font-family: "Inter", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 200;
-    font-style: normal;
-}
-
-.inter-normal {
-    font-family: "Inter", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
+@font-face {
+    font-family: Inter;
+    src:local('/views/assets/Inter-VariableFont_opsz,wght.ttf');
 }
 
 :root {
@@ -120,6 +111,8 @@ main {
 
     z-index: -1;
     filter: blur(10px);
+
+    transition: background 1s ease-in-out;
 
     overflow: hidden;
 }
@@ -251,6 +244,11 @@ Excuse this ugly mess.
 }
 
 .siteHeader {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+
     display: flex;
     flex-direction: column;
 
@@ -311,6 +309,8 @@ Excuse this ugly mess.
 .nameHeader {
     display: inline;
     margin: 0;
+
+    font-weight: inherit;
 }
 
 .navbar {
@@ -318,6 +318,7 @@ Excuse this ugly mess.
     margin-top: 1em;
 
     width: auto;
+    font-weight: inherit;
 }
 
 .navbar > ul {
@@ -441,10 +442,13 @@ Excuse this ugly mess.
     margin: auto auto;
 }
 
+.sociallink, .info-p, .blog, .form {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+}
+
 .info-p {
     color: var(--text-color);
-    font-family: 'Inter';
-    font-weight: 500;
 }
 
 .blog {
@@ -484,8 +488,6 @@ Excuse this ugly mess.
     margin: auto 0;
 
     color: var(--text-color);
-    font-family: 'Inter';
-    font-weight: 300;
 }
 
 .form label {
@@ -572,8 +574,7 @@ Excuse this ugly mess.
     position: relative;
 
     color: var(--text-color);
-    font-family: 'Inter';
-    font-weight: 300;
+    background-color: var(--background-color);
 
     margin: 3px 0;
     padding: 3px 10px 5px 15px;
@@ -587,6 +588,8 @@ Excuse this ugly mess.
 
     display: flex;
     flex-direction: column;
+
+    transition: background-color 1s ease-in-out;
 }
 
 .blog-post > h4, .blog-post > p {

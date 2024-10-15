@@ -2,23 +2,34 @@
 
 require_once 'controller/DatabaseController.php';
 
-class PostModel {
-    private $dbConn;
-
-    function __construct() {
-        $dbController = new DatabaseController();
-        $this->dbConn = $dbController->dbConnect();
-
-        // Ik heb overwogen om hier een "create table posts if not exists" in de error handling te maken maar heb besloten dit niet te doen omdat bij het instellen van de webpagina ook database prep hoort.
-    }
-
+/**
+ * Connects to the database and handles post logic.
+ */
+class PostModel extends DatabaseController {
+    /**
+     * Sets up the query which fetches the title, author and messageContent from posts that aren't deleted. It then returns this info as an array.
+     * @throws \Exception
+     * @return array
+     */
     public function getPosts() : array {
-        $sqlQuery = $this->dbConn->prepare("SELECT title, author, messageContent FROM posts WHERE isDeleted = 0 ORDER BY postId");
-        $sqlQuery->execute();
-        return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);  
+        try {
+            $sqlQuery = $this->dbConn->prepare("SELECT title, author, messageContent FROM posts WHERE is_deleted = 0 ORDER BY postId");
+            $sqlQuery->execute();
+            return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);  
+        } catch (PDOException $err) {
+            throw new Exception("Failed to get posts: " . $err);
+        }
     }
 
-    public function createPost($title, $author, $messageContent) : void {
+    /**
+     * Takes parameters to construct a new entry in the posts table.
+     * @param string $title
+     * @param string $author
+     * @param string $messageContent
+     * @throws \Exception
+     * @return void
+     */
+    public function createPost(string $title, string $author, string $messageContent) : void {
         try {
             $sqlQuery = $this->dbConn->prepare("INSERT INTO posts (title, author, messageContent) VALUES (:title, :author, :content)");
 
@@ -32,15 +43,21 @@ class PostModel {
         }
     }
 
-    public function deletePost($postId) : void {
+    /**
+     * Soft deletes a post from the posts table given a postId.
+     * @param int $postId
+     * @throws \Exception
+     * @return void
+     */
+    public function deletePost(int $postId) : void {
         try {
-            $sqlQuery = $this->dbConn->prepare("DELETE * FROM posts WHERE postId = :postId");
+            $sqlQuery = $this->dbConn->prepare("UPDATE posts SET is_deleted = 1 WHERE postId = :postId ");
 
             $sqlQuery->bindParam(":postId", $postId);
 
             $sqlQuery->execute();
         } catch (PDOException $err) {
-            throw new Exception("Failed to delete post: ". $err);
+            throw new Exception("Failed to delete post: " . $err);
         }
     }
 }

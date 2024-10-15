@@ -1,18 +1,21 @@
 <?php
 
-include './controller/Controller.php';
-include './controller/HomeController.php';
-include './controller/ProjectsController.php';
-include './controller/InfoController.php';
-include './controller/ContactController.php';
-include './controller/BlogController.php';
+include './controller/BaseController.php';
 
 // Credits to https://dev.to/mvinhas/simple-routing-system-for-a-php-mvc-application-16f7
 
+/**
+ * Router of the page, it processes the URI and calls the relevant controller, if it's an invalid URI it gets sent to a "404 page not found" page.
+ */
 class Route {
+    /**
+     * Takes in the information from processURI and checks if it is a valid class that exists. If so, it sends it to the relevant controller, if not it sends it to the 404 page.
+     * @return void
+     */
     public static function contentToRender() : void {
         $uri = self::processURI(); // localhost:8888/projects
-        $class = explode('/', $uri['controller']); // '.', '/', 'ProjectsController'
+        $class = explode('/', $uri['controller']); // '.', 'controller', 'ProjectsController'
+        include $uri['controller'] . '.php'; //'./controller/ProjectsController.php'
         if (class_exists($class[2])) {
             $controller = $class[2];
             $method = $uri['method'];
@@ -29,11 +32,19 @@ class Route {
         }
     }
 
+    /**
+     * Gets the URI from the $_SERVER variable and returns tihs as an array.
+     * @return array
+     */
     private static function getURI() : array {
         $path_info = $_SERVER['PATH_INFO'] ?? '/';
         return explode('/', $path_info);
     }
 
+    /**
+     * This takes the array given by getURI and processes it into the relevant information for the contentToRender function.
+     * @return array
+     */
     private static function processURI() : array {;
         $controllerPart = self::getURI()[1] ?? '';
 

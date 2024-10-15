@@ -20,11 +20,8 @@ require './views/layout/head.php';
     <div class="posts-div" id="blog-posts-div">
         <?php /* Display posts */
         $blogController = new BlogController();
-        $posts = array_reverse($blogController->getPosts());
 
-        foreach ($posts as $post) {
-            $blogController->renderPost($post);
-        }
+        $blogController->renderPosts();
         
         ?>
     </div>

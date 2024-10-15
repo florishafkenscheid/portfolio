@@ -1,3 +1,3 @@
 <?php
 
-class InfoController extends Controller { }
+class InfoController extends BaseController { }

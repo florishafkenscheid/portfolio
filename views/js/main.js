@@ -14,25 +14,20 @@ function toggleTheme() {
         button.classList.toggle('is-selected');
     });
     
-    switch (page) {
-        case '' || '/':
-            const sunContainer = document.querySelector('.sun-container');
-            sunContainer.style.opacity = 0;
-            backgroundElement.style.opacity = 0;
+    const sunContainer = document.querySelector('.sun-container');
+    sunContainer.style.opacity = 0;
+    backgroundElement.style.opacity = 0;
 
-            setTimeout(() => {
-                sunContainer.classList.toggle('sun-filter-light');
-                sunContainer.classList.toggle('sun-filter-dark');
+    setTimeout(() => {
+        sunContainer.classList.toggle('sun-filter-light');
+        sunContainer.classList.toggle('sun-filter-dark');
 
-                backgroundElement.classList.toggle('background-dark');
-                backgroundElement.classList.toggle('background-light');
+        backgroundElement.classList.toggle('background-dark');
+        backgroundElement.classList.toggle('background-light');
 
-                sunContainer.style.opacity = 1;
-                backgroundElement.style.opacity = 1;
-            }, 700);
-        default:
-            break;
-    }
+        sunContainer.style.opacity = 1;
+        backgroundElement.style.opacity = 1;
+    }, 700);
 }
 
 const sunElement = document.querySelector('.sun-container img');
@@ -93,8 +88,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 window.toggleTheme = toggleTheme;
 window.transitionToPage = transitionToPage;
 
-if (page == '' || page == '/') {
-    if (sunElement != null) {
-        setInterval(updateBackgroundPosition, 20); // Every 20 ms
-    }
+if (sunElement != null) {
+    setInterval(updateBackgroundPosition, 20); // Every 20 ms
 }
