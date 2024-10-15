@@ -2,32 +2,34 @@
 
 require_once 'controller/DatabaseController.php';
 
-class PostModel {
-    private $dbConn;
-
-    function __construct() {
-        $dbController = new DatabaseController();
-        $this->dbConn = $dbController->dbConnect();
-
-        $createTable = $this->dbConn->prepare("CREATE TABLE IF NOT EXISTS posts (
-        postId INT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(64) NOT NULL,
-        messageContent TEXT NOT NULL,
-        author VARCHAR(32) NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        )");
-
-        $createTable->execute();
-    }
-
+/**
+ * Connects to the database and handles post logic.
+ */
+class PostModel extends DatabaseController {
+    /**
+     * Sets up the query which fetches the title, author and messageContent from posts that aren't deleted. It then returns this info as an array.
+     * @throws \Exception
+     * @return array
+     */
     public function getPosts() : array {
-        $sqlQuery = $this->dbConn->prepare("SELECT * from posts");
-        $sqlQuery->execute();
-        return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $sqlQuery = $this->dbConn->prepare("SELECT title, author, messageContent FROM posts WHERE is_deleted = 0 ORDER BY postId");
+            $sqlQuery->execute();
+            return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);  
+        } catch (PDOException $err) {
+            throw new Exception("Failed to get posts: " . $err);
+        }
     }
 
-    public function createPost($title, $author, $messageContent) : void {
+    /**
+     * Takes parameters to construct a new entry in the posts table.
+     * @param string $title
+     * @param string $author
+     * @param string $messageContent
+     * @throws \Exception
+     * @return void
+     */
+    public function createPost(string $title, string $author, string $messageContent) : void {
         try {
             $sqlQuery = $this->dbConn->prepare("INSERT INTO posts (title, author, messageContent) VALUES (:title, :author, :content)");
 
@@ -37,7 +39,25 @@ class PostModel {
 
             $sqlQuery->execute();
         } catch (PDOException $err) {
-            throw new Exception("Failed to create post: " . $err->getMessage());
+            throw new Exception("Failed to create post: " . $err);
+        }
+    }
+
+    /**
+     * Soft deletes a post from the posts table given a postId.
+     * @param int $postId
+     * @throws \Exception
+     * @return void
+     */
+    public function deletePost(int $postId) : void {
+        try {
+            $sqlQuery = $this->dbConn->prepare("UPDATE posts SET is_deleted = 1 WHERE postId = :postId ");
+
+            $sqlQuery->bindParam(":postId", $postId);
+
+            $sqlQuery->execute();
+        } catch (PDOException $err) {
+            throw new Exception("Failed to delete post: " . $err);
         }
     }
 }

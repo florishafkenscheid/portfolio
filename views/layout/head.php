@@ -11,13 +11,11 @@ if ($path == 'error') {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?php echo $title;?></title> <!-- Set the title to what was passed in the Controller -->
+        <meta name="description" content="Discover the portfolio of a dedicated web development student showcasing innovative projects, skills, and a passion for creating dynamic web solutions."> <!-- AI Generated; https://ahrefs.com/writing-tools/meta-description-generator prompt: Portfolio for web development student-->
+        <title><?php echo ucfirst($title);?></title> <!-- Set the title to what was passed in the Controller, with the first letter being uppercase. -->
         <link href="./views/assets/light-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: light)">
         <link href="./views/assets/dark-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: dark)">
         <link rel="stylesheet" href="./views/css/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
         <script type="module" src="./views/js/main.js" defer></script>
         <script>
@@ -39,13 +37,8 @@ if ($path == 'error') {
                         </div>
                     </div>
                     <header class="siteHeader">
-                        <h1 class="nameHeader inter-light">
-                            <?php 
-                            $headerTitle = !empty($headerTitle) ? $headerTitle : 'Floris Hafkenscheid';
-                            echo $headerTitle;
-                            ?> <!-- So the error page has a different header. -->
-                        </h1>
-                        <nav class="navbar inter-light">
+                        <h1 class="nameHeader">Floris Hafkenscheid</h1>
+                        <nav class="navbar">
                             <ul>
                                 <li>
                                     <span class="nav-link" onclick="transitionToPage('/')">Home</span>
@@ -65,3 +58,8 @@ if ($path == 'error') {
                             </ul>
                         </nav>
                     </header>
+                    <div class="background background-dark" id="background">
+                        <div class="sun-container sun-filter-dark">
+                            <img draggable="false" src="/views/assets/sun.webp" alt="Sun, purple or blue depending on theme">
+                        </div>
+                    </div>

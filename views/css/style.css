@@ -1,15 +1,6 @@
-.inter-light {
-    font-family: "Inter", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 200;
-    font-style: normal;
-}
-
-.inter-normal {
-    font-family: "Inter", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
+@font-face {
+    font-family: Inter;
+    src:local('/views/assets/Inter-VariableFont_opsz,wght.ttf');
 }
 
 :root {
@@ -28,11 +19,15 @@
     --border-color-dark: rgba(255,255,255,0.4);
     --border-color-light: rgba(0, 0, 0, 1);
 
+    --svg-filter-dark: invert(100%) opacity(0.5);
+    --svg-filter-light: opacity(1);
+
     --sun-background-color: var(--sun-background-dark);
     --background-color: var(--background-color-dark);
     --main-color: var(--main-color-dark);
     --text-color: var(--background-color-light);
     --border-color: var(--border-color-dark);
+    --svg-filter: var(--svg-filter-dark);
 }
 
 .light-theme {
@@ -40,6 +35,7 @@
     --main-color: var(--main-color-light);
     --text-color: var(--background-color-dark);
     --border-color: var(--border-color-light);
+    --svg-filter: var(--svg-filter-light)
 }
 
 html, body {
@@ -115,6 +111,8 @@ main {
 
     z-index: -1;
     filter: blur(10px);
+
+    transition: background 1s ease-in-out;
 
     overflow: hidden;
 }
@@ -246,6 +244,11 @@ Excuse this ugly mess.
 }
 
 .siteHeader {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+
     display: flex;
     flex-direction: column;
 
@@ -306,6 +309,8 @@ Excuse this ugly mess.
 .nameHeader {
     display: inline;
     margin: 0;
+
+    font-weight: inherit;
 }
 
 .navbar {
@@ -313,6 +318,7 @@ Excuse this ugly mess.
     margin-top: 1em;
 
     width: auto;
+    font-weight: inherit;
 }
 
 .navbar > ul {
@@ -426,12 +432,51 @@ Excuse this ugly mess.
     margin-right: 7px;
 }
 
-.form-div {
-    margin-bottom: auto;
-    padding-top: auto;
+.info-div {
+    display: flex;
 
+    justify-content: center;
+    align-items: center;
+
+    width: 40%;
+    margin: auto auto;
+}
+
+.sociallink, .info-p, .blog, .form {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+}
+
+.info-p {
+    color: var(--text-color);
+}
+
+.blog {
+    overflow: hidden;
     height: 100%;
     width: 100%;
+
+    display: flex;
+}
+
+.form-div {
+    margin: auto 0;
+    height: 100%;
+}
+
+.form-div, .posts-div {
+    overflow: scroll;
+}
+
+/* Hide scrollbar for chromium based browsers and the rest respectively*/
+
+.form-div::-webkit-scrollbar, .posts-div::-webkit-scrollbar {
+    display: none;
+}
+
+.form-div, .posts-div {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .form {
@@ -440,15 +485,9 @@ Excuse this ugly mess.
     align-items: flex-start;
     flex-direction: column;
 
-    margin-bottom: auto;
-    margin-top: auto;
+    margin: auto 0;
 
     color: var(--text-color);
-    font-family: 'Inter';
-    font-weight: 300;
-
-    height: 100%;
-    width: 100%;
 }
 
 .form label {
@@ -493,18 +532,81 @@ Excuse this ugly mess.
     height: 8rem;
 }
 
-.info-div {
+.posts-div {
+    height: 100%;
+
     display: flex;
+    flex-direction: column;
 
-    justify-content: center;
-    align-items: center;
+    align-items: flex-end;
 
-    width: 40%;
-    margin: auto auto;
 }
 
-.info-p {
+@media (orientation: landscape) {
+    .blog {
+        flex-direction: row;
+    }
+    
+    .posts-div {
+        width: 50%;
+    }
+
+    .form-div {
+        width: 50%;
+    }
+}
+
+@media (orientation: portrait) {
+    .blog {
+        flex-direction: column;
+    }
+
+    .posts-div {
+        width: 100%;
+    }
+
+    .form-div {
+        width: 100%;
+    }
+}
+
+.blog-post {
+    position: relative;
+
     color: var(--text-color);
-    font-family: 'Inter';
-    font-weight: 500;
+    background-color: var(--background-color);
+
+    margin: 3px 0;
+    padding: 3px 10px 5px 15px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+
+    text-align: right;
+
+    width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+
+    transition: background-color 1s ease-in-out;
+}
+
+.blog-post > h4, .blog-post > p {
+    margin: 5px 0;
+}
+
+.blog-post > sub {
+    margin: 3px 0 8px 0;
+}
+
+#delete-svg {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+
+    width: 8px;
+    height: 8px;
+
+    filter: var(--svg-filter);
 }

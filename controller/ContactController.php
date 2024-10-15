@@ -1,3 +1,3 @@
 <?php
 
-class ContactController extends Controller { }
+class ContactController extends BaseController { }

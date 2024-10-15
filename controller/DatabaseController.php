@@ -1,7 +1,16 @@
 <?php
 
+/**
+ * Controls the database connection. Connects on __construct and stores the connection.
+ */
 class DatabaseController {
-    public function dbConnect() : PDO { // Return PDO for later usage, instead of doing everything in 1 method.
+    protected $dbConn;
+
+    /**
+     * Connects to the database and stores the connection in the protected $dbConn variable
+     * @throws \Exception
+     */
+    function __construct() { // Return PDO for later usage, instead of doing everything in 1 method.
         $servername = "localhost";
         $username = "root";
         $dbName = "profileapp";
@@ -10,10 +19,11 @@ class DatabaseController {
             $conn = new PDO("mysql:host=$servername;dbname=$dbName", $username);
 
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $conn;
+            $this->dbConn = $conn;
         } catch (PDOException $err) {
             $conn->rollBack();
-            throw new Exception($err);
+            throw new Exception("Failed to connect to database: " . $err);
+            // Ik heb overwogen om hier een "create table posts if not exists" in de error handling te maken maar heb besloten dit niet te doen omdat bij het instellen van de webpagina ook database prep hoort.
         }        
     }
 
@@ -34,6 +44,10 @@ class DatabaseController {
             'email' => $queryString[1],
             'messageContent' => $queryString[2]
         ];
+    }
+
+    public function getDatabaseConnection() : PDO {
+        return $this->dbConn;
     }
 }
 // $queryString = self::processQueryString();
