@@ -4,8 +4,8 @@
 }
 
 :root {
-    --sun-filter-light: brightness(0) saturate(100%) invert(88%) sepia(87%) saturate(6409%) hue-rotate(127deg) brightness(100%) contrast(98%);
-    --sun-filter-dark: invert(12%) sepia(100%) saturate(7451%) hue-rotate(270deg) brightness(86%) contrast(119%);
+    --sun-filter-light: brightness(0) saturate(100%) invert(88%) sepia(87%) saturate(6409%) hue-rotate(127deg) brightness(100%) contrast(98%) blur(10px);
+    --sun-filter-dark: invert(12%) sepia(100%) saturate(7451%) hue-rotate(270deg) brightness(86%) contrast(119%) blur(10px);
 
     --sun-background-dark: #2d0067;
     --sun-background-light: #009dab;
@@ -110,7 +110,6 @@ main {
     margin: -1rem;
 
     z-index: -1;
-    filter: blur(10px);
 
     transition: background 1s ease-in-out;
 
