@@ -8,7 +8,7 @@ class BaseController {
      * @return void
      */
     public static function index(string $path = 'home') {
-        $title = $path;
+        $title = ucfirst($path);
         require "./views/$path.view.php";
     }
 }
