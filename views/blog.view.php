@@ -9,9 +9,9 @@ require './views/layout/head.php';
         <form method="post" class="form" id="blog-form" action="">
             <h3>Post new message</h3>
             <label for="author">Author</label>
-            <textarea id="author" name="author" required></textarea>
+            <textarea id="author" name="author"  maxlength="64" required></textarea>
             <label for="title">Title</label>
-            <textarea id="title" name="title" required></textarea>
+            <textarea id="title" name="title"  maxlength="32" required></textarea>
             <label for="messageContent">Message</label>
             <textarea id="messageContent" name="messageContent" required></textarea>
             <input type="submit" value="Post">
@@ -22,7 +22,6 @@ require './views/layout/head.php';
         $blogController = new BlogController();
 
         $blogController->renderPosts();
-        
         ?>
     </div>
 </div>

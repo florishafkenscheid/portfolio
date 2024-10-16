@@ -13,7 +13,7 @@ class PostModel extends DatabaseController {
      */
     public function getPosts() : array {
         try {
-            $sqlQuery = $this->dbConn->prepare("SELECT title, author, messageContent FROM posts WHERE is_deleted = 0 ORDER BY postId");
+            $sqlQuery = $this->dbConn->prepare("SELECT postId, title, author, messageContent FROM posts WHERE deleted_at IS NULL ORDER BY postId");
             $sqlQuery->execute();
             return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);  
         } catch (PDOException $err) {
@@ -51,13 +51,25 @@ class PostModel extends DatabaseController {
      */
     public function deletePost(int $postId) : void {
         try {
-            $sqlQuery = $this->dbConn->prepare("UPDATE posts SET is_deleted = 1 WHERE postId = :postId ");
+            $sqlQuery = $this->dbConn->prepare("UPDATE posts SET deleted_at = CURRENT_TIMESTAMP WHERE postId = :postId");
 
             $sqlQuery->bindParam(":postId", $postId);
 
             $sqlQuery->execute();
         } catch (PDOException $err) {
             throw new Exception("Failed to delete post: " . $err);
+        }
+    }
+
+    public function getComments() : array {
+        try {
+            $sqlQuery = $this->dbConn->prepare("SELECT * FROM comments WHERE deleted_at IS NULL");
+
+            $sqlQuery->execute();
+            
+            return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $err) {
+            throw new Exception("Failed to get comments: " . $err);
         }
     }
 }

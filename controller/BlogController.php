@@ -10,7 +10,6 @@ class BlogController extends BaseController {
         require_once 'model/PostModel.php';
         $this->postModel = new PostModel();
     }
-
     
     /**
      * Turns all of the posts in the database into divs with class blog-post.
@@ -21,6 +20,8 @@ class BlogController extends BaseController {
      */
     public function renderPosts() {
         $posts = array_reverse($this->postModel->getPosts());
+        $comments = $this->postModel->getComments();
+        
         foreach ($posts as $post) {
             ob_start(); // Start output buffering for constructing html code
             ?>
@@ -28,10 +29,41 @@ class BlogController extends BaseController {
                 <h4><?php echo $post['title']; ?></h4>
                 <sub><?php echo $post['author']; ?></sub>
                 <p><?php echo $post['messageContent']; ?></p>
-                <!-- <img src="views/assets/x-solid.svg" id="delete-svg"></img> -->
+                <div class="blog-controls"> <!-- There's supposed to be input validation as to who can see this but due to time contraints and it being out of the scope of what I want to implement, I have decided to just leave a note here. -->
+                    <img src="views/assets/x-solid.svg" class="blog-control-svg" id="delete-svg" style="opacity: 1;"></img>
+                    <img src="views/assets/pen-solid.svg" class="blog-control-svg" id="edit-svg">
+                    <img src="views/assets/comment-solid.svg" class="blog-control-svg" id="comment-svg">
+                </div>
             </div>
+            <div class="comments-div"> <?php
+                self::renderComments($post['postId'], $comments);
+          ?></div>
             <?php
             ob_end_flush(); // Flush the html to actually render it
+        }
+    }
+
+    /**
+     * Renders all of the comments to the screen. To be called only in renderPosts()
+     * 
+     * Takes in an int postId, array of comments and loops over the comments array, then pairs every relevant comment to the postId given. This then starts the output buffering and constructs the relevant html code. This code gets flushed which makes it visible on the website.
+     * 
+     * @param int $postId
+     * @param array $comments
+     * @return void
+     */
+    public function renderComments(int $postId, array $comments) {
+        foreach ($comments as $comment) {
+            if ($comment['postId'] == $postId) {
+                ob_start();
+                ?>
+                <div class="comment-div">
+                    <sub><?php echo $comment['author'] ?></sub>
+                    <sub><?php echo $comment['messageContent'] ?></sub>
+                </div>
+                <?php
+                ob_end_flush();
+            }
         }
     }
     
@@ -41,7 +73,7 @@ class BlogController extends BaseController {
      */
     public function createPost() : void {
         $this->postModel->createPost($_POST['title'], $_POST['author'], $_POST['messageContent']);
-        self::index();
+        parent::index('blog');
     }
 
     public function deletePost() : void {
