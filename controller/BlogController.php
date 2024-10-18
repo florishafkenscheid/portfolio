@@ -2,6 +2,8 @@
 
 include 'controller/DatabaseController.php';
 
+// Refactored with the help of Claude 3.5 Sonnet. I chose this LLM based on so called "LLM leaderboards", where Claude 3.5 Sonnet scored highest among its peers in terms of code refactoring. I gave Claude this file at commit "3d41d278" and told it to refactor it while letting its imagination run wild. It then proceeded to add a lot of very nice features like type safety and splitting this code into a BlogViewRenderer class and a BlogService class, which I told it to not do seeing as that would be way out of scope of my abilities. It proceeded to give me examples of how I could improve my methods which I then implemented into working code. The website was working correctly and without problems at the given commit, but I found the code hard to maintain and not readable, which is why I asked Claude for help.
+
 class BlogController extends BaseController { 
     private $dbConn;
 
@@ -13,10 +15,19 @@ class BlogController extends BaseController {
         $this->dbConn = $dbController->dbConnect();
     }
 
+    /**
+     * Calls parents index but with the correct path.
+     * @param mixed $path
+     * @return void
+     */
     public function index($path = 'blog') {
         parent::index($path);
     }
     
+    /**
+     * Renders all posts and comments onto the blog page.
+     * @return void
+     */
     public function renderPosts() {
         $posts = array_reverse($this->getPosts());
         $comments = $this->getComments();
@@ -27,6 +38,11 @@ class BlogController extends BaseController {
         }
     }
 
+    /**
+     * Renders a single post onto the blog page. For use in a loop.
+     * @param mixed $post
+     * @return void
+     */
     private function renderSinglePost($post) {
         ?>
         <div class="blog-post">
@@ -38,6 +54,12 @@ class BlogController extends BaseController {
         <?php
     }
 
+    /**
+     * Renders all of the comments of a given post.
+     * @param mixed $post
+     * @param mixed $comments
+     * @return void
+     */
     private function renderPostComments($post, $comments) {
         ?>
         <div class="comments-div">
@@ -52,6 +74,11 @@ class BlogController extends BaseController {
         <?php
     }
 
+    /**
+     * Renders a single comment given that comment as an input.
+     * @param mixed $comment
+     * @return void
+     */
     private function renderSingleComment($comment) {
         ?>
         <div class="comment-div">
@@ -62,6 +89,12 @@ class BlogController extends BaseController {
         <?php
     }
     
+    /**
+     * Renders the blog controls
+     * @param mixed $id
+     * @param mixed $type
+     * @return void
+     */
     private function renderBlogControls($id, $type) {
         // There's supposed to be input validation as to who can see this but due to time contraints and it being out of the scope of what I want to implement, I have decided to just leave a note here.
         $controls = [
@@ -87,6 +120,12 @@ class BlogController extends BaseController {
         <?php
     }
     
+    /**
+     * A method for the router to call, takes in a type and optional postId to validate input and then actually create said post or comment.
+     * @param mixed $type
+     * @param mixed $postId
+     * @return void
+     */
     public function create($type, $postId = 0) {
         if ($type === 'post' && $this->validatePostInput()) {
             $this->createPost();
@@ -97,6 +136,10 @@ class BlogController extends BaseController {
         $this->redirectToBlog();
     }
 
+    /**
+     * Creates a new post in the database.
+     * @return void
+     */
     private function createPost() {
         $query = "INSERT INTO posts (title, author, messageContent) 
                  VALUES (:title, :author, :content)";
@@ -108,6 +151,11 @@ class BlogController extends BaseController {
         ]);
     }
 
+    /**
+     * Creates a new comment in the database.
+     * @param mixed $postId
+     * @return void
+     */
     private function createComment($postId) {
         $query = "INSERT INTO comments (postId, author, messageContent) 
                  VALUES (:postId, :author, :content)";
@@ -119,6 +167,12 @@ class BlogController extends BaseController {
         ]);
     }
     
+    /**
+     * Soft deletes a post or comment depending on the given parameters with the id, also given in the parameters.
+     * @param mixed $type
+     * @param mixed $id
+     * @return void
+     */
     public function delete($type, $id) {
         // This is a soft delete, an "undo within x seconds" feature could be implemented but due to time constraints I will just leave this note here.
         $table = $type === 'post' ? 'posts' : 'comments';
@@ -131,16 +185,33 @@ class BlogController extends BaseController {
         $this->redirectToBlog();
     }
 
+    /**
+     * A method to be called by the router. Calls the correct view depending on given type.
+     * @param mixed $type
+     * @param mixed $id
+     * @return void
+     */
     public function edit($type, $id) {
         $view = $type === 'post' ? 'views/editpost.view.php' : 'views/editcomment.view.php'; // If type = post -> editpost else editcomment
         require $view;
     }
     
+    /**
+     * A method to be called by the router. Calls the comment view file. Takes in $type and $id which the view uses.
+     * @param mixed $type
+     * @param mixed $id
+     * @return void
+     */
     public function comment($type, $id) : void {
         // Remove title field
         require 'views/comment.view.php';
     }
     
+    /**
+     * Updates a post in the database given a postId. Takes $_POST data for the message content.
+     * @param mixed $postId
+     * @return void
+     */
     public function updatePost($postId) {
         $query = "UPDATE posts SET messageContent = :content 
                  WHERE postId = :postId";
@@ -153,6 +224,11 @@ class BlogController extends BaseController {
         $this->redirectToBlog();
     }
 
+    /**
+     * Updates a comment in the database given a commentId. Takes $_POST data for the message content.
+     * @param mixed $commentId
+     * @return void
+     */
     public function updateComment($commentId) {
         $query = "UPDATE comments SET messageContent = :content 
                  WHERE commentId = :commentId";
@@ -166,6 +242,10 @@ class BlogController extends BaseController {
     }
     
     // Getters
+    /**
+     * Gets all posts from the database which are not deleted, ordered by postId ascending.
+     * @return array
+     */
     public function getPosts() {
         $query = "SELECT postId, title, author, messageContent 
                  FROM posts 
@@ -176,22 +256,40 @@ class BlogController extends BaseController {
         // big one liner; executes the query made above, then fetches the answers to the query and returns this as an array.
     }
 
+    /**
+     * Gets a post from the database by postId.
+     * @param mixed $postId
+     * @return mixed
+     */
     public function getPostById($postId) {
         $query = "SELECT * FROM posts WHERE postId = :postId";
         return $this->executeQuery($query, [':postId' => $postId])->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Gets a comment from the database by commentId
+     * @param mixed $commentId
+     * @return mixed
+     */
     public function getCommentById($commentId) {
         $query = "SELECT * FROM comments WHERE commentId = :commentId";
         return $this->executeQuery($query, [':commentId' => $commentId])->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Gets all comments from the database which are not deleted.
+     * @return array
+     */
     public function getComments() {
         $query = "SELECT * FROM comments WHERE deleted_at IS NULL";
         return $this->executeQuery($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Input validation methods
+    /**
+     * Validates the $_POST data with regards to a post.
+     * @return bool
+     */
     private function validatePostInput() {
         return isset($_POST['title'], $_POST['author'], $_POST['messageContent']) &&
                !empty($_POST['title']) &&
@@ -199,6 +297,10 @@ class BlogController extends BaseController {
                !empty($_POST['messageContent']);
     }
     
+    /**
+     * Validates the $_POST data with regards to a comment.
+     * @return bool
+     */
     private function validateCommentInput() {
         return isset($_POST['author'], $_POST['messageContent']) &&
                !empty($_POST['author']) &&
@@ -206,6 +308,12 @@ class BlogController extends BaseController {
     }
 
     // DB methods
+    /**
+     * Simply removes repeated code everywhere with a clean function, consider it a mini query builder.
+     * @param mixed $query
+     * @param mixed $params
+     * @return bool|PDOStatement
+     */
     private function executeQuery($query, $params = []) {
         try {
             $sqlQuery = $this->dbConn->prepare($query);
@@ -218,6 +326,10 @@ class BlogController extends BaseController {
     }
 
     // Misc
+    /**
+     * Sets the URL back to /blog, if not done causes problems with rendering the correct view.
+     * @return never
+     */
     private function redirectToBlog() {
         header("Location: /blog");
         exit();
