@@ -105,38 +105,36 @@ class BlogController extends BaseController {
      * @throws \Exception
      * @return void
      */
-    public function create($type, $postId = 0) : void {
-        if ($type == 'post') {
-            if (isset($_POST['title']) && isset($_POST['author']) && isset($_POST['messageContent'])) {
-                try {
-                    $sqlQuery = $this->dbConn->prepare("INSERT INTO posts (title, author, messageContent) VALUES (:title, :author, :content)");
-
-                    $sqlQuery->bindParam(":title", $_POST['title']);
-                    $sqlQuery->bindParam(":author", $_POST['author']);
-                    $sqlQuery->bindParam(":content", $_POST['messageContent']);
-
-                    $sqlQuery->execute();
-                } catch (PDOException $err) {
-                    throw new Exception("Failed to create post: " . $err);
-                }
-            }
-        } elseif ($type == 'comment') {
-            if (isset($_POST['author']) && isset($_POST['messageContent'])) {
-                try {
-                    $sqlQuery = $this->dbConn->prepare("INSERT INTO comments (postId, author, messageContent) VALUES (:postId, :author, :content)");
-
-                    $sqlQuery->bindParam(":postId", $postId);
-                    $sqlQuery->bindParam(":author", $_POST['author']);
-                    $sqlQuery->bindParam(":content", $_POST['messageContent']);
-
-                    $sqlQuery->execute();
-                } catch (PDOException $err) {
-                    throw new Exception("Failed to create post: " . $err);
-                }
-            }
+    public function create($type, $postId = 0) {
+        if ($type === 'post' && $this->validatePostInput()) {
+            $this->createPost();
+        } elseif ($type === 'comment' && $this->validateCommentInput()) {
+            $this->createComment($postId);
         }
-        header("Location: /blog"); // Couldn't put this into the index function because it causes problems, so I have to write un-DRY code.. :(
-        exit();
+        
+        $this->redirectToBlog();
+    }
+
+    private function createPost() {
+        $query = "INSERT INTO posts (title, author, messageContent) 
+                 VALUES (:title, :author, :content)";
+                 
+        $this->executeQuery($query, [
+            ':title' => $_POST['title'],
+            ':author' => $_POST['author'],
+            ':content' => $_POST['messageContent']
+        ]);
+    }
+
+    private function createComment($postId) {
+        $query = "INSERT INTO comments (postId, author, messageContent) 
+                 VALUES (:postId, :author, :content)";
+                 
+        $this->executeQuery($query, [
+            ':postId' => $postId,
+            ':author' => $_POST['author'],
+            ':content' => $_POST['messageContent']
+        ]);
     }
     
     /**
@@ -253,6 +251,38 @@ class BlogController extends BaseController {
         } catch (PDOException $err) {
             throw new Exception("Failed to get comments: " . $err);
         }
+    }
+
+    // Input validation methods
+    private function validatePostInput() {
+        return isset($_POST['title'], $_POST['author'], $_POST['messageContent']) &&
+               !empty($_POST['title']) &&
+               !empty($_POST['author']) &&
+               !empty($_POST['messageContent']);
+    }
+    
+    private function validateCommentInput() {
+        return isset($_POST['author'], $_POST['messageContent']) &&
+               !empty($_POST['author']) &&
+               !empty($_POST['messageContent']);
+    }
+
+    // DB methods
+    private function executeQuery($query, $params = []) {
+        try {
+            $sqlQuery = $this->dbConn->prepare($query);
+            $sqlQuery->execute($params);
+            return $sqlQuery;
+        } catch (PDOException $err) {
+            echo "Database error: " . $err->getMessage();
+            exit();
+        }
+    }
+
+    // Misc
+    private function redirectToBlog() {
+        header("Location: /blog");
+        exit();
     }
 }
 
