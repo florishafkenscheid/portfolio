@@ -17,13 +17,6 @@ class BlogController extends BaseController {
         parent::index($path);
     }
     
-    /**
-     * Turns all of the posts in the database into divs with class blog-post.
-     * 
-     * First calls getPosts from the stored dbConn, then reverses the array which it got, so the posts are from latest -> oldest. Then turns on output buffering to construct html code, which it then flushes to send it to the blog.view. The whole proces of buffering is done in a loop so every post gets rendered.
-     * 
-     * @return void
-     */
     public function renderPosts() {
         $posts = array_reverse($this->getPosts());
         $comments = $this->getComments();
@@ -69,8 +62,8 @@ class BlogController extends BaseController {
         <?php
     }
     
-    // There's supposed to be input validation as to who can see this but due to time contraints and it being out of the scope of what I want to implement, I have decided to just leave a note here.
     private function renderBlogControls($id, $type) {
+        // There's supposed to be input validation as to who can see this but due to time contraints and it being out of the scope of what I want to implement, I have decided to just leave a note here.
         $controls = [
             ['icon' => 'x-solid.svg', 'title' => 'Delete', 'id' => 'delete-svg'],
             ['icon' => 'pen-solid.svg', 'title' => 'Edit', 'id' => 'edit-svg'],
@@ -94,17 +87,6 @@ class BlogController extends BaseController {
         <?php
     }
     
-    /**
-     * Takes $_POST info to construct a new entry in the posts table. 
-     * 
-     * Takes in the info from the $_POST variable and checks type with arguments sends sqlQuery to the DB, then refreshes the page so the changes actually load.
-     * 
-     * @param string $title
-     * @param string $author
-     * @param string $messageContent
-     * @throws \Exception
-     * @return void
-     */
     public function create($type, $postId = 0) {
         if ($type === 'post' && $this->validatePostInput()) {
             $this->createPost();
@@ -137,37 +119,16 @@ class BlogController extends BaseController {
         ]);
     }
     
-    /**
-     * Soft deletes a post from the posts table given a postId.
-     * @param int $postId
-     * @throws \Exception
-     * @return void
-     */
-    public function delete($type, $id) : void {
+    public function delete($type, $id) {
         // This is a soft delete, an "undo within x seconds" feature could be implemented but due to time constraints I will just leave this note here.
-        if ($type == 'post') {
-            try {
-                $sqlQuery = $this->dbConn->prepare("UPDATE posts SET deleted_at = CURRENT_TIMESTAMP WHERE postId = :postId");
-
-                $sqlQuery->bindParam(":postId", $id);
-
-                $sqlQuery->execute();
-            } catch (PDOException $err) {
-                throw new Exception("Failed to delete post: " . $err);
-            }
-        } elseif ($type == 'comment') {
-            try {
-                $sqlQuery = $this->dbConn->prepare("UPDATE comments SET deleted_at = CURRENT_TIMESTAMP where commentId = :commentId");
-
-                $sqlQuery->bindParam(":commentId", $id);
-
-                $sqlQuery->execute();
-            } catch (PDOException $err) {
-                throw new Exception("Failed to delete comment: " . $err);
-            }
-        }
-        header("Location: /blog");
-        exit();
+        $table = $type === 'post' ? 'posts' : 'comments';
+        $idField = $type === 'post' ? 'postId' : 'commentId';
+        
+        $query = "UPDATE $table SET deleted_at = CURRENT_TIMESTAMP 
+                    WHERE $idField = :id";
+                    
+        $this->executeQuery($query, [':id' => $id]);
+        $this->redirectToBlog();
     }
 
     public function edit($type, $id) {
