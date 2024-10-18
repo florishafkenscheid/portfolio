@@ -4,6 +4,8 @@ if ($path == 'error') {
     $headerTitle = '404 Page not found';
 }
 
+$uri = explode('/', $_SERVER['REQUEST_URI']);
+$title = ucfirst($uri[1]);
 ?>
 
 <!DOCTYPE html>
@@ -12,12 +14,12 @@ if ($path == 'error') {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Discover the portfolio of a dedicated web development student showcasing innovative projects, skills, and a passion for creating dynamic web solutions."> <!-- AI Generated; https://ahrefs.com/writing-tools/meta-description-generator prompt: Portfolio for web development student-->
-        <title><?php echo $title;?></title> <!-- Set the title to what was passed in the Controller -->
-        <link href="./views/assets/light-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: light)">
-        <link href="./views/assets/dark-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: dark)">
-        <link rel="stylesheet" href="./views/css/style.css">
+        <title><?php echo $title;?></title> <!-- Set the title to what was passed at the top of this file, with the first letter being uppercase. -->
+        <link href="/views/assets/light-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: light)">
+        <link href="/views/assets/dark-mode-favicon.ico" rel="icon" media="(prefers-color-scheme: dark)">
+        <link rel="stylesheet" href="/views/css/style.css">
 
-        <script type="module" src="./views/js/main.js" defer></script>
+        <script type="module" src="/views/js/main.js" defer></script>
         <script>
             /*to prevent Firefox FOUC, this must be here*/
         </script>

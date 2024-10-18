@@ -508,6 +508,10 @@ Excuse this ugly mess.
     transition: background-color 1s ease-in-out, text-shadow 1s ease-in-out; /* Text-shadow transition werkt niet goed mee :( */
 }
 
+.form textarea:focus {
+    outline: none;
+}
+
 @media only screen and (max-width: 400px) {
     .form textarea {
         width: 12rem;
@@ -532,7 +536,7 @@ Excuse this ugly mess.
 }
 
 .posts-div {
-    height: 100%;
+    height: 120%;
 
     display: flex;
     flex-direction: column;
@@ -550,7 +554,7 @@ Excuse this ugly mess.
         width: 50%;
     }
 
-    .form-div {
+    #blog-form-div {
         width: 50%;
     }
 }
@@ -564,12 +568,12 @@ Excuse this ugly mess.
         width: 100%;
     }
 
-    .form-div {
+    #blog-form-div {
         width: 100%;
     }
 }
 
-.blog-post {
+.blog-post, .comment-div {
     position: relative;
 
     color: var(--text-color);
@@ -599,13 +603,44 @@ Excuse this ugly mess.
     margin: 3px 0 8px 0;
 }
 
-#delete-svg {
-    position: absolute;
-    bottom: 2px;
-    left: 2px;
+.blog-controls {
+    margin: 0.5rem 0;
 
-    width: 8px;
-    height: 8px;
+    display: flex;
+
+    flex-direction: row;
+    gap: 10px;
+}
+
+.blog-control-svg {
+    width: 10px;
+    height: 10px;
 
     filter: var(--svg-filter);
+}
+
+#delete-svg {
+    position: relative;
+    bottom: -1px;
+}
+
+#comment-svg {
+    width: 11px;
+    height: 11px;
+}
+
+.comments-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: -0.5%;
+    margin-bottom: 2%;
+}
+
+.comment-div {
+    margin: 0;
+}
+
+.comment-div > sub {
+    margin: 5px 0;
 }
