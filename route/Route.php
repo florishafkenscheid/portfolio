@@ -17,7 +17,7 @@ class Route {
         $class = explode('/', $uri['controller']); // '.', 'controller', 'ProjectsController'
         include $uri['controller'] . '.php'; //'./controller/ProjectsController.php'
         if (class_exists($class[2])) {
-            $controller = $class[2];
+            $controller = new $class[2];
             $method = $uri['method'];
             $args = $uri['args'];
 
@@ -27,8 +27,8 @@ class Route {
              * if there are no args, then call the controller with the corresponding method, without the args.
              */
 
-            $args ? $controller::{$method}($args) :
-                $controller::{$method}();
+            $args ? (new $controller)->{$method}(...$args) :
+                (new $controller)->{$method}();
         }
     }
 
@@ -47,6 +47,12 @@ class Route {
      */
     private static function processURI() : array {;
         $controllerPart = self::getURI()[1] ?? '';
+        $method = self::getURI()[2] ?? '';
+        $numParts = count(self::getURI());
+        $argsPart = [];
+        for ($i = 3; $i < $numParts; $i++) {
+            $argsPart[] = self::getURI()[$i] ?? '';
+        }
 
         // Create defaults if not set.
         $controller = !empty($controllerPart) ?
@@ -54,11 +60,11 @@ class Route {
             './controller/'.ucfirst($controllerPart).'Controller' :
             './controller/HomeController';
 
-        $method = 'index';
+        $method = !empty($method) ? $method : 'index';
 
-        $args = !empty($controllerPart) ?
-            $controllerPart :
-            'home';
+        $args = !empty($argsPart) ?
+            $argsPart :
+            [];
 
         return [
             'controller' => $controller,

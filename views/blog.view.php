@@ -6,7 +6,7 @@ require './views/layout/head.php';
 
 <div class="blog">
     <div class="form-div" id="blog-form-div">
-        <form method="post" class="form" id="blog-form" action="">
+        <form method="post" class="form" id="blog-form" action="/blog/create">
             <h3>Post new message</h3>
             <label for="author">Author</label>
             <textarea id="author" name="author"  maxlength="64" required></textarea>

@@ -7,7 +7,7 @@ class BaseController {
      * @param string $path
      * @return void
      */
-    public static function index(string $path = 'home') {
+    public function index(string $path = 'home') {
         $title = $path;
         require "./views/$path.view.php";
     }

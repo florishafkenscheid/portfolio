@@ -85,6 +85,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }, opacityTimeoutTime);
 });
 
+// function deletePost(post) {
+
+// }
+
+// function editPost(post) {
+
+// }
+
+// function commentOnPost(post) {
+
+// }
+
+// window.deletePost = deletePost;
+// window.editPost = editPost;
+// window.commentOnPost = commentOnPost;
+// Commented because I decided to use my router how its intended..
+
+document.querySelectorAll('.blog-control-svg').forEach((svg) => {
+    svg.addEventListener('click', function () {
+        const action = this.title.toLowerCase(); // delete, edit, comment
+        const postId = this.getAttribute('data-id');
+
+        window.location.href = `/blog/${action}/${postId}`;
+    });
+});
+
 window.toggleTheme = toggleTheme;
 window.transitionToPage = transitionToPage;
 

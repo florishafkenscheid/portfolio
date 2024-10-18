@@ -4,13 +4,12 @@
  * Controls the database connection. Connects on __construct and stores the connection.
  */
 class DatabaseController {
-    protected $dbConn;
-
     /**
-     * Connects to the database and stores the connection in the protected $dbConn variable
+     * Connects to the database and stores the connection and returns the connection
      * @throws \Exception
+     * @return PDO
      */
-    function __construct() { // Return PDO for later usage, instead of doing everything in 1 method.
+    function dbConnect() : PDO { // Return PDO for later usage, instead of doing everything in 1 method.
         $servername = "localhost";
         $username = "root";
         $dbName = "profileapp";
@@ -19,7 +18,7 @@ class DatabaseController {
             $conn = new PDO("mysql:host=$servername;dbname=$dbName", $username);
 
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->dbConn = $conn;
+            return $conn;
         } catch (PDOException $err) {
             $conn->rollBack();
             throw new Exception("Failed to connect to database: " . $err);
@@ -44,10 +43,6 @@ class DatabaseController {
             'email' => $queryString[1],
             'messageContent' => $queryString[2]
         ];
-    }
-
-    public function getDatabaseConnection() : PDO {
-        return $this->dbConn;
     }
 }
 // $queryString = self::processQueryString();
