@@ -25,73 +25,73 @@ class BlogController extends BaseController {
      * @return void
      */
     public function renderPosts() {
-        $posts = array_reverse(self::getPosts());
-        $comments = self::getComments();
+        $posts = array_reverse($this->getPosts());
+        $comments = $this->getComments();
         
         foreach ($posts as $post) {
-            ob_start(); // Start output buffering for constructing html code
-            ?>
-            <div class="blog-post">
-                <h4><?php echo $post['title']; ?></h4>
-                <sub><?php echo $post['author']; ?></sub>
-                <p><?php echo $post['messageContent']; ?></p>
-                <?php self::renderBlogPostControls($post); ?>
-            </div>
-            <div class="comments-div"> <?php
-                self::renderComments($post, $comments);
-          ?></div>
-            <?php
-            ob_end_flush(); // Flush the html to actually render it
+            $this->renderSinglePost($post);
+            $this->renderPostComments($post, $comments);
         }
     }
 
-    // There's supposed to be input validation as to who can see this but due to time contraints and it being out of the scope of what I want to implement, I have decided to just leave a note here.
-    public function renderBlogPostControls($post) {
-        ob_start(); ?>
-        <div class="blog-controls"> 
-            <img src="/views/assets/x-solid.svg" class="blog-control-svg" id="delete-svg" title="Delete" data-id="<?php echo $post['postId']; ?>" data-type="post">
-            <img src="/views/assets/pen-solid.svg" class="blog-control-svg" id="edit-svg" title="Edit" data-id="<?php echo $post['postId']; ?>" data-type="post">
-            <img src="/views/assets/comment-solid.svg" class="blog-control-svg" id="comment-svg" title="Comment" data-id="<?php echo $post['postId']; ?>" data-type="post">
+    private function renderSinglePost($post) {
+        ?>
+        <div class="blog-post">
+            <h4><?php echo htmlspecialchars($post['title']); ?></h4>
+            <sub><?php echo htmlspecialchars($post['author']); ?></sub>
+            <p><?php echo htmlspecialchars($post['messageContent']); ?></p>
+            <?php $this->renderBlogControls($post['postId'], 'post'); ?>
         </div>
-
         <?php
-        ob_end_flush();
     }
 
-    public function renderBlogCommentControls($comment) {
-        ob_start(); ?>
-        <div class="blog-controls"> 
-            <img src="/views/assets/x-solid.svg" class="blog-control-svg" id="delete-svg" title="Delete" data-id="<?php echo $comment['commentId']; ?>" data-type="comment">
-            <img src="/views/assets/pen-solid.svg" class="blog-control-svg" id="edit-svg" title="Edit" data-id="<?php echo $comment['commentId']; ?>" data-type="comment">
-        </div>
-
+    private function renderPostComments($post, $comments) {
+        ?>
+        <div class="comments-div">
         <?php
-        ob_end_flush();
-    }
-
-    /**
-     * Renders all of the comments to the screen. To be called only in renderPosts()
-     * 
-     * Takes in an array posts, array of comments and loops over the comments array, then pairs every relevant comment to the postId given. This then starts the output buffering and constructs the relevant html code. This code gets flushed which makes it visible on the website.
-     * 
-     * @param array $post
-     * @param array $comments
-     * @return void
-     */
-    public function renderComments(array $post, array $comments) {
         foreach ($comments as $comment) {
             if ($comment['postId'] == $post['postId']) {
-                ob_start();
-                ?>
-                <div class="comment-div">
-                    <sub><?php echo $comment['author'] ?></sub>
-                    <sub><?php echo $comment['messageContent'] ?></sub>
-                    <?php self::renderBlogCommentControls($comment); ?>
-                </div>
-                <?php
-                ob_end_flush();
+                $this->renderSingleComment($comment);
             }
         }
+        ?>
+        </div>
+        <?php
+    }
+
+    private function renderSingleComment($comment) {
+        ?>
+        <div class="comment-div">
+            <sub><?php echo htmlspecialchars($comment['author']) ?></sub>
+            <sub><?php echo htmlspecialchars($comment['messageContent']) ?></sub>
+            <?php $this->renderBlogControls($comment['commentId'], 'comment'); ?>
+        </div>
+        <?php
+    }
+    
+    // There's supposed to be input validation as to who can see this but due to time contraints and it being out of the scope of what I want to implement, I have decided to just leave a note here.
+    private function renderBlogControls($id, $type) {
+        $controls = [
+            ['icon' => 'x-solid.svg', 'title' => 'Delete', 'id' => 'delete-svg'],
+            ['icon' => 'pen-solid.svg', 'title' => 'Edit', 'id' => 'edit-svg'],
+        ];
+        
+        // Add comment button only for posts
+        if ($type === 'post') {
+            $controls[] = ['icon' => 'comment-solid.svg', 'title' => 'Comment', 'id' => 'comment-svg'];
+        }
+        ?>
+        <div class="blog-controls"> 
+            <?php foreach ($controls as $control): ?>
+                <img src="/views/assets/<?php echo $control['icon']; ?>" 
+                     class="blog-control-svg" 
+                     id="<?php echo $control['id']; ?>" 
+                     title="<?php echo $control['title']; ?>" 
+                     data-id="<?php echo $id; ?>" 
+                     data-type="<?php echo $type; ?>">
+            <?php endforeach; ?>
+        </div>
+        <?php
     }
     
     /**
