@@ -35,15 +35,6 @@ class DatabaseController {
         }
     }
     
-    private static function processQueryString(): array {
-        $queryString = explode('&', $_SERVER['QUERY_STRING']);
-        
-        return [
-            'name' => $queryString[0],
-            'email' => $queryString[1],
-            'messageContent' => $queryString[2]
-        ];
-    }
 }
 // $queryString = self::processQueryString();
 
@@ -64,3 +55,12 @@ class DatabaseController {
 
 // $conn->commit();
 // echo "New record created successfully";
+// private static function processQueryString(): array {
+//     $queryString = explode('&', $_SERVER['QUERY_STRING']);
+    
+//     return [
+//         'name' => $queryString[0],
+//         'email' => $queryString[1],
+//         'messageContent' => $queryString[2]
+//     ];
+// }
