@@ -170,13 +170,9 @@ class BlogController extends BaseController {
         exit();
     }
 
-    public function edit($type, $id) : void {
-        // Edit the form fields
-        if ($type == 'post') {
-            require 'views/editpost.view.php';
-        } else {
-           require 'views/editcomment.view.php';
-        }
+    public function edit($type, $id) {
+        $view = $type === 'post' ? 'views/editpost.view.php' : 'views/editcomment.view.php'; // If type = post -> editpost else editcomment
+        require $view;
     }
     
     public function comment($type, $id) : void {
@@ -184,30 +180,28 @@ class BlogController extends BaseController {
         require 'views/comment.view.php';
     }
     
-    public function updatePost($postId) : never {
-        try {
-        $sqlQuery = $this->dbConn->prepare("UPDATE posts SET messageContent = :content WHERE postId = :postId");
-        $sqlQuery->bindParam(":content", $_POST['messageContent']);
-        $sqlQuery->bindParam(":postId", $postId);
-        $sqlQuery->execute();
-        } catch (PDOException $err) {
-            "Failed to update post: " . $err;
-        }
-        header("Location: /blog");
-        exit();
+    public function updatePost($postId) {
+        $query = "UPDATE posts SET messageContent = :content 
+                 WHERE postId = :postId";
+                 
+        $this->executeQuery($query, [
+            ':content' => $_POST['messageContent'],
+            ':postId' => $postId
+        ]);
+        
+        $this->redirectToBlog();
     }
 
-    public function updateComment($commentId) : never {
-        try {
-        $sqlQuery = $this->dbConn->prepare("UPDATE comments SET messageContent = :content WHERE commentId = :commentId");
-        $sqlQuery->bindParam(":content", $_POST['messageContent']);
-        $sqlQuery->bindParam(":commentId", $commentId);
-        $sqlQuery->execute();
-        } catch (PDOException $err) {
-            "Failed to update post: " . $err;
-        }
-        header("Location: /blog");
-        exit();
+    public function updateComment($commentId) {
+        $query = "UPDATE comments SET messageContent = :content 
+                 WHERE commentId = :commentId";
+                 
+        $this->executeQuery($query, [
+            ':content' => $_POST['messageContent'],
+            ':commentId' => $commentId
+        ]);
+        
+        $this->redirectToBlog();
     }
     
     // Getters
