@@ -211,46 +211,29 @@ class BlogController extends BaseController {
     }
     
     // Getters
-    
-    /**
-     * Sets up the query which fetches the title, author and messageContent from posts that aren't deleted. It then returns this info as an array.
-     * @throws \Exception
-     * @return array
-     */
-    public function getPosts() : array {
-        try {
-            $sqlQuery = $this->dbConn->prepare("SELECT postId, title, author, messageContent FROM posts WHERE deleted_at IS NULL ORDER BY postId");
-            $sqlQuery->execute();
-            return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);  
-        } catch (PDOException $err) {
-            throw new Exception("Failed to get posts: " . $err);
-        }
+    public function getPosts() {
+        $query = "SELECT postId, title, author, messageContent 
+                 FROM posts 
+                 WHERE deleted_at IS NULL 
+                 ORDER BY postId";
+                 
+        return $this->executeQuery($query)->fetchAll(PDO::FETCH_ASSOC);
+        // big one liner; executes the query made above, then fetches the answers to the query and returns this as an array.
     }
 
     public function getPostById($postId) {
-        $sqlQuery = $this->dbConn->prepare("SELECT * FROM posts WHERE postId = :postId");
-        $sqlQuery->bindParam(":postId", $postId);
-        $sqlQuery->execute();
-        return $sqlQuery->fetch(PDO::FETCH_ASSOC);
+        $query = "SELECT * FROM posts WHERE postId = :postId";
+        return $this->executeQuery($query, [':postId' => $postId])->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getCommentById($commentId) {
-        $sqlQuery = $this->dbConn->prepare("SELECT * FROM comments WHERE commentId = :commentId");
-        $sqlQuery->bindParam(":commentId", $commentId);
-        $sqlQuery->execute();
-        return $sqlQuery->fetch(PDO::FETCH_ASSOC);
+        $query = "SELECT * FROM comments WHERE commentId = :commentId";
+        return $this->executeQuery($query, [':commentId' => $commentId])->fetch(PDO::FETCH_ASSOC);
     }
-    
-    public function getComments() : array {
-        try {
-            $sqlQuery = $this->dbConn->prepare("SELECT * FROM comments WHERE deleted_at IS NULL");
 
-            $sqlQuery->execute();
-            
-            return $sqlQuery->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $err) {
-            throw new Exception("Failed to get comments: " . $err);
-        }
+    public function getComments() {
+        $query = "SELECT * FROM comments WHERE deleted_at IS NULL";
+        return $this->executeQuery($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Input validation methods
