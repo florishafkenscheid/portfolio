@@ -509,6 +509,10 @@ Excuse this ugly mess.
     transition: background-color 1s ease-in-out, text-shadow 1s ease-in-out; /* Text-shadow transition werkt niet goed mee :( */
 }
 
+.form textarea:focus {
+    outline: none;
+}
+
 @media only screen and (max-width: 400px) {
     .form textarea {
         width: 12rem;

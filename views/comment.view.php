@@ -6,12 +6,10 @@ require './views/layout/head.php';
 
 <div class="blog">
     <div class="form-div" id="blog-form-div">
-        <form method="post" class="form" id="blog-form" action="/blog/create/post">
-            <h3>Post new message</h3>
+        <form method="post" class="form" id="blog-form" action="/blog/create/comment/<?php echo $id ?>">
+            <h3>Comment on message</h3>
             <label for="author">Author</label>
             <textarea id="author" name="author"  maxlength="64" required></textarea>
-            <label for="title">Title</label>
-            <textarea id="title" name="title"  maxlength="32" required></textarea>
             <label for="messageContent">Message</label>
             <textarea id="messageContent" name="messageContent" required></textarea>
             <input type="submit" value="Post">

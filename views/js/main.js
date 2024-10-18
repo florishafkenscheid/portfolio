@@ -106,8 +106,9 @@ document.querySelectorAll('.blog-control-svg').forEach((svg) => {
     svg.addEventListener('click', function () {
         const action = this.title.toLowerCase(); // delete, edit, comment
         const postId = this.getAttribute('data-id');
+        const type = this.getAttribute('data-type');
 
-        window.location.href = `/blog/${action}/${postId}`;
+        window.location.href = `/blog/${action}/${type}/${postId}`;
     });
 });
 

@@ -8,7 +8,6 @@ class BaseController {
      * @return void
      */
     public function index(string $path = 'home') {
-        $title = $path;
         require "./views/$path.view.php";
     }
 }
