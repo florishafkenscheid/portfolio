@@ -1,3 +1,7 @@
 <?php
 
-class ProjectsController extends BaseController { }
+class ProjectsController extends BaseController { 
+    public function index(string $path = 'projects') {
+        parent::index($path);
+    }
+}

@@ -1,7 +1,13 @@
 <?php
 
 include './controller/BaseController.php';
+include './controller/BlogController.php';
+include './controller/ContactController.php';
 include './controller/ErrorController.php';
+include './controller/HomeController.php';
+include './controller/InfoController.php';
+include './controller/ProjectsController.php';
+
 
 // Credits to https://dev.to/mvinhas/simple-routing-system-for-a-php-mvc-application-16f7
 
@@ -15,10 +21,10 @@ class Route {
      */
     public static function contentToRender() : void {
         $uri = self::processURI(); // localhost:8888/projects
-        $class = explode('/', $uri['controller']); // '.', 'controller', 'ProjectsController'
-        include $uri['controller'] . '.php'; //'./controller/ProjectsController.php'
+        $class = explode('/', $uri['controller']); // '.controller/ProjectsController'
+
         if (class_exists($class[2])) {
-            $controller = new $class[2];
+            $controller = $class[2];
             $method = $uri['method'];
             $args = $uri['args'];
 
@@ -31,7 +37,6 @@ class Route {
             $args ? (new $controller)->{$method}(...$args) :
                 (new $controller)->{$method}();
         } else {
-            // TODO: Add 404 page here.
             $errorController = new ErrorController();
             $errorController->index('error');
         }

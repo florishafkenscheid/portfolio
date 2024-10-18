@@ -1,11 +1,7 @@
 <?php
-// Check if its the error page and edit the header accordingly.
-if ($path == 'error') {
-    $headerTitle = '404 Page not found';
-}
-
 $uri = explode('/', $_SERVER['REQUEST_URI']);
 $title = ucfirst($uri[1]);
+$headerTitle = !empty($headerTitle) ? $headerTitle : 'Floris Hafkenscheid';
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +35,7 @@ $title = ucfirst($uri[1]);
                         </div>
                     </div>
                     <header class="siteHeader">
-                        <h1 class="nameHeader">Floris Hafkenscheid</h1>
+                        <h1 class="nameHeader"><?php echo $headerTitle ?></h1>
                         <nav class="navbar">
                             <ul>
                                 <li>
