@@ -20,7 +20,6 @@ class DatabaseController {
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conn;
         } catch (PDOException $err) {
-            $conn->rollBack();
             throw new Exception("Failed to connect to database: " . $err);
             // Ik heb overwogen om hier een "create table posts if not exists" in de error handling te maken maar heb besloten dit niet te doen omdat bij het instellen van de webpagina ook database prep hoort.
         }        
