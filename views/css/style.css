@@ -597,6 +597,7 @@ Excuse this ugly mess.
 
 .blog-post > h4, .blog-post > p {
     margin: 5px 0;
+    word-wrap: anywhere;
 }
 
 .blog-post > sub {

@@ -9,7 +9,7 @@ require './views/layout/head.php';
         <form method="post" class="form" id="blog-form" action="/blog/create/comment/<?php echo $id ?>">
             <h3>Comment on message</h3>
             <label for="author">Author</label>
-            <textarea id="author" name="author"  maxlength="64" required></textarea>
+            <textarea id="author" name="author"  maxlength="32" required></textarea>
             <label for="messageContent">Message</label>
             <textarea id="messageContent" name="messageContent" required></textarea>
             <input type="submit" value="Post">

@@ -9,9 +9,9 @@ require './views/layout/head.php';
         <form method="post" class="form" id="blog-form" action="/blog/create/post">
             <h3>Post new message</h3>
             <label for="author">Author</label>
-            <textarea id="author" name="author"  maxlength="64" required></textarea>
+            <textarea id="author" name="author"  maxlength="32" required></textarea>
             <label for="title">Title</label>
-            <textarea id="title" name="title"  maxlength="32" required></textarea>
+            <textarea id="title" name="title"  maxlength="60" required></textarea>
             <label for="messageContent">Message</label>
             <textarea id="messageContent" name="messageContent" required></textarea>
             <input type="submit" value="Post">
