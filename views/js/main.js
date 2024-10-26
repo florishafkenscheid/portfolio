@@ -112,6 +112,12 @@ document.querySelectorAll('.blog-control-svg').forEach((svg) => {
     });
 });
 
+const projectsName = document.querySelectorAll('.project > p');
+
+projectsName.forEach((projectsName, index) => {
+    projectsName.style.left = `${5 + index * 15}%`;
+});
+
 window.toggleTheme = toggleTheme;
 window.transitionToPage = transitionToPage;
 
