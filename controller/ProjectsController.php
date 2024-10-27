@@ -20,8 +20,8 @@ class ProjectsController extends BaseController {
             <a href="/projects/project/<?php echo $project['id']; ?>" class="project">
                 <p><?php echo htmlspecialchars($project['title']); ?></p>
                 <img 
-                    src="<?php echo htmlspecialchars($project['image_path']); ?>" 
-                    alt="Code preview for <?php echo htmlspecialchars($project['name']); ?>"
+                    src="<?php echo htmlspecialchars($project['image_path']); ?>"
+                    alt="Code preview for <?php echo htmlspecialchars($project['title']); ?>"
                     class="project-preview">
             </a>
             <?php endforeach; ?>

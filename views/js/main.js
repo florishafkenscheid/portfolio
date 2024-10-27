@@ -113,9 +113,17 @@ document.querySelectorAll('.blog-control-svg').forEach((svg) => {
 });
 
 const projectsName = document.querySelectorAll('.project > p');
+const projectPreview = document.querySelectorAll('.project-preview');
 
-projectsName.forEach((projectsName, index) => {
-    projectsName.style.left = `${5 + index * 15}%`;
+projectsName.forEach((projectName, index) => {
+    const indexMultiplied = index*15;
+    if (index < 4) {
+        projectName.style.left = `${5 + indexMultiplied}%`;
+        projectPreview[index].style.left = `${indexMultiplied+20}%`;
+    } else {
+        projectName.style.left = `${5 + indexMultiplied}%`;
+        projectPreview[index].style.left = `${indexMultiplied-20}%`;
+    }
 });
 
 window.toggleTheme = toggleTheme;

@@ -28,7 +28,33 @@ create table projects (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     image_path VARCHAR(255) NOT NULL,
-    github_url VARCHAR(255),
+    github_url VARCHAR(255)
+);
+
+insert into projects (
+    title,
+    image_path,
+    github_url
+) VALUES 
+(
+    'Factorio Zone Bot',
+    '/views/assets/fz-bot.png',
+    'https://github.com/florishafkenscheid/fz-bot'
+), 
+(
+    'Lobby',
+    '/views/assets/lobby.png',
+    'https://github.com/florishafkenscheid/lobby'
+), 
+(
+    'WorldManager',
+    '/views/assets/worldmanager.png',
+    'https://github.com/florishafkenscheid/worldmanager'
+), 
+(
+    'PluginHider',
+    '/views/assets/pluginhider.png',
+    'https://github.com/florishafkenscheid/pluginhider'
 );
 
 insert into projects (
@@ -36,7 +62,7 @@ insert into projects (
     image_path,
     github_url
 ) VALUES (
-    'fz-bot',
-    '/views/assets/fz-bot.png',
-    'https://github.com/florishafkenscheid/fz-bot'
-);
+    'worldmanager 4',
+    '/views/assets/worldmanager.png',
+    'https://github.com/florishafkenscheid/worldmanager'
+)
