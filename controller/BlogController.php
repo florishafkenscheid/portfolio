@@ -84,7 +84,7 @@ class BlogController extends BaseController {
         <div class="comment-div">
             <sub><?php echo htmlspecialchars($comment['author']) ?></sub>
             <sub><?php echo htmlspecialchars($comment['messageContent']) ?></sub>
-            <?php $this->renderBlogControls($comment['commentId'], 'comment'); ?>
+            <?php $this->renderBlogControls($comment['id'], 'comment'); ?>
         </div>
         <?php
     }
@@ -157,11 +157,11 @@ class BlogController extends BaseController {
      * @return void
      */
     private function createComment($id) {
-        $query = "INSERT INTO comments (id, author, messageContent) 
-                 VALUES (:id, :author, :content)";
+        $query = "INSERT INTO comments (postId, author, messageContent) 
+                 VALUES (:postId, :author, :content)";
                  
         $this->executeQuery($query, [
-            ':id' => $id,
+            ':postId' => $id,
             ':author' => $_POST['author'],
             ':content' => $_POST['messageContent']
         ]);
@@ -176,7 +176,7 @@ class BlogController extends BaseController {
     public function delete($type, $id) {
         // This is a soft delete, an "undo within x seconds" feature could be implemented but due to time constraints I will just leave this note here.
         $table = $type === 'post' ? 'posts' : 'comments';
-        $idField = $type === 'post' ? 'id' : 'commentId';
+        $idField = $type === 'post' ? 'id' : 'id';
         
         $query = "UPDATE $table SET deleted_at = CURRENT_TIMESTAMP 
                     WHERE $idField = :id";
@@ -225,17 +225,17 @@ class BlogController extends BaseController {
     }
 
     /**
-     * Updates a comment in the database given a commentId. Takes $_POST data for the message content.
-     * @param mixed $commentId
+     * Updates a comment in the database given a id. Takes $_POST data for the message content.
+     * @param mixed $id
      * @return void
      */
-    public function updateComment($commentId) {
+    public function updateComment($id) {
         $query = "UPDATE comments SET messageContent = :content 
-                 WHERE commentId = :commentId";
+                 WHERE id = :id";
                  
         $this->executeQuery($query, [
             ':content' => $_POST['messageContent'],
-            ':commentId' => $commentId
+            ':id' => $id
         ]);
         
         $this->redirectToBlog();
@@ -267,13 +267,13 @@ class BlogController extends BaseController {
     }
 
     /**
-     * Gets a comment from the database by commentId
-     * @param mixed $commentId
+     * Gets a comment from the database by id
+     * @param mixed $id
      * @return mixed
      */
-    public function getCommentById($commentId) {
-        $query = "SELECT * FROM comments WHERE commentId = :commentId";
-        return $this->executeQuery($query, [':commentId' => $commentId])->fetch(PDO::FETCH_ASSOC);
+    public function getCommentById($id) {
+        $query = "SELECT * FROM comments WHERE id = :id";
+        return $this->executeQuery($query, [':id' => $id])->fetch(PDO::FETCH_ASSOC);
     }
 
     /**

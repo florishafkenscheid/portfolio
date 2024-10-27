@@ -1,3 +1,4 @@
+-- Active: 1728375022408@@localhost@3306@floris_portfolio
 create database if not exists floris_portfolio;
 
 use floris_portfolio;
