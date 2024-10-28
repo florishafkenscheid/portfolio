@@ -29,6 +29,23 @@ class ProjectsController extends BaseController {
         <?php
     }
 
+    // Individual projects, I know this isn't automated and whenever I add a new project I need to add it manually, but I dont like seeing /projects/project/{projectName} in my URL, so I decided to just do /projects/{projectName}
+    public function factorio(string $path = 'fz-bot') {
+        parent::index($path);
+    }
+
+    public function lobby(string $path = 'lobby') {
+        parent::index($path);
+    }
+
+    public function worldmanager(string $path = 'worldmanager') {
+        parent::index($path);
+    }
+
+    public function pluginhider(string $path = 'pluginhider') {
+        parent::index($path);
+    }
+
     // Getters
     public function getProjects() : array {
         $query = "SELECT id, title, image_path

@@ -338,7 +338,7 @@ Excuse this ugly mess.
 /* Projects page CSS */
 .projects-div {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     margin: -1rem;
     overflow: hidden scroll;
 
@@ -348,9 +348,10 @@ Excuse this ugly mess.
 .project {
     position: relative;
     color: var(--text-color);
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
+    z-index: 0;
     transition: border-top-color 0.5s ease, 
                 border-bottom-color 0.5s ease, 
                 background-color 0.5s ease;
@@ -369,8 +370,8 @@ Excuse this ugly mess.
 .project > p {
     font-weight: bold;
     position: relative;
-    margin: 2rem 0;
-    z-index: 1;
+    margin: 1.5rem 0;
+    z-index: 2;
 }
 
 .project-preview {
@@ -384,7 +385,7 @@ Excuse this ugly mess.
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     object-fit: cover;
-    z-index: 0;
+    z-index: 1;
 }
 
 .project:hover .project-preview {
