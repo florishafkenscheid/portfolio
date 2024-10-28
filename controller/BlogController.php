@@ -49,7 +49,7 @@ class BlogController extends BaseController {
             <h4><?php echo htmlspecialchars($post['title']); ?></h4>
             <sub><?php echo htmlspecialchars($post['author']); ?></sub>
             <p><?php echo htmlspecialchars($post['messageContent']); ?></p>
-            <?php $this->renderBlogControls($post['postId'], 'post'); ?>
+            <?php $this->renderBlogControls($post['id'], 'post'); ?>
         </div>
         <?php
     }
@@ -65,7 +65,7 @@ class BlogController extends BaseController {
         <div class="comments-div">
         <?php
         foreach ($comments as $comment) {
-            if ($comment['postId'] == $post['postId']) {
+            if ($comment['id'] == $post['id']) {
                 $this->renderSingleComment($comment);
             }
         }
@@ -84,7 +84,7 @@ class BlogController extends BaseController {
         <div class="comment-div">
             <sub><?php echo htmlspecialchars($comment['author']) ?></sub>
             <sub><?php echo htmlspecialchars($comment['messageContent']) ?></sub>
-            <?php $this->renderBlogControls($comment['commentId'], 'comment'); ?>
+            <?php $this->renderBlogControls($comment['id'], 'comment'); ?>
         </div>
         <?php
     }
@@ -121,16 +121,16 @@ class BlogController extends BaseController {
     }
     
     /**
-     * A method for the router to call, takes in a type and optional postId to validate input and then actually create said post or comment.
+     * A method for the router to call, takes in a type and optional id to validate input and then actually create said post or comment.
      * @param mixed $type
-     * @param mixed $postId
+     * @param mixed $id
      * @return void
      */
-    public function create($type, $postId = 0) {
+    public function create($type, $id = 0) {
         if ($type === 'post' && $this->validatePostInput()) {
             $this->createPost();
         } elseif ($type === 'comment' && $this->validateCommentInput()) {
-            $this->createComment($postId);
+            $this->createComment($id);
         }
         
         $this->redirectToBlog();
@@ -153,15 +153,15 @@ class BlogController extends BaseController {
 
     /**
      * Creates a new comment in the database.
-     * @param mixed $postId
+     * @param mixed $id
      * @return void
      */
-    private function createComment($postId) {
+    private function createComment($id) {
         $query = "INSERT INTO comments (postId, author, messageContent) 
                  VALUES (:postId, :author, :content)";
                  
         $this->executeQuery($query, [
-            ':postId' => $postId,
+            ':postId' => $id,
             ':author' => $_POST['author'],
             ':content' => $_POST['messageContent']
         ]);
@@ -176,7 +176,7 @@ class BlogController extends BaseController {
     public function delete($type, $id) {
         // This is a soft delete, an "undo within x seconds" feature could be implemented but due to time constraints I will just leave this note here.
         $table = $type === 'post' ? 'posts' : 'comments';
-        $idField = $type === 'post' ? 'postId' : 'commentId';
+        $idField = $type === 'post' ? 'id' : 'id';
         
         $query = "UPDATE $table SET deleted_at = CURRENT_TIMESTAMP 
                     WHERE $idField = :id";
@@ -208,34 +208,34 @@ class BlogController extends BaseController {
     }
     
     /**
-     * Updates a post in the database given a postId. Takes $_POST data for the message content.
-     * @param mixed $postId
+     * Updates a post in the database given a id. Takes $_POST data for the message content.
+     * @param mixed $id
      * @return void
      */
-    public function updatePost($postId) {
+    public function updatePost($id) {
         $query = "UPDATE posts SET messageContent = :content 
-                 WHERE postId = :postId";
+                 WHERE id = :id";
                  
         $this->executeQuery($query, [
             ':content' => $_POST['messageContent'],
-            ':postId' => $postId
+            ':id' => $id
         ]);
         
         $this->redirectToBlog();
     }
 
     /**
-     * Updates a comment in the database given a commentId. Takes $_POST data for the message content.
-     * @param mixed $commentId
+     * Updates a comment in the database given a id. Takes $_POST data for the message content.
+     * @param mixed $id
      * @return void
      */
-    public function updateComment($commentId) {
+    public function updateComment($id) {
         $query = "UPDATE comments SET messageContent = :content 
-                 WHERE commentId = :commentId";
+                 WHERE id = :id";
                  
         $this->executeQuery($query, [
             ':content' => $_POST['messageContent'],
-            ':commentId' => $commentId
+            ':id' => $id
         ]);
         
         $this->redirectToBlog();
@@ -243,37 +243,37 @@ class BlogController extends BaseController {
     
     // Getters
     /**
-     * Gets all posts from the database which are not deleted, ordered by postId ascending.
+     * Gets all posts from the database which are not deleted, ordered by id ascending.
      * @return array
      */
     public function getPosts() {
-        $query = "SELECT postId, title, author, messageContent 
+        $query = "SELECT id, title, author, messageContent 
                  FROM posts 
                  WHERE deleted_at IS NULL 
-                 ORDER BY postId";
+                 ORDER BY id";
                  
         return $this->executeQuery($query)->fetchAll(PDO::FETCH_ASSOC);
         // big one liner; executes the query made above, then fetches the answers to the query and returns this as an array.
     }
 
     /**
-     * Gets a post from the database by postId.
-     * @param mixed $postId
+     * Gets a post from the database by id.
+     * @param mixed $id
      * @return mixed
      */
-    public function getPostById($postId) {
-        $query = "SELECT * FROM posts WHERE postId = :postId";
-        return $this->executeQuery($query, [':postId' => $postId])->fetch(PDO::FETCH_ASSOC);
+    public function getPostById($id) {
+        $query = "SELECT * FROM posts WHERE id = :id";
+        return $this->executeQuery($query, [':id' => $id])->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
-     * Gets a comment from the database by commentId
-     * @param mixed $commentId
+     * Gets a comment from the database by id
+     * @param mixed $id
      * @return mixed
      */
-    public function getCommentById($commentId) {
-        $query = "SELECT * FROM comments WHERE commentId = :commentId";
-        return $this->executeQuery($query, [':commentId' => $commentId])->fetch(PDO::FETCH_ASSOC);
+    public function getCommentById($id) {
+        $query = "SELECT * FROM comments WHERE id = :id";
+        return $this->executeQuery($query, [':id' => $id])->fetch(PDO::FETCH_ASSOC);
     }
 
     /**

@@ -112,6 +112,32 @@ document.querySelectorAll('.blog-control-svg').forEach((svg) => {
     });
 });
 
+const projectsName = document.querySelectorAll('.project > p');
+const projectPreview = document.querySelectorAll('.project-preview');
+
+projectsName.forEach((projectName, index) => {
+    const indexMultiplied = index*15;
+    if (index < 4) {
+        projectName.style.left = `${5 + indexMultiplied}%`;
+        projectPreview[index].style.left = `${indexMultiplied+20}%`;
+    } else {
+        projectName.style.left = `${5 + indexMultiplied}%`;
+        projectPreview[index].style.left = `${indexMultiplied-20}%`;
+    }
+});
+
+document.querySelectorAll('.project-page-info h2').forEach((h2) => {
+    h2.addEventListener('click', function () {
+        this.classList.toggle('active');
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+          } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    });
+});
+
 window.toggleTheme = toggleTheme;
 window.transitionToPage = transitionToPage;
 

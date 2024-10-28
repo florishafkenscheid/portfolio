@@ -4,6 +4,8 @@
 }
 
 :root {
+    --opacity-transition: opacity 0.5s ease-in-out;
+
     --sun-filter-light: brightness(0) saturate(100%) invert(88%) sepia(87%) saturate(6409%) hue-rotate(127deg) brightness(100%) contrast(98%) blur(10px);
     --sun-filter-dark: invert(12%) sepia(100%) saturate(7451%) hue-rotate(270deg) brightness(86%) contrast(119%) blur(10px);
 
@@ -48,7 +50,7 @@ body {
     color: var(--main-color);
 
     /* For page transition effect */
-    transition: opacity .5s;
+    transition: var(--opacity-transition);
 }
 
 html {
@@ -73,6 +75,8 @@ main {
     display: grid;
 }
 
+/* .container spans the whole page, basically a replacement for main. */
+
 .container {
     display: grid;
     grid-template-columns: 0.1fr 0.5fr 0.5fr 0.5fr 0.1fr;
@@ -85,8 +89,10 @@ main {
 
     opacity: 0;
 
-    transition: background-color 1s ease-in-out, opacity 0.5s ease-in-out;
+    transition: background-color 1s ease-in-out, var(--opacity-transition);
 }
+
+/* .content contains everything within the border you see on the page. */
     
 .content { 
     position: relative;
@@ -103,26 +109,7 @@ main {
     transition: background-color 1s ease-in-out;
 }
 
-.background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    margin: -1rem;
-
-    z-index: -1;
-
-    transition: background 1s ease-in-out;
-
-    overflow: hidden;
-}
-
-.background.background-dark {
-    background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 50%), var(--sun-background-dark), var(--background-color) 50%);
-}
-
-.background.background-light {
-    background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 50%), var(--sun-background-light), var(--background-color) 50%);
-}
+/* Theme toggling buttons CSS */
 
 .themes {
     position: absolute;
@@ -156,12 +143,38 @@ main {
     font-family: 'Linik Sans ExtraLight', monospace;
 }
 
+/* Radial background CSS */
+.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: -1rem;
+
+    z-index: -1;
+
+    transition: var(--opacity-transition), background 1s ease-in-out;
+
+    overflow: hidden;
+}
+
+.background.background-dark {
+    background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 50%), var(--sun-background-dark), var(--background-color) 50%);
+    transition: inherit;
+}
+
+.background.background-light {
+    background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 50%), var(--sun-background-light), var(--background-color) 50%);
+    transition: inherit;
+}
+
+/* Moving sun CSS */
+
 .sun-container {
     position: relative;
     width: 100%;
     height: 100%;
 
-    transition: opacity 0.7s ease-in-out;
+    transition: var(--opacity-transition);
 }
 
 /* 
@@ -173,44 +186,7 @@ Excuse this ugly mess.
 */
 
 @keyframes move-diagonally {
-    0% { bottom: 0%; left: 20% }
-    5% { bottom: 3.95%; left: 21.975% }
-    10% { bottom: 8.51%; left: 24.255% }
-    15% { bottom: 13.73%; left: 27.01% }
-    20% { bottom: 19.65%; left: 30.345% }
-    25% { bottom: 26.33%; left: 34.245% }
-    30% { bottom: 33.79%; left: 38.69% }
-    35% { bottom: 41.99%; left: 43.69% }
-    40% { bottom: 50.93%; left: 49.29% }
-    45% { bottom: 59.53%; left: 55.45% }
-    50% { bottom: 67.73%; left: 61.99% }
-    55% { bottom: 75.23%; left: 69.01% }
-    60% { bottom: 82.13%; left: 76.39% }
-    65% { bottom: 88.23%; left: 83.93% }
-    70% { bottom: 95.33%; left: 91.51% }
-    75% { bottom: 100%; left: 98.01% }
-    80% { bottom: 110%; left: 105.51% }
-    81% { bottom: 120%; left: 140% }
-    82% { bottom: 130%; left: 160% }
-    83% { bottom: -150%; left: 170% }
-    84% { bottom: -250%; left: 180% }
-    85% { bottom: -220%; left: 300% }
-    86% { bottom: -230%; left: 160% }
-    87% { bottom: -240%; left: 12% }
-    88% { bottom: -80%; left: 13% }
-    88.5% { bottom: -50%; left: 13% }
-    89% { bottom: -32%; left: 14% }
-    90% { bottom: -23%; left: 15% }
-    91% { bottom: -15%; left: 16% }
-    92% { bottom: -12%; left: 17% }
-    93% { bottom: -10%; left: 17.5% }
-    94% { bottom: -6%; left: 18% }
-    95% { bottom: -3%; left: 18.3% }
-    96% { bottom: -2%; left: 18.6% }
-    97% { bottom: -1%; left: 19% }
-    98% { bottom: -0.5%; left: 19.3% }
-    99% { bottom: -0.2%; left: 19.6% }
-    100% { bottom: 0%; left: 20% }
+    /* TODO: Remake this */
 }
 
 .sun-container > img {
@@ -218,7 +194,6 @@ Excuse this ugly mess.
     bottom: 0;
     left: 0;
     z-index: -2;
-    height: 100%;
     height: 75px;
     width: 75px;
     border-radius: 50%;
@@ -242,6 +217,9 @@ Excuse this ugly mess.
     -webkit-filter: var(--sun-filter-light);
 }
 
+
+/* Site header CSS */
+
 .siteHeader {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
@@ -256,24 +234,6 @@ Excuse this ugly mess.
 
     width: max-content;
 }
-
-/* @media only screen and (max-width: 450px) {
-    .nameHeader {
-        width: 100%;
-    }
-}
-
-@media only screen and (min-width: 450px) and (max-width: 800px) {
-    .nameHeader {
-        width: 60%;
-    }
-}
-
-@media only screen and (min-width: 800px) {
-    .nameHeader {
-        width: 45%;
-    }
-} */
 
 @media only screen and (max-width: 800px) and (max-height: 800px) {
     .siteHeader h1 {
@@ -312,6 +272,8 @@ Excuse this ugly mess.
     font-weight: inherit;
 }
 
+/* Navbar present on every page CSS */
+
 .navbar {
     padding: 0;
     margin-top: 1em;
@@ -335,65 +297,7 @@ Excuse this ugly mess.
     transition: .25s
 }
 
-/* .skills { Dit vond ik er niet goed uit zien, dus heb ik het geschrapt.
-    position: absolute;
-    bottom: 10px;
-    left: 13px;
-
-    display: flex;
-    grid-area: 5 / 2 / 6 / 3;
-    width: 12rem;
-    height: 12rem;
-    align-items: flex-end;
-    justify-content: flex-start;
-    flex-direction: column;
-    row-gap: 5px;
-}
-
-.skill-circle {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 2px;
-    border-color: var(--border-color);
-    background-color: var(--background-color-dark);
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(5, 10, 5, 1) 100%);
-    display: flex;
-    position: relative;
-    box-shadow: 5px 5px 15px rgba(255, 255, 255, 0.2);
-}
-
-.skills img {
-    height: 47px;
-    width: 40px;
-    position: absolute;
-}
-
-
-.python-logo {
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.cpp-logo {
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-}
-
-.html-logo {
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.css-logo {
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-} */
+/* Social links at the bottom left of home page CSS */
 
 .socialnav {
     grid-area: 5 / 4 / 6 / 5;
@@ -431,6 +335,104 @@ Excuse this ugly mess.
     margin-right: 7px;
 }
 
+/* Projects page CSS */
+.projects-div {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: -1rem;
+    overflow: hidden scroll;
+
+    scrollbar-width: none;
+}
+
+.project {
+    position: relative;
+    color: var(--text-color);
+    margin: 1.5rem 0;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    z-index: 0;
+    transition: border-top-color 0.5s ease, 
+                border-bottom-color 0.5s ease, 
+                background-color 0.5s ease;
+    text-decoration: none; /* Remove default link underline */
+    display: block flex; /* Make link full width */
+
+    cursor: pointer;
+}
+
+.project:hover {
+    border-top-color: var(--border-color);
+    border-bottom-color: var(--border-color);
+    /* background-color: var(--background-color); */
+}
+
+.project > p {
+    font-weight: bold;
+    position: relative;
+    margin: 1.5rem 0;
+    z-index: 2;
+}
+
+.project-preview {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 300px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+    z-index: 1;
+}
+
+.project:hover .project-preview {
+    opacity: 0.5;
+    visibility: visible;
+}
+
+/* Individual project pages CSS */
+.individual-project-div {
+    height: 90%;
+    padding-top: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
+.collapsible {
+    cursor: pointer;
+    width: fit-content;
+}
+
+.collapsible ~ .collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    max-width: 40%;
+}
+
+img#collapsible-chevron {
+    height: 12px;
+    width: 12px;
+    filter: var(--svg-filter);
+}
+
+/* General font settings */
+
+.sociallink, .info-p, .blog, .form, .projects-div, h2, p {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* Info page CSS */
+
 .info-div {
     display: flex;
 
@@ -441,22 +443,11 @@ Excuse this ugly mess.
     margin: auto auto;
 }
 
-.sociallink, .info-p, .blog, .form {
-    font-family: "Inter", sans-serif;
-    font-weight: 500;
-}
-
 .info-p {
     color: var(--text-color);
 }
 
-.blog {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
-
-    display: flex;
-}
+/* General forms CSS */
 
 .form-div {
     margin: auto 0;
@@ -533,6 +524,17 @@ Excuse this ugly mess.
 
 .form textarea#messageContent {
     height: 8rem;
+}
+
+
+/* Blog page CSS */
+
+.blog {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
 }
 
 .posts-div {
