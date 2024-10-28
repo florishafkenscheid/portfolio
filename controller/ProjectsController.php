@@ -17,7 +17,7 @@ class ProjectsController extends BaseController {
         ?>
         <div class="projects-div">
             <?php foreach ($projects as $project): ?>
-            <a href="/projects/project/<?php echo $project['id']; ?>" class="project">
+            <a href="/projects/<?php echo strtolower($project['title']); // e.g. Factorio = 'factorio'?>" class="project"> 
                 <p><?php echo htmlspecialchars($project['title']); ?></p>
                 <img 
                     src="<?php echo htmlspecialchars($project['image_path']); ?>"
@@ -30,19 +30,23 @@ class ProjectsController extends BaseController {
     }
 
     // Individual projects, I know this isn't automated and whenever I add a new project I need to add it manually, but I dont like seeing /projects/project/{projectName} in my URL, so I decided to just do /projects/{projectName}
-    public function factorio(string $path = 'fz-bot') {
+    public function factorio(string $path = 'factorio') {
+        $project = self::getProjectByTitle($path);
         parent::index($path);
     }
 
     public function lobby(string $path = 'lobby') {
+        $project = self::getProjectByTitle($path);
         parent::index($path);
     }
 
     public function worldmanager(string $path = 'worldmanager') {
+        $project = self::getProjectByTitle($path);
         parent::index($path);
     }
 
     public function pluginhider(string $path = 'pluginhider') {
+        $project = self::getProjectByTitle($path);
         parent::index($path);
     }
 
@@ -52,6 +56,16 @@ class ProjectsController extends BaseController {
                   FROM projects";
         
         return $this->executeQuery($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getProjectByTitle($title) : array {
+        $query = "SELECT id, title, image_path, github_url
+                  FROM projects
+                  WHERE title = :title";
+        
+        return $this->executeQuery($query, [
+            ':title' => $title
+        ])->fetch(PDO::FETCH_ASSOC);
     }
 
     // DB methods

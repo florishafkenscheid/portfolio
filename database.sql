@@ -37,7 +37,7 @@ insert into projects (
     github_url
 ) VALUES 
 (
-    'Factorio Zone Bot',
+    'Factorio',
     '/views/assets/fz-bot.png',
     'https://github.com/florishafkenscheid/fz-bot'
 ), 
@@ -66,3 +66,5 @@ insert into projects (
     '/views/assets/worldmanager.png',
     'https://github.com/florishafkenscheid/worldmanager'
 )
+
+SELECT id, title, image_path FROM projects WHERE title = 'factorio';

@@ -126,6 +126,18 @@ projectsName.forEach((projectName, index) => {
     }
 });
 
+document.querySelectorAll('.project-page-info h2').forEach((h2) => {
+    h2.addEventListener('click', function () {
+        this.classList.toggle('active');
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+          } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    });
+});
+
 window.toggleTheme = toggleTheme;
 window.transitionToPage = transitionToPage;
 

@@ -393,11 +393,42 @@ Excuse this ugly mess.
     visibility: visible;
 }
 
+/* Individual project pages CSS */
+.individual-project-div {
+    height: 90%;
+    padding-top: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
+.collapsible {
+    cursor: pointer;
+    width: fit-content;
+}
+
+.collapsible ~ .collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    max-width: 40%;
+}
+
+img#collapsible-chevron {
+    height: 12px;
+    width: 12px;
+    filter: var(--svg-filter);
+}
+
 /* General font settings */
 
-.sociallink, .info-p, .blog, .form, .projects-div {
+.sociallink, .info-p, .blog, .form, .projects-div, h2, p {
     font-family: "Inter", sans-serif;
     font-weight: 500;
+    color: var(--text-color);
 }
 
 /* Info page CSS */
