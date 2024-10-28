@@ -168,25 +168,11 @@ main {
 }
 
 /* Moving sun CSS */
-
 .sun-container {
     position: relative;
     width: 100%;
     height: 100%;
-
     transition: var(--opacity-transition);
-}
-
-/* 
-Keyframes to move sun img from bottom left to top right. 
-Based on cubic-bezier(0,.79,.83,.915)
-https://cubic-bezier.com/#0,.79,.83,.92
-
-Excuse this ugly mess. 
-*/
-
-@keyframes move-diagonally {
-    /* TODO: Remake this */
 }
 
 .sun-container > img {
@@ -197,8 +183,10 @@ Excuse this ugly mess.
     height: 75px;
     width: 75px;
     border-radius: 50%;
-    animation: move-diagonally 60s linear infinite;
-
+    
+    /* Remove the keyframe animation */
+    transform-origin: center;
+    
     /* Make it not draggable */
     user-select: none;
     -moz-user-select: none;
@@ -206,17 +194,16 @@ Excuse this ugly mess.
     -webkit-user-select: none;
     -ms-user-select: none;
 }
-  
+
 .sun-container.sun-filter-dark {
     filter: var(--sun-filter-dark);
     -webkit-filter: var(--sun-filter-dark);
 }
-  
+
 .sun-container.sun-filter-light {
     filter: var(--sun-filter-light);
     -webkit-filter: var(--sun-filter-light);
 }
-
 
 /* Site header CSS */
 

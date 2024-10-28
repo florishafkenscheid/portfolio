@@ -1,8 +1,20 @@
+/* Global variables / parameters */
 const page = window.location.pathname;
 const opacityTimeoutTime = 200;
 
+const backgroundElement = document.querySelector('.background');
+const sunContainer = document.querySelector('.sun-container');
+const sunElement = document.querySelector('.sun-container img')
+
+// Sun animation and path parameters
+const animationDuration = 60000; // 60 seconds
+const fadeTransitionDuration = 1000; // 1 second for fade
+const startY = 90; // Start below screen
+const endX = window.innerWidth - 75;
+const endY = -window.innerHeight; // End above screen
+
+/* Light and dark theme toggling JS */
 function toggleTheme() {
-    const backgroundElement = document.querySelector('.background');
     document.body.classList.toggle('light-theme');
     const currentTheme = localStorage.getItem('themePreference');
 
@@ -14,7 +26,6 @@ function toggleTheme() {
         button.classList.toggle('is-selected');
     });
     
-    const sunContainer = document.querySelector('.sun-container');
     sunContainer.style.opacity = 0;
     backgroundElement.style.opacity = 0;
 
@@ -30,8 +41,113 @@ function toggleTheme() {
     }, 700);
 }
 
-const sunElement = document.querySelector('.sun-container img');
-const backgroundElement = document.querySelector('.background');
+/* Moving Sun JS */
+
+/* 
+Claude AI, Oct 28 version. 
+Prompt: I want the sun to follow a curve, that's determined by a cubic bezier, while staying at a constant speed. I want it to start a bit under the screen and end at the top right. Instead of snapping back to the start I want it to go transition to invisible, snap back to the start and transition to visible while still under the screen
+*/
+
+const points = {
+    start: { x: 0, y: startY },
+    end: { x: endX, y: endY },
+    control1: { x: endX * 0.2, y: startY * 0.5 }, // Adjust these control points
+    control2: { x: endX * 0.8, y: endY * 1.5 }    // to modify the curve shape
+};
+
+// Pre-calculate points along the curve for constant speed
+const numPoints = 1000;
+const pathPoints = calculatePathPoints(numPoints);
+
+function calculatePathPoints(count) {
+    const points = [];
+    for (let i = 0; i < count; i++) {
+        const t = i / (count - 1);
+        points.push(getPointOnCurve(t));
+    }
+    
+    // Calculate cumulative distances for constant speed
+    const distances = [0];
+    let totalDistance = 0;
+    
+    for (let i = 1; i < points.length; i++) {
+        const dx = points[i].x - points[i-1].x;
+        const dy = points[i].y - points[i-1].y;
+        totalDistance += Math.sqrt(dx * dx + dy * dy);
+        distances.push(totalDistance);
+    }
+    
+    // Normalize distances to 0-1
+    distances.forEach((d, i) => distances[i] = d / totalDistance);
+    
+    return { points, distances };
+}
+
+function getPointOnCurve(t) {
+    // Cubic Bezier curve formula
+    const x = Math.pow(1-t, 3) * points.start.x + 
+             3 * Math.pow(1-t, 2) * t * points.control1.x + 
+             3 * (1-t) * Math.pow(t, 2) * points.control2.x + 
+             Math.pow(t, 3) * points.end.x;
+             
+    const y = Math.pow(1-t, 3) * points.start.y + 
+             3 * Math.pow(1-t, 2) * t * points.control1.y + 
+             3 * (1-t) * Math.pow(t, 2) * points.control2.y + 
+             Math.pow(t, 3) * points.end.y;
+             
+    return { x, y };
+}
+
+function findPointAtDistance(distance) {
+    // Find the points between which our target distance lies
+    const index = pathPoints.distances.findIndex(d => d >= distance);
+    if (index === 0) return pathPoints.points[0];
+    if (index === -1) return pathPoints.points[pathPoints.points.length - 1];
+    
+    // Interpolate between the points
+    const prev = pathPoints.distances[index - 1];
+    const next = pathPoints.distances[index];
+    const t = (distance - prev) / (next - prev);
+    
+    const p1 = pathPoints.points[index - 1];
+    const p2 = pathPoints.points[index];
+    
+    return {
+        x: p1.x + (p2.x - p1.x) * t,
+        y: p1.y + (p2.y - p1.y) * t
+    };
+}
+
+function updateSunPosition(timestamp) {
+    if (!sunElement || !backgroundElement) return;
+    
+    // Calculate progress (0 to 1)
+    const progress = (timestamp % animationDuration) / animationDuration;
+    
+    // Handle fade transitions
+    const fadeOutStart = 0.95; // Start fading out at 95% of the animation
+    if (progress > fadeOutStart) {
+        const fadeProgress = (progress - fadeOutStart) / (1 - fadeOutStart);
+        sunElement.style.opacity = 1 - fadeProgress;
+        backgroundElement.style.opacity = 1 - fadeProgress;
+    } else if (progress < 0.05) { // First 5% of animation
+        const fadeProgress = progress / 0.05;
+        sunElement.style.opacity = fadeProgress;
+        backgroundElement.style.opacity = fadeProgress;
+    } else {
+        sunElement.style.opacity = 1;
+        backgroundElement.style.opacity = 1;
+    }
+    
+    // Get point on curve at current progress
+    const point = findPointAtDistance(progress);
+    
+    // Apply transform
+    sunElement.style.transform = `translate(${point.x}px, ${point.y}px)`;
+    
+    // Continue animation
+    requestAnimationFrame(updateSunPosition);
+}
 
 function updateBackgroundPosition() {
     if (sunElement != null && backgroundElement != null) {
@@ -44,8 +160,13 @@ function updateBackgroundPosition() {
     }
 }
 
-setInterval(updateBackgroundPosition, 20); // Every 20 ms
+// Start the animation
+requestAnimationFrame(updateSunPosition);
 
+// Update background position every 20ms
+setInterval(updateBackgroundPosition, 20);
+
+/* Transition between pages JS */
 function transitionToPage(destination) {
     document.querySelector('.container').style.opacity = 0;
 
@@ -140,7 +261,3 @@ document.querySelectorAll('.project-page-info h2').forEach((h2) => {
 
 window.toggleTheme = toggleTheme;
 window.transitionToPage = transitionToPage;
-
-if (sunElement != null) {
-    setInterval(updateBackgroundPosition, 20); // Every 20 ms
-}
