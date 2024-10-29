@@ -11,18 +11,19 @@ class DatabaseController {
      */
     function dbConnect() : PDO { // Return PDO for later usage, instead of doing everything in 1 method.
         $servername = "localhost";
-        $username = "root";
+        $username = "floris";
+	$password = "Rit35dgt";
         $dbName = "floris_portfolio";
 
         try {
-            $conn = new PDO("mysql:host=$servername;dbname=$dbName", $username);
+            $conn = new PDO("mysql:host=$servername;dbname=$dbName", $username, $password);
 
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conn;
         } catch (PDOException $err) {
             throw new Exception("Failed to connect to database: " . $err);
             // Ik heb overwogen om hier een "create table posts if not exists" in de error handling te maken maar heb besloten dit niet te doen omdat bij het instellen van de webpagina ook database prep hoort.
-        }        
+        }
     }
 
     public function dbDisconnect(&$conn) : bool { // Pass $conn by reference, so it actually references the PDO and not just a copy.
