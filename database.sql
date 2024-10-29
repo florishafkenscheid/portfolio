@@ -35,36 +35,24 @@ insert into projects (
     title,
     image_path,
     github_url
-) VALUES 
+) VALUES
 (
     'Factorio',
     '/views/assets/fz-bot.png',
     'https://github.com/florishafkenscheid/fz-bot'
-), 
+),
 (
     'Lobby',
     '/views/assets/lobby.png',
     'https://github.com/florishafkenscheid/lobby'
-), 
+),
 (
     'WorldManager',
     '/views/assets/worldmanager.png',
     'https://github.com/florishafkenscheid/worldmanager'
-), 
+),
 (
     'PluginHider',
     '/views/assets/pluginhider.png',
     'https://github.com/florishafkenscheid/pluginhider'
 );
-
-insert into projects (
-    title,
-    image_path,
-    github_url
-) VALUES (
-    'worldmanager 4',
-    '/views/assets/worldmanager.png',
-    'https://github.com/florishafkenscheid/worldmanager'
-)
-
-SELECT id, title, image_path FROM projects WHERE title = 'factorio';
