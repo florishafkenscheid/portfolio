@@ -65,7 +65,7 @@ class BlogController extends BaseController {
         <div class="comments-div">
         <?php
         foreach ($comments as $comment) {
-            if ($comment['id'] == $post['id']) {
+            if ($comment['postId'] == $post['id']) {
                 $this->renderSingleComment($comment);
             }
         }
