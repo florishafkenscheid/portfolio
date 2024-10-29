@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -12,7 +13,7 @@ class DatabaseController {
     function dbConnect() : PDO { // Return PDO for later usage, instead of doing everything in 1 method.
         $servername = "localhost";
         $username = "floris";
-	$password = "Rit35dgt";
+	$password = "root";
         $dbName = "floris_portfolio";
 
         try {
