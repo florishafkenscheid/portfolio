@@ -2,10 +2,6 @@
 const page = window.location.pathname;
 const opacityTimeoutTime = 200;
 
-const backgroundElement = document.querySelector('.background');
-const sunContainer = document.querySelector('.sun-container');
-const sunElement = document.querySelector('.sun-container img')
-
 // Sun animation and path parameters
 const animationDuration = 60000; // 60 seconds
 const fadeTransitionDuration = 1000; // 1 second for fade
@@ -15,6 +11,8 @@ const endY = -window.innerHeight; // End above screen
 
 /* Light and dark theme toggling JS */
 function toggleTheme() {
+    const backgroundElement = document.querySelector('.background');
+    const sunContainer = document.querySelector('.sun-container');
     document.body.classList.toggle('light-theme');
     const currentTheme = localStorage.getItem('themePreference');
 
@@ -119,6 +117,8 @@ function findPointAtDistance(distance) {
 }
 
 function updateSunPosition(timestamp) {
+    const backgroundElement = document.querySelector('.background');
+    const sunElement = document.querySelector('.sun-container img');
     if (!sunElement || !backgroundElement) return;
     
     // Calculate progress (0 to 1)
@@ -134,9 +134,6 @@ function updateSunPosition(timestamp) {
         const fadeProgress = progress / 0.05;
         sunElement.style.opacity = fadeProgress;
         backgroundElement.style.opacity = fadeProgress;
-    } else {
-        sunElement.style.opacity = 1;
-        backgroundElement.style.opacity = 1;
     }
     
     // Get point on curve at current progress
@@ -150,6 +147,8 @@ function updateSunPosition(timestamp) {
 }
 
 function updateBackgroundPosition() {
+    const backgroundElement = document.querySelector('.background');
+    const sunElement = document.querySelector('.sun-container img');
     if (sunElement != null && backgroundElement != null) {
         const sunRect = sunElement.getBoundingClientRect();
         const sunX = (sunRect.left + sunRect.width / 2) / window.innerWidth * 100;
@@ -178,6 +177,7 @@ function transitionToPage(destination) {
 document.addEventListener('DOMContentLoaded', (event) => {
     const currentTheme = localStorage.getItem('themePreference');
     const sunContainer = document.querySelector('.sun-container');
+    const backgroundElement = document.querySelector('.background');
 
     if (currentTheme === "light") {
         document.body.classList.add('light-theme');
