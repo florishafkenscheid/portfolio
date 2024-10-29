@@ -428,6 +428,7 @@ img#collapsible-chevron {
 
     width: 40%;
     margin: auto auto;
+    overflow: scroll;
 }
 
 .info-p {
