@@ -1,6 +1,6 @@
 <?php
 $uri = explode('/', $_SERVER['REQUEST_URI']);
-$title = ucfirst($uri[1]);
+$title = !empty($uri[1]) ? ucfirst($uri[1]) : 'Home';
 $headerTitle = !empty($headerTitle) ? $headerTitle : 'Floris Hafkenscheid';
 ?>
 
