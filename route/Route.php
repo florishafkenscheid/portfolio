@@ -47,8 +47,8 @@ class Route {
      * @return array
      */
     private static function getURI() : array {
-        $path_info = $_SERVER['PATH_INFO'] ?? '/';
-        return explode('/', $path_info);
+        $path_info = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
+        return explode('/', trim($path_info, '/'));
     }
 
     /**
@@ -56,11 +56,11 @@ class Route {
      * @return array
      */
     private static function processURI() : array {;
-        $controllerPart = self::getURI()[1] ?? '';
-        $method = self::getURI()[2] ?? '';
+        $controllerPart = self::getURI()[0] ?? '';
+        $method = self::getURI()[1] ?? '';
         $numParts = count(self::getURI());
         $argsPart = [];
-        for ($i = 3; $i < $numParts; $i++) {
+        for ($i = 2; $i < $numParts; $i++) {
             $argsPart[] = self::getURI()[$i] ?? '';
         }
 

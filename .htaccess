@@ -1,5 +1,45 @@
 RewriteEngine On
-RewriteBase /
+Options -Indexes -ExecCGI
+ServerSignature Off
+
+# Block access to sensitive files and directories
+<FilesMatch "^(.*\.(sql|config|db|ini|log|sh|inc|bak|git|svn|txt|md|yml|yaml|lock|json|env.*|htaccess|htpasswd))$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Block access to dot files/directories (like .git)
+RedirectMatch 404 /\..*$
+
+# Block access to specific sensitive directories
+RewriteRule ^(\.git|\.svn|\.vscode|node_modules|vendor)/.* - [F,L]
+
+# First, block everything by default
+RewriteCond %{REQUEST_URI} !^/index\.php$
+RewriteCond %{REQUEST_URI} !^/views/css/.*\.css$
+RewriteCond %{REQUEST_URI} !^/views/js/.*\.js$
+# Add any other required files/paths here with similar lines
+RewriteRule ^/route/route\.php$ - [F,L]
+# RewriteRule ^/views/*\.view\.php$ - [F,L]
+
+# SSL redirect
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Route all non-file and non-directory requests to index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Additional security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
