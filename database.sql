@@ -1,9 +1,9 @@
 -- Active: 1728375022408@@localhost@3306@floris_portfolio
+create database if not exists floris_portfolio;
+
 CREATE USER 'floris'@'localhost' IDENTIFIED BY 'root';
 GRANT ALL PRIVILEGES ON floris_portfolio.* TO 'floris'@'localhost';
 FLUSH PRIVILEGES;
-
-create database if not exists floris_portfolio;
 
 use floris_portfolio;
 
