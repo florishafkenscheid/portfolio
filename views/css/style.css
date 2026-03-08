@@ -1,6 +1,6 @@
 @font-face {
     font-family: Inter;
-    src:local('/views/assets/Inter-VariableFont_opsz,wght.ttf');
+    src: local('/views/assets/Inter-VariableFont_opsz,wght.ttf');
 }
 
 :root {
@@ -18,13 +18,12 @@
     --main-color-dark: rgb(76, 0, 168);
     --main-color-light: rgb(38, 206, 252);
 
-    --border-color-dark: rgba(255,255,255,0.4);
+    --border-color-dark: rgba(255, 255, 255, 0.4);
     --border-color-light: rgba(0, 0, 0, 1);
 
     --svg-filter-dark: invert(100%) opacity(0.5);
     --svg-filter-light: opacity(1);
 
-    --sun-background-color: var(--sun-background-dark);
     --background-color: var(--background-color-dark);
     --main-color: var(--main-color-dark);
     --text-color: var(--background-color-light);
@@ -37,10 +36,11 @@
     --main-color: var(--main-color-light);
     --text-color: var(--background-color-dark);
     --border-color: var(--border-color-light);
-    --svg-filter: var(--svg-filter-light)
+    --svg-filter: var(--svg-filter-light);
 }
 
-html, body {
+html,
+body {
     overflow: hidden;
     margin: 0;
 }
@@ -57,12 +57,17 @@ html {
     line-height: 1;
 }
 
-h1, a, strong, span, .text, .box {
+h1,
+a,
+strong,
+span,
+.text,
+.box {
     color: var(--text-color);
     text-decoration: none;
 }
 
-ul > li::marker {
+ul>li::marker {
     content: "";
 }
 
@@ -81,8 +86,7 @@ main {
     display: grid;
     grid-template-columns: 0.1fr 0.5fr 0.5fr 0.5fr 0.1fr;
     grid-template-rows: 0.07fr 0.1fr 0.1fr 1fr 0.3fr 0.07fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+    gap: 0;
     background-color: var(--background-color);
     height: 100vh;
     width: 100vw;
@@ -93,10 +97,10 @@ main {
 }
 
 /* .content contains everything within the border you see on the page. */
-    
-.content { 
+
+.content {
     position: relative;
-    grid-area: 2 / 2 / 6 / 5; 
+    grid-area: 2 / 2 / 6 / 5;
     padding: 1em;
     border: 1px solid var(--border-color);
     background-color: var(--background-color);
@@ -139,7 +143,7 @@ main {
     content: "■";
 }
 
-.theme_button > .text {
+.theme_button>.text {
     font-family: 'Linik Sans ExtraLight', monospace;
 }
 
@@ -159,12 +163,10 @@ main {
 
 .background.background-dark {
     background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 50%), var(--sun-background-dark), var(--background-color) 50%);
-    transition: inherit;
 }
 
 .background.background-light {
     background: radial-gradient(circle at var(--sun-x, 50%) var(--sun-y, 50%), var(--sun-background-light), var(--background-color) 50%);
-    transition: inherit;
 }
 
 /* Moving sun CSS */
@@ -175,7 +177,7 @@ main {
     transition: var(--opacity-transition);
 }
 
-.sun-container > img {
+.sun-container>img {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -183,11 +185,10 @@ main {
     height: 75px;
     width: 75px;
     border-radius: 50%;
-    
-    /* Remove the keyframe animation */
+
     transform-origin: center;
-    
-    /* Make it not draggable */
+
+    /* Prevent dragging */
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
@@ -269,7 +270,7 @@ main {
     font-weight: inherit;
 }
 
-.navbar > ul {
+.navbar>ul {
     padding-left: 2px;
     margin-top: 0;
     display: flex;
@@ -279,9 +280,9 @@ main {
     gap: 10px;
 }
 
-.navbar > ul > li:hover {
+.navbar>ul>li:hover {
     opacity: .25;
-    transition: .25s
+    transition: .25s;
 }
 
 /* Social links at the bottom left of home page CSS */
@@ -296,8 +297,7 @@ main {
 }
 
 .socialnav ul {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin: 0;
 }
 
 .socialnav li:hover a {
@@ -339,11 +339,13 @@ main {
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
     z-index: 0;
-    transition: border-top-color 0.5s ease, 
-                border-bottom-color 0.5s ease, 
-                background-color 0.5s ease;
-    text-decoration: none; /* Remove default link underline */
-    display: block flex; /* Make link full width */
+    transition: border-top-color 0.5s ease,
+        border-bottom-color 0.5s ease,
+        background-color 0.5s ease;
+    text-decoration: none;
+    /* Remove default link underline */
+    display: block flex;
+    /* Make link full width */
 
     cursor: pointer;
 }
@@ -354,7 +356,7 @@ main {
     /* background-color: var(--background-color); */
 }
 
-.project > p {
+.project>p {
     font-weight: bold;
     position: relative;
     margin: 1.5rem 0;
@@ -397,7 +399,7 @@ main {
     width: fit-content;
 }
 
-.collapsible ~ .collapsible-content {
+.collapsible~.collapsible-content {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
@@ -412,7 +414,13 @@ img#collapsible-chevron {
 
 /* General font settings */
 
-.sociallink, .info-p, .blog, .form, .projects-div, h2, p {
+.sociallink,
+.info-p,
+.blog,
+.form,
+.projects-div,
+h2,
+p {
     font-family: "Inter", sans-serif;
     font-weight: 500;
     color: var(--text-color);
@@ -427,7 +435,7 @@ img#collapsible-chevron {
     align-items: center;
 
     width: 40%;
-    margin: auto auto;
+    margin: auto;
     overflow: scroll;
     scrollbar-width: none;
 }
@@ -443,19 +451,15 @@ img#collapsible-chevron {
     height: 100%;
 }
 
-.form-div, .posts-div {
+.form-div,
+.posts-div {
     overflow: scroll;
-}
-
-/* Hide scrollbar for chromium based browsers and the rest respectively*/
-
-.form-div::-webkit-scrollbar, .posts-div::-webkit-scrollbar {
-    display: none;
-}
-
-.form-div, .posts-div {
-    -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+.form-div::-webkit-scrollbar,
+.posts-div::-webkit-scrollbar {
+    display: none;
 }
 
 .form {
@@ -485,7 +489,8 @@ img#collapsible-chevron {
 
     text-shadow: var(--main-color) 2px 0px 8px;
 
-    transition: background-color 1s ease-in-out, text-shadow 1s ease-in-out; /* Text-shadow transition werkt niet goed mee :( */
+    transition: background-color 1s ease-in-out, text-shadow 1s ease-in-out;
+    /* text-shadow transition doesn't work well */
 }
 
 .form textarea:focus {
@@ -498,7 +503,8 @@ img#collapsible-chevron {
     }
 }
 
-.form input { /* Submit button */
+.form input {
+    /* Submit button */
     background-color: var(--background-color);
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -514,7 +520,6 @@ img#collapsible-chevron {
 .form textarea#messageContent {
     height: 8rem;
 }
-
 
 /* Blog page CSS */
 
@@ -533,14 +538,13 @@ img#collapsible-chevron {
     flex-direction: column;
 
     align-items: flex-end;
-
 }
 
 @media (orientation: landscape) {
     .blog {
         flex-direction: row;
     }
-    
+
     .posts-div {
         width: 50%;
     }
@@ -564,7 +568,8 @@ img#collapsible-chevron {
     }
 }
 
-.blog-post, .comment-div {
+.blog-post,
+.comment-div {
     position: relative;
 
     color: var(--text-color);
@@ -586,12 +591,13 @@ img#collapsible-chevron {
     transition: background-color 1s ease-in-out;
 }
 
-.blog-post > h4, .blog-post > p {
+.blog-post>h4,
+.blog-post>p {
     margin: 5px 0;
     word-wrap: anywhere;
 }
 
-.blog-post > sub {
+.blog-post>sub {
     margin: 3px 0 8px 0;
 }
 
@@ -633,6 +639,6 @@ img#collapsible-chevron {
     margin: 0;
 }
 
-.comment-div > sub {
+.comment-div>sub {
     margin: 5px 0;
 }

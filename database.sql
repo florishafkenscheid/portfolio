@@ -7,27 +7,6 @@ FLUSH PRIVILEGES;
 
 use floris_portfolio;
 
-create table posts (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(64) NOT NULL,
-    messageContent TEXT NOT NULL,
-    author VARCHAR(32) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at DATETIME
-);
-
-create table comments (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    postId BIGINT NOT NULL,
-    messageContent TEXT NOT NULL,
-    author VARCHAR(32) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at DATETIME,
-    Foreign Key (postId) REFERENCES posts(id)
-);
-
 create table projects (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -41,9 +20,14 @@ insert into projects (
     github_url
 ) VALUES
 (
-    'Factorio',
-    '/views/assets/fz-bot.png',
-    'https://github.com/florishafkenscheid/fz-bot'
+    'BELT',
+    '/views/assets/belt.png',
+    'https://github.com/florishafkenscheid/belt'
+),
+(
+    'Sharpfish',
+    '/views/assets/sharpfish.png',
+    'https://github.com/florishafkenscheid/Sharpfish'
 ),
 (
     'Lobby',

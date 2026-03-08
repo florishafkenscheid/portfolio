@@ -50,6 +50,16 @@ class ProjectsController extends BaseController {
         parent::index($path);
     }
 
+    public function belt(string $path = 'belt') {
+        $project = self::getProjectByTitle($path);
+        parent::index($path);
+    }
+
+    public function sharpfish(string $path = 'sharpfish') {
+        $project = self::getProjectByTitle($path);
+        parent::index($path);
+    }
+
     // Getters
     public function getProjects() : array {
         $query = "SELECT id, title, image_path
