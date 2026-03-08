@@ -50,9 +50,6 @@ $headerTitle = !empty($headerTitle) ? $headerTitle : 'Floris Hafkenscheid';
                                 <li>
                                     <span class="nav-link" onclick="transitionToPage('/contact')">Contact</span>
                                 </li>
-                                <li>
-                                    <span class="nav-link" onclick="transitionToPage('/blog')">Blog</span>
-                                </li>
                             </ul>
                         </nav>
                     </header>

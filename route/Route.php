@@ -1,7 +1,7 @@
 <?php
 
 include './controller/BaseController.php';
-include './controller/BlogController.php';
+include './controller/DatabaseController.php';
 include './controller/ContactController.php';
 include './controller/ErrorController.php';
 include './controller/HomeController.php';
