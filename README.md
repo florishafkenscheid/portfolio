@@ -1,6 +1,30 @@
-﻿# Portfolio
-This is my ever evolving portfolio project. I started this while in school in September of 2024. Let's see what this eventually becomes!
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Wireframe: https://wireframe.cc/AklO1a
+## Getting Started
 
-To run the website yourself, just make sure to correctly follow the queries in database.sql
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Contact Notifications
+
+The contact form stores submissions in `data/portfolio.db`. To also forward each
+message to Discord, set a webhook URL before starting the server:
+
+```bash
+CONTACT_DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/..."
+```
+
+`DISCORD_WEBHOOK_URL` is also supported as a fallback.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
