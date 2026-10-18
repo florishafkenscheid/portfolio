@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   title: "Floris Hafkenscheid — Portfolio",
   description:
     "Selected work, writing, and notes from Floris Hafkenscheid — a computer-science student building software with intent.",
-  metadataBase: new URL("https://florishafkenscheid.nl"),
+  metadataBase: new URL("https://blousy.dev"),
   openGraph: {
     title: "Floris Hafkenscheid — Portfolio",
     description:
