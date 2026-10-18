@@ -28,7 +28,7 @@ export function Nav() {
         >
           <span className="inline-block h-2 w-2 rounded-full bg-[color:var(--accent)] shadow-[0_0_12px_var(--ring)]" />
           <span>F. Hafkenscheid</span>
-          <span className="hidden text-[color:var(--ink-subtle)] sm:inline">— Portfolio · 2026</span>
+          <span className="hidden text-[color:var(--ink-subtle)] sm:inline">/ Portfolio · 2026</span>
         </Link>
 
         <nav className="hidden items-center gap-1 rounded-full border border-[color:var(--hairline)] bg-[color:var(--bg-elevated)]/60 px-2 py-1.5 backdrop-blur-md md:flex">

@@ -16,7 +16,7 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
             §02 · Selected work
           </p>
           <h2 className="mt-3 text-display text-4xl md:text-5xl">
-            A few recent builds.
+            Recent work.
           </h2>
         </div>
         <Link

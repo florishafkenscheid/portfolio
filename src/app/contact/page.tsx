@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { ContactForm } from "@/components/contact/contact-form";
 
-export const metadata: Metadata = {
-  title: "Contact — Floris Hafkenscheid",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Contact · Floris Hafkenscheid",
+  description: "Send me a message about work, a collaboration, or anything else.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (
@@ -14,8 +17,8 @@ export default function ContactPage() {
         </p>
         <h1 className="mt-3 text-display text-5xl md:text-7xl">Say hello.</h1>
         <p className="mt-6 max-w-2xl text-balance text-base text-[color:var(--ink-muted)] md:text-lg">
-          Internship, collaboration, or just a question — I read everything that
-          lands in the inbox.
+          Whether it&apos;s about an internship, a collaboration or a question,
+          I read every message.
         </p>
       </header>
 
@@ -63,7 +66,7 @@ export default function ContactPage() {
                 Response time
               </dt>
               <dd className="mt-1 text-[color:var(--ink-muted)]">
-                Usually within 48 hours, Mon–Fri.
+                Usually within two working days.
               </dd>
             </div>
           </dl>

@@ -21,9 +21,9 @@ export function validateContact(raw: unknown): ContactValidation {
 
   if (name.length < 2) errors.name = "Please enter your name.";
   if (name.length > 100) errors.name = "That name is too long.";
-  if (!/.+@.+\..+/.test(email)) errors.email = "That email doesn't look right.";
+  if (!/.+@.+\..+/.test(email)) errors.email = "Please enter a valid email address.";
   if (email.length > 254) errors.email = "That email is too long.";
-  if (message.length < 10) errors.message = "A few more words, please.";
+  if (message.length < 10) errors.message = "Please write at least 10 characters.";
   if (message.length > 5000) errors.message = "That message is too long.";
 
   if (Object.keys(errors).length) return { ok: false, errors };

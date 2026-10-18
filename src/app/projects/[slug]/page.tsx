@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { GithubIcon } from "@/components/icons/github";
+import { pageMetadata } from "@/lib/metadata";
 import { getProjectBySlug, listProjects } from "@/server/repositories/projects";
 import { ensureSeeded } from "@/server/seed";
 
@@ -20,10 +21,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return {};
-  return {
-    title: `${project.title} — Floris Hafkenscheid`,
+  return pageMetadata({
+    title: `${project.title} · Floris Hafkenscheid`,
     description: project.summary,
-  };
+    path: `/projects/${project.slug}`,
+    type: "article",
+  });
 }
 
 const NARRATIVE_BLOCKS = [
@@ -173,21 +176,10 @@ export default async function ProjectDetailPage({
               </p>
               <h2 className="mt-2 text-display text-3xl">{block.title}</h2>
             </div>
-            <p className="mt-4 max-w-[58ch] whitespace-pre-line text-lg leading-relaxed text-[color:var(--ink-muted)] md:col-span-9 md:mt-0 md:text-xl">
-              {i === 0 ? (
-                <>
-                  <span
-                    className="float-left mr-3 text-display text-[5rem] leading-[0.85] text-[color:var(--accent)]"
-                    style={{ fontVariationSettings: '"opsz" 144' }}
-                  >
-                    {project.narrative.what.charAt(0)}
-                  </span>
-                  {project.narrative.what.slice(1)}
-                </>
-              ) : (
-                project.narrative[block.key]
-              )}
-            </p>
+            <NarrativeBody
+              text={project.narrative[block.key]}
+              dropCap={i === 0}
+            />
           </div>
         ))}
       </section>
@@ -228,5 +220,79 @@ export default async function ProjectDetailPage({
         )}
       </nav>
     </article>
+  );
+}
+
+type NarrativeSegment =
+  | { kind: "text"; text: string }
+  | { kind: "list"; items: string[] };
+
+/** Splits a narrative into paragraphs and `> `-prefixed list runs. */
+function parseNarrative(text: string): NarrativeSegment[] {
+  const segments: NarrativeSegment[] = [];
+  for (const line of text.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    const last = segments.at(-1);
+    if (trimmed.startsWith(">")) {
+      const item = trimmed.replace(/^>\s*/, "");
+      if (last?.kind === "list") last.items.push(item);
+      else segments.push({ kind: "list", items: [item] });
+    } else {
+      segments.push({ kind: "text", text: trimmed });
+    }
+  }
+  return segments;
+}
+
+function NarrativeBody({ text, dropCap }: { text: string; dropCap: boolean }) {
+  const segments = parseNarrative(text);
+  return (
+    <div className="mt-4 flex max-w-[62ch] flex-col gap-6 md:col-span-9 md:mt-0">
+      {segments.map((segment, i) =>
+        segment.kind === "text" ? (
+          <p
+            key={i}
+            className="text-lg leading-relaxed text-[color:var(--ink-muted)] md:text-xl"
+          >
+            {dropCap && i === 0 ? (
+              <>
+                <span
+                  className="float-left mr-3 text-display text-[5rem] leading-[0.85] text-[color:var(--accent)]"
+                  style={{ fontVariationSettings: '"opsz" 144' }}
+                >
+                  {segment.text.charAt(0)}
+                </span>
+                {segment.text.slice(1)}
+              </>
+            ) : (
+              segment.text
+            )}
+          </p>
+        ) : (
+          <ul
+            key={i}
+            className="divide-y divide-[color:var(--hairline)] border-y border-[color:var(--hairline)]"
+          >
+            {segment.items.map((item) => (
+              <li
+                key={item}
+                className="grid grid-cols-[1.75rem_1fr] items-baseline gap-2 py-4"
+              >
+                <span
+                  aria-hidden
+                  className="text-mono text-sm text-[color:var(--accent)]"
+                >
+                  &gt;
+                </span>
+                <span className="text-base leading-relaxed text-[color:var(--ink)] md:text-lg">
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ),
+      )}
+    </div>
   );
 }

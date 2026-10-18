@@ -10,8 +10,8 @@ type FieldErrors = Partial<Record<"name" | "email" | "message" | "form", string>
 function validateLocal(input: { name: string; email: string; message: string }): FieldErrors {
   const errors: FieldErrors = {};
   if (input.name.trim().length < 2) errors.name = "Please enter your name.";
-  if (!/.+@.+\..+/.test(input.email)) errors.email = "That email doesn't look right.";
-  if (input.message.trim().length < 10) errors.message = "A few more words, please.";
+  if (!/.+@.+\..+/.test(input.email)) errors.email = "Please enter a valid email address.";
+  if (input.message.trim().length < 10) errors.message = "Please write at least 10 characters.";
   return errors;
 }
 
@@ -37,7 +37,7 @@ export function ContactForm() {
       if (err instanceof ApiCallError) {
         setErrors({ ...err.payload.details, form: err.payload.error });
       } else {
-        setErrors({ form: "Couldn't send — try again in a moment." });
+        setErrors({ form: "Couldn't send your message. Try again in a moment." });
       }
       setStatus("idle");
     }
@@ -57,8 +57,8 @@ export function ContactForm() {
             <CheckCircle2 className="h-8 w-8 text-[color:var(--accent)]" />
             <h3 className="text-display text-3xl">Sent.</h3>
             <p className="max-w-prose text-[color:var(--ink-muted)]">
-              Thanks for reaching out — I&apos;ll get back to you within a couple of days.
-              If it&apos;s urgent, email me directly at{" "}
+              Thanks for your message. I&apos;ll reply within a couple of days.
+              If it&apos;s urgent, email me at{" "}
               <a
                 href="mailto:floris@hafkenscheid.com"
                 className="text-[color:var(--accent)] underline-offset-4 hover:underline"
@@ -92,7 +92,7 @@ export function ContactForm() {
               error={errors.name}
               onChange={(v) => setForm((f) => ({ ...f, name: v }))}
               autoComplete="name"
-              placeholder="Ada Lovelace"
+              placeholder="Your name"
             />
             <Field
               id="email"
@@ -102,7 +102,7 @@ export function ContactForm() {
               error={errors.email}
               onChange={(v) => setForm((f) => ({ ...f, email: v }))}
               autoComplete="email"
-              placeholder="ada@analytical.engine"
+              placeholder="you@example.com"
             />
             <Field
               id="message"
@@ -111,7 +111,7 @@ export function ContactForm() {
               value={form.message}
               error={errors.message}
               onChange={(v) => setForm((f) => ({ ...f, message: v }))}
-              placeholder="I'd love to talk about…"
+              placeholder="Your message"
             />
 
             {errors.form && (

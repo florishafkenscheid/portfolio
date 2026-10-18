@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Info — Floris Hafkenscheid",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Info · Floris Hafkenscheid",
+  description: "Background, tools, and what I’m working on right now.",
+  path: "/info",
+});
 
 const FACTS: Array<{ label: string; value: string }> = [
   { label: "Based in", value: "Netherlands" },
@@ -20,25 +23,25 @@ const TIMELINE = [
     year: "2026",
     title: "Graduated",
     detail:
-      "Finished my degree and started looking for somewhere to do the work professionally — systems, AI, the parts of software that don't pretend to be magic.",
+      "Finished my degree and started looking for work in systems and AI.",
   },
   {
     year: "2025",
     title: "First internship",
     detail:
-      "Shipped backend services in a small team. Learned how much of engineering is reading other people's code patiently.",
+      "Built backend services in a small team, and learned how much of the job is reading other people's code.",
   },
   {
     year: "2024",
     title: "First serious projects",
     detail:
-      "BELT and Sharpfish became the main projects; WorldManager and PluginHider kept the server-tool thread going.",
+      "BELT and Sharpfish became the main projects.",
   },
   {
     year: "2023",
     title: "Started writing tools instead of just using them",
     detail:
-      "Began publishing plugins and small utilities to GitHub. The first time other people used my code was a quiet but significant event.",
+      "Started publishing plugins and small utilities on GitHub, and other people started using them.",
   },
 ];
 
@@ -49,7 +52,7 @@ export default function InfoPage() {
         <p className="text-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-subtle)]">
           §03 · About
         </p>
-        <h1 className="mt-3 text-display text-5xl md:text-7xl">Hello — I&apos;m Floris.</h1>
+        <h1 className="mt-3 text-display text-5xl md:text-7xl">Hi, I&apos;m Floris.</h1>
       </header>
 
       {/* Bio — editorial 12-col with dropcap */}
@@ -78,18 +81,15 @@ export default function InfoPage() {
             >
               I
             </span>
-            build software the way some people fix old motorcycles — slowly,
-            in pieces, with a strong preference for understanding every part
-            before reassembling it. Most of what&apos;s on this site started
-            because something I was already using didn&apos;t quite fit, or
-            because I wanted to know how a thing worked all the way down.
+            like knowing how things work all the way down. Most of what&apos;s
+            on this site started because a tool I was using didn&apos;t quite
+            fit, or because I wanted to see how something worked from the
+            inside.
           </p>
           <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-[color:var(--ink-muted)] md:text-xl">
-            I graduated in 2026 and I&apos;m looking for a place to do that
-            same work professionally — somewhere that values careful builds
-            over shipping noise, where I can keep learning from people who
-            care about their craft. AI and data systems are where I&apos;m
-            pointing next.
+            I graduated in 2026 and I&apos;m looking for a place to do this
+            work professionally, with people who care about getting the
+            details right. Next, I want to work on AI and data systems.
           </p>
 
           <Link

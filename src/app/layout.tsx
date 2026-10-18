@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { pageMetadata } from "@/lib/metadata";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Sun } from "@/components/sun/sun";
@@ -27,16 +28,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Floris Hafkenscheid — Portfolio",
-  description:
-    "Selected work, writing, and notes from Floris Hafkenscheid — a computer-science student building software with intent.",
   metadataBase: new URL("https://blousy.dev"),
-  openGraph: {
-    title: "Floris Hafkenscheid — Portfolio",
+  ...pageMetadata({
+    title: "Floris Hafkenscheid",
     description:
-      "Selected work, writing, and notes from Floris Hafkenscheid.",
-    type: "website",
-  },
+      "Projects by Floris Hafkenscheid, a computer-science graduate working on Rust backends, identity infrastructure and developer tools.",
+    path: "/",
+  }),
 };
 
 export default function RootLayout({

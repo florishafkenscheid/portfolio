@@ -67,9 +67,11 @@ export function Hero() {
           {...reveal(2)}
           className="mt-8 max-w-2xl text-balance text-lg leading-relaxed text-[color:var(--ink-muted)] md:text-xl"
         >
-          Computer-science graduate building deliberate software —
-          <span className="text-[color:var(--ink)]"> game tools, plugins, and engines </span>
-          that exist because the obvious solution didn&apos;t quite fit.
+          Computer-science graduate. Lately I&apos;ve been working on{" "}
+          <span className="text-[color:var(--ink)]">
+            authorization and credential reissuance in Rust
+          </span>
+          , and on tools that make Factorio benchmarks repeatable.
         </motion.p>
       </div>
 

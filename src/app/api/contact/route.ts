@@ -112,7 +112,7 @@ export async function POST(req: Request) {
     if (recent >= RATE_MAX_PER_WINDOW) {
       const body: ApiError = {
         ok: false,
-        error: "Too many messages from this address — please try again later.",
+        error: "Too many messages from this address. Please try again later.",
       };
       return NextResponse.json(body, { status: 429 });
     }
@@ -126,7 +126,7 @@ export async function POST(req: Request) {
     console.error("Failed to store contact message", err);
     const body: ApiError = {
       ok: false,
-      error: "Couldn't save your message — please try again later.",
+      error: "Couldn't save your message. Please try again later.",
     };
     return NextResponse.json(body, { status: 500 });
   }
