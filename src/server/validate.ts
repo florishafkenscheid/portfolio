@@ -11,10 +11,10 @@ export type ContactValidation =
 
 export function validateContact(raw: unknown): ContactValidation {
   const errors: ValidationErrors = {};
-  if (typeof raw !== "object" || raw === null) {
-    return { ok: false, errors: { name: "Invalid payload." } };
-  }
-  const r = raw as Record<string, unknown>;
+  const r =
+    typeof raw === "object" && raw !== null
+      ? (raw as Record<string, unknown>)
+      : {};
   const name = typeof r.name === "string" ? r.name.trim() : "";
   const email = typeof r.email === "string" ? r.email.trim() : "";
   const message = typeof r.message === "string" ? r.message.trim() : "";

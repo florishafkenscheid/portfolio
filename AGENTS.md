@@ -52,8 +52,8 @@ type Project = {
 ## Local Data
 
 Canonical project data lives in [`src/lib/project-data.ts`](src/lib/project-data.ts)
-and is seeded into `data/portfolio.db` on first request. Set `FORCE_RESEED=1` or
-delete the ignored `data/` directory to rebuild local data from the canonical list.
+and is synced into `data/portfolio.db` on the first request after each server start
+(upserted, with rows for removed slugs deleted). Screenshots live in `public/projects/`.
 
 Contact submissions are stored in SQLite. Set `CONTACT_DISCORD_WEBHOOK_URL` to
 also send each submission as a Discord embed.

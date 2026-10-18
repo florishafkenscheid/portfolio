@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
@@ -109,7 +110,21 @@ export default async function ProjectDetailPage({
         </div>
       </header>
 
-      {/* Metadata strip — replaces the hero image with information density */}
+      {project.image && (
+        <figure className="mt-12 overflow-hidden rounded-2xl border border-[color:var(--hairline)] bg-[color:var(--bg-elevated)]">
+          <Image
+            src={project.image}
+            alt={`Code excerpt from ${project.title}`}
+            width={0}
+            height={0}
+            sizes="(min-width: 1400px) 1320px, 100vw"
+            preload
+            className="h-auto w-full"
+          />
+        </figure>
+      )}
+
+      {/* Metadata strip */}
       <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[color:var(--hairline)] bg-[color:var(--hairline)] md:grid-cols-4">
         <div className="bg-[color:var(--bg-elevated)] px-5 py-5">
           <dt className="text-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-subtle)]">
@@ -150,11 +165,7 @@ export default async function ProjectDetailPage({
         {NARRATIVE_BLOCKS.map((block, i) => (
           <div
             key={block.key}
-            className={
-              i === 0
-                ? "md:col-span-12 md:grid md:grid-cols-12 md:gap-x-10"
-                : "md:col-span-12 md:grid md:grid-cols-12 md:gap-x-10"
-            }
+            className="md:col-span-12 md:grid md:grid-cols-12 md:gap-x-10"
           >
             <div className="md:col-span-3">
               <p className="text-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--ink-subtle)]">
@@ -162,7 +173,7 @@ export default async function ProjectDetailPage({
               </p>
               <h2 className="mt-2 text-display text-3xl">{block.title}</h2>
             </div>
-            <p className="mt-4 max-w-[58ch] text-lg leading-relaxed text-[color:var(--ink-muted)] md:col-span-9 md:mt-0 md:text-xl">
+            <p className="mt-4 max-w-[58ch] whitespace-pre-line text-lg leading-relaxed text-[color:var(--ink-muted)] md:col-span-9 md:mt-0 md:text-xl">
               {i === 0 ? (
                 <>
                   <span

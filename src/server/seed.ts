@@ -1,24 +1,18 @@
 import "server-only";
-import { countProjects, upsertProject } from "@/server/repositories/projects";
+import { deleteProjectsExcept, upsertProject } from "@/server/repositories/projects";
 import { PROJECTS } from "@/lib/project-data";
 
 let seeded = false;
 
 /**
- * Idempotent first-run seed. Inserts the canonical project list if the table
- * is empty. Safe to call on every request — runs at most once per process.
- *
- * To force a re-seed: delete `data/portfolio.db` or set FORCE_RESEED=1.
+ * Syncs the projects table with the canonical list in `project-data.ts`.
+ * Upserts every project and drops rows whose slug is no longer listed, so
+ * edits to the canonical list show up after a server restart. Runs at most
+ * once per process.
  */
 export function ensureSeeded(): void {
   if (seeded) return;
-  if (process.env.FORCE_RESEED === "1" || countProjects() === 0) {
-    for (const p of PROJECTS) {
-      upsertProject({
-        ...p,
-        image: null, // placeholders dropped — real screenshots can be added later
-      });
-    }
-  }
+  for (const p of PROJECTS) upsertProject(p);
+  deleteProjectsExcept(PROJECTS.map((p) => p.slug));
   seeded = true;
 }

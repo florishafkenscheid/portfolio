@@ -18,7 +18,7 @@ export function ProjectIndex({ projects }: { projects: Project[] }) {
         </p>
         <h1 className="mt-3 text-display text-5xl md:text-7xl">Projects.</h1>
         <p className="mt-6 max-w-2xl text-balance text-base text-[color:var(--ink-muted)] md:text-lg">
-          A working catalogue of things I&apos;ve built — listed by recency.
+          A working catalogue of things I&apos;ve built.
           Click an entry to read the full What / Why / How.
         </p>
       </header>

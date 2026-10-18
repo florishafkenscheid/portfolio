@@ -34,11 +34,11 @@ export function ContactForm() {
       setStatus("sent");
       setForm({ name: "", email: "", message: "" });
     } catch (err) {
-      const msg =
-        err instanceof ApiCallError
-          ? err.payload.error
-          : "Couldn't send — try again in a moment.";
-      setErrors({ form: msg });
+      if (err instanceof ApiCallError) {
+        setErrors({ ...err.payload.details, form: err.payload.error });
+      } else {
+        setErrors({ form: "Couldn't send — try again in a moment." });
+      }
       setStatus("idle");
     }
   };

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import {
   countRecentMessagesByIp,
   hashIp,
@@ -15,10 +15,16 @@ const RATE_MAX_PER_WINDOW = 5;
 const DISCORD_WEBHOOK_URL =
   process.env.CONTACT_DISCORD_WEBHOOK_URL ?? process.env.DISCORD_WEBHOOK_URL;
 
+/**
+ * Best-effort client IP for rate limiting. Prefers `x-real-ip` (set by the
+ * proxy), then the last `x-forwarded-for` hop — the one our proxy appended.
+ * The first hop is client-supplied and trivially spoofed.
+ */
 function getClientIp(req: Request): string | null {
-  const xff = req.headers.get("x-forwarded-for");
-  if (xff) return xff.split(",")[0]!.trim();
-  return req.headers.get("x-real-ip");
+  const realIp = req.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+  const hops = req.headers.get("x-forwarded-for")?.split(",");
+  return hops?.at(-1)?.trim() || null;
 }
 
 function truncate(value: string, max: number): string {
@@ -112,20 +118,29 @@ export async function POST(req: Request) {
     }
   }
 
+  const userAgent = req.headers.get("user-agent");
+  let id: string;
   try {
-    const userAgent = req.headers.get("user-agent");
-    const id = insertContactMessage(v.value, {
-      userAgent,
-      ipHash,
-    });
-    await sendDiscordNotification({ id, ...v.value, userAgent });
-    const body: ContactMessageResponse = { ok: true, id };
-    return NextResponse.json(body, { status: 201 });
+    id = insertContactMessage(v.value, { userAgent, ipHash });
   } catch (err) {
+    console.error("Failed to store contact message", err);
     const body: ApiError = {
       ok: false,
-      error: err instanceof Error ? err.message : "Internal error",
+      error: "Couldn't save your message — please try again later.",
     };
     return NextResponse.json(body, { status: 500 });
   }
+
+  // The message is already stored, so a webhook failure must not turn into an
+  // error response (the sender would retry and create a duplicate).
+  after(async () => {
+    try {
+      await sendDiscordNotification({ id, ...v.value, userAgent });
+    } catch (err) {
+      console.error(`Discord notification failed for message ${id}`, err);
+    }
+  });
+
+  const body: ContactMessageResponse = { ok: true, id };
+  return NextResponse.json(body, { status: 201 });
 }

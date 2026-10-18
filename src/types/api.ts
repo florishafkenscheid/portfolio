@@ -1,5 +1,5 @@
 /**
- * API contract between the Next.js frontend and the Codex-built backend.
+ * API contract between the frontend and the route handlers.
  * Treat this file as authoritative — the backend MUST return these exact shapes.
  */
 

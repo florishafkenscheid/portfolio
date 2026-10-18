@@ -125,6 +125,8 @@ export function Sun({ y = 0.62, size = 78, parallax = true }: SunProps) {
           </defs>
           {/* Tick marks around the corona — gives it a celestial-instrument feel */}
           {Array.from({ length: 60 }).map((_, i) => {
+            // Rounded below: server and browser trig differ in the last digits,
+            // which would otherwise cause a hydration mismatch.
             const angle = (i / 60) * Math.PI * 2;
             const r1 = 80;
             const r2 = i % 5 === 0 ? 92 : 86;
@@ -135,10 +137,10 @@ export function Sun({ y = 0.62, size = 78, parallax = true }: SunProps) {
             return (
               <line
                 key={i}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
+                x1={x1.toFixed(3)}
+                y1={y1.toFixed(3)}
+                x2={x2.toFixed(3)}
+                y2={y2.toFixed(3)}
                 stroke="var(--sun-edge)"
                 strokeWidth={i % 5 === 0 ? 0.6 : 0.3}
                 opacity={i % 5 === 0 ? 0.7 : 0.4}

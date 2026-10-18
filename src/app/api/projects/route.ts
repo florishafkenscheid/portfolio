@@ -13,10 +13,8 @@ export async function GET() {
     const body: ProjectListResponse = { projects };
     return NextResponse.json(body);
   } catch (err) {
-    const body: ApiError = {
-      ok: false,
-      error: err instanceof Error ? err.message : "Internal error",
-    };
+    console.error(err);
+    const body: ApiError = { ok: false, error: "Internal error." };
     return NextResponse.json(body, { status: 500 });
   }
 }

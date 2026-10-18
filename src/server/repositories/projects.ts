@@ -55,9 +55,7 @@ export function getProjectBySlug(slug: string): Project | null {
   return row ? rowToProject(row) : null;
 }
 
-type ProjectSeed = Omit<Project, "tags"> & { tags: string[] };
-
-export function upsertProject(p: ProjectSeed): void {
+export function upsertProject(p: Project): void {
   db()
     .prepare(
       `INSERT INTO projects (
@@ -102,9 +100,10 @@ export function upsertProject(p: ProjectSeed): void {
     });
 }
 
-export function countProjects(): number {
-  const row = db().prepare(`SELECT COUNT(*) AS c FROM projects`).get() as {
-    c: number;
-  };
-  return row.c;
+export function deleteProjectsExcept(slugs: string[]): void {
+  db()
+    .prepare(
+      `DELETE FROM projects WHERE slug NOT IN (SELECT value FROM json_each(?))`,
+    )
+    .run(JSON.stringify(slugs));
 }
