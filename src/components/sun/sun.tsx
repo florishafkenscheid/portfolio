@@ -1,15 +1,12 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import { useEffect, useRef } from "react";
+import { motion } from "motion/react";
 
 type SunProps = {
   /** Vertical position as a 0..1 fraction of the viewport from top. */
   y?: number;
   /** Visual size in viewport-width units. */
   size?: number;
-  /** Whether to react to pointer movement (subtle parallax). */
-  parallax?: boolean;
 };
 
 /**
@@ -17,52 +14,18 @@ type SunProps = {
  *   - sits behind the content frame and bleeds off the page
  *   - rotates a corona ring at a glacial pace
  *   - pulses a soft halo
- *   - drifts very slightly with the cursor (parallax) for the live feel
  *
  * Colors are driven by CSS variables (--sun-core / --sun-mid / --sun-edge / --sun-glow)
  * so the theme toggle changes its hue without re-rendering.
+ *
+ * Performance: the looping animations are CSS (`animate-halo`, `animate-corona`)
+ * and only touch opacity and transform, so the compositor runs them without
+ * main-thread work or repainting. Avoid `filter: blur()` and animated `scale`
+ * here: on a disc this size they force a full repaint every frame.
  */
-export function Sun({ y = 0.62, size = 78, parallax = true }: SunProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (!parallax || reduceMotion) return;
-    const el = ref.current;
-    if (!el) return;
-
-    let raf = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-
-    const onMove = (e: PointerEvent) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      targetX = ((e.clientX - cx) / cx) * 14;
-      targetY = ((e.clientY - cy) / cy) * 14;
-    };
-
-    const tick = () => {
-      currentX += (targetX - currentX) * 0.05;
-      currentY += (targetY - currentY) * 0.05;
-      el.style.setProperty("--sun-dx", `${currentX}px`);
-      el.style.setProperty("--sun-dy", `${currentY}px`);
-      raf = requestAnimationFrame(tick);
-    };
-
-    window.addEventListener("pointermove", onMove, { passive: true });
-    raf = requestAnimationFrame(tick);
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      cancelAnimationFrame(raf);
-    };
-  }, [parallax, reduceMotion]);
-
+export function Sun({ y = 0.62, size = 78 }: SunProps) {
   return (
     <div
-      ref={ref}
       aria-hidden
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
       style={{ contain: "strict" }}
@@ -83,20 +46,17 @@ export function Sun({ y = 0.62, size = 78, parallax = true }: SunProps) {
         className="absolute left-1/2 -translate-x-1/2"
         style={{
           top: `${y * 100}%`,
-          transform: `translate(calc(-50% + var(--sun-dx, 0px)), calc(-50% + var(--sun-dy, 0px)))`,
           width: `${size}vw`,
           height: `${size}vw`,
           maxWidth: "1200px",
           maxHeight: "1200px",
         }}
       >
-        {/* Outer halo — slow pulse */}
-        <motion.div
-          animate={reduceMotion ? undefined : { scale: [1, 1.04, 1], opacity: [0.55, 0.8, 0.55] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0 rounded-full blur-3xl"
+        {/* Outer halo — slow pulse. A wide gradient stands in for a blur filter. */}
+        <div
+          className="absolute -inset-[8%] rounded-full opacity-[0.55] motion-safe:animate-halo"
           style={{
-            background: `radial-gradient(circle at 50% 50%, var(--sun-mid), transparent 65%)`,
+            background: `radial-gradient(circle at 50% 50%, var(--sun-mid) 0%, color-mix(in oklab, var(--sun-mid) 45%, transparent) 38%, transparent 70%)`,
           }}
         />
 
@@ -110,11 +70,9 @@ export function Sun({ y = 0.62, size = 78, parallax = true }: SunProps) {
         />
 
         {/* Corona ring — slow rotation */}
-        <motion.svg
+        <svg
           viewBox="0 0 200 200"
-          className="absolute inset-0"
-          animate={reduceMotion ? undefined : { rotate: 360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0 will-change-transform motion-safe:animate-corona"
         >
           <defs>
             <radialGradient id="coronaFade" cx="50%" cy="50%" r="50%">
@@ -148,7 +106,7 @@ export function Sun({ y = 0.62, size = 78, parallax = true }: SunProps) {
             );
           })}
           <circle cx="100" cy="100" r="94" fill="url(#coronaFade)" />
-        </motion.svg>
+        </svg>
       </motion.div>
 
       {/* Horizon line — sits the sun on something */}

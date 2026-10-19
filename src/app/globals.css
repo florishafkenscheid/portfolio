@@ -33,10 +33,17 @@
   /* Animation keyframes */
   --animate-orbit: orbit 80s linear infinite;
   --animate-pulse-slow: pulseSlow 6s var(--ease-out-quart) infinite;
+  --animate-corona: orbit 120s linear infinite;
+  --animate-halo: haloPulse 7s ease-in-out infinite;
 
   @keyframes orbit {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+  }
+  /* Opacity only, so the compositor can run it without repainting. */
+  @keyframes haloPulse {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.8; }
   }
   @keyframes pulseSlow {
     0%, 100% { opacity: 0.55; transform: scale(1); }
@@ -161,8 +168,9 @@
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.035;
-    mix-blend-mode: overlay;
+    /* No mix-blend-mode: blending a fixed full-screen layer forces the whole
+       page to be re-composited whenever anything underneath animates. */
+    opacity: 0.03;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
 }
